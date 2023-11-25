@@ -3,7 +3,6 @@ include("../config/connect.php");
 $query = "CALL proc_user_getAll";
 $result = $conn->query($query);
 echo $result->num_rows;
-
 ?>
 
 <div class="page user">
@@ -14,10 +13,10 @@ echo $result->num_rows;
     <div class="page-content">
         <div class="toolbar">
             <a href="./index.php?page=user_add">
-                <button>Thêm nhân viên</button>
+                <button class="btn">Thêm nhân viên</button>
             </a>
         </div>
-        <table border="1">
+        <table>
             <thead>
                 <tr>
                     <th>Họ và tên</th>
@@ -29,7 +28,7 @@ echo $result->num_rows;
             <tbody>
                 <?php
                 if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
+                    while ($row = mysqli_fetch_array($result)) {
                 ?>
                     <tr>
                         <td><?php echo $row["name"] ?></td>

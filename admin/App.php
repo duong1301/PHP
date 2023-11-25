@@ -33,12 +33,29 @@ if (isset($_GET["page"]))
                 case 'student':
                     include_once('./pages/studentPage/studentPage.php');
                     break;
-
                 case 'user_edit':
                     include_once('./pages/userEditPage/UserEditPage.php');
                     break;
                 case 'user_add':
                     include_once('./pages/userAddPage/UserAddPage.php');
+                    break;
+                case 'teacher_add':
+                    include_once('./pages/teacherAddPage/TeacherAddPage.php');
+                    break;
+                case 'class_add':
+                    include_once('./pages/classAddPage/ClassAddPage.php');
+                    break;
+                case 'student_add':
+                    include_once('./pages/studentAddPage/StudentAddPage.php');
+                    break;
+                case 'score':
+                    include_once('./pages/scorePage/ScorePage.php');
+                    break;
+                case 'classScore':
+                    include_once('./pages/classScorePage/ClassScorePage.php');
+                    break;
+                case 'studentScore':
+                    include_once('./pages/studentScorePage/StudentScorePage.php');
                     break;
 
                 default:

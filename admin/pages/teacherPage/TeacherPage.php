@@ -13,7 +13,7 @@ echo $result->num_rows;
 
     <div class="page-content">
         <div class="toolbar">
-            <a href="./index.php?page=user_edit&id=1">
+            <a href="./index.php?page=teacher_add">
                 <button>Thêm nhân viên</button>
             </a>
         </div>
@@ -30,7 +30,7 @@ echo $result->num_rows;
             <tbody>
                 <?php
                 if ($result->num_rows > 0) {
-                    while ($row = $result->fetch_assoc()) {
+                    while ($row = mysqli_fetch_array($result)) {
                 ?>
                         <tr>
                             <td><?php echo $row["lastName"]." ".$row["firstName"] ?></td>

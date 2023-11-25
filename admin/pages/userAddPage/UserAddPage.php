@@ -69,8 +69,8 @@ if (isset($_POST["create"])) {
 
             </div>
             <div>
-                <input type="submit" name="create" value="Tạo" />
-                <input type="submit" name="clear" value="Huỷ" />
+                <input class="btn" type="submit" name="create" value="Tạo" />
+                <input class="btn" type="submit" name="clear" value="Huỷ" />
             </div>
         </form>
 
