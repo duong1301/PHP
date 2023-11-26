@@ -57,6 +57,9 @@ if (isset($_GET["page"]))
                     include_once('./pages/student_del/Student_del.php');
                     break;
                 
+                case 'score':
+                    include_once('./pages/score/Score.php');
+                    break;
                 default:
                     echo 404;
                     break;

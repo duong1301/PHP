@@ -25,4 +25,10 @@
         </div>
     </a>
 
+    <a href="?page=score">
+        <div class="nav-item">
+            Score
+        </div>
+    </a>
+
 </div>
