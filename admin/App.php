@@ -53,6 +53,10 @@ if (isset($_GET["page"]))
                     include_once('./pages/class_students/Class_students.php');
                     break;
 
+                case 'student_add':
+                    include_once('./pages/student_add/Student_add.php');
+                    break;
+
                 case 'student_del':
                     include_once('./pages/student_del/Student_del.php');
                     break;
@@ -60,6 +64,13 @@ if (isset($_GET["page"]))
                 case 'score':
                     include_once('./pages/score/Score.php');
                     break;
+                case 'score_class':
+                    include_once('./pages/score_class/Score_class.php');
+                    break;
+                case 'score_student':
+                    include_once('./pages/score_student/Score_student.php');
+                    break;
+                
                 default:
                     echo 404;
                     break;

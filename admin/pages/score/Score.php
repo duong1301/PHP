@@ -10,11 +10,7 @@
 </div>
 
 <div class="">
-    <div>
-        <a href="./index.php?page=class_add">
-            <button class="btn">Thêm lớp học</button>
-        </a>
-    </div>
+   
     <div class="table-wrapper">
         <table>
             <thead>
@@ -36,7 +32,7 @@
                         <td><?php echo $class['schoolYear']." - ".$class["schoolYearEnd"]?></td>
                         <td><?php echo $class['qlt'] ?></td>
                         <td>
-                            <a href="./index.php?page=score_students&id=<?php echo $class['classId'] ?>">Xem danh sách lớp học</a>
+                            <a href="./index.php?page=score_class&id=<?php echo $class['classId'] ?>">Xem danh sách lớp học</a>
                         </td>
                        
                     </tr>

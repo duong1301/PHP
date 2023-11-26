@@ -24,7 +24,10 @@ if (isset($_GET["id"])) {
 
 <div class="page-content">
     <div>
-        <button class="btn">Thêm</button>
+        <a href="./index.php?page=student_add&classId=<?php echo $classId ?>">
+
+            <button class="btn">Thêm</button>
+        </a>
     </div>
     <div class="table-wrapper">
         <table>
@@ -52,7 +55,7 @@ if (isset($_GET["id"])) {
                         <tr>
                             <td><?php echo $student["studentCode"] ?></td>
                             <td><?php echo $student["fullname"] ?></td>
-                            <td><?php echo $student["ethnic"]?></td>
+                            <td><?php echo $student["ethnic"] ?></td>
                             <td><?php echo $student["dob"] ?></td>
                             <td><?php echo $student["fatherName"] ?></td>
                             <td><?php echo $student["fatherPhone"] ?></td>
@@ -60,9 +63,13 @@ if (isset($_GET["id"])) {
                             <td><?php echo $student["motherName"] ?></td>
                             <td><?php echo $student["motherPhone"] ?></td>
                             <td><?php echo $student["motherJob"] ?></td>
-                            
                             <td>
-                                <a href="./index.php?page=student_del&id=<?php echo $student["studentId"] ?>">Xoá</a>
+                                <a 
+                                    onclick="return confirm('Xác nhận xoá học sinh <?php echo $student['fullname'] ?> mã học sinh <?php echo $student['studentCode'] ?>')" 
+                                    href="./index.php?page=student_del&id=<?php echo $student["studentId"] ?>&classId=<?php echo $class['classId'] ?>"
+                                >
+                                    Xoá
+                                </a>
                                 <a href="">Sửa</a>
                             </td>
 

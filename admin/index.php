@@ -19,4 +19,5 @@
     <?php include_once('./App.php') ?>
     
 </body>
+    <script src="../jquery.js"></script>
 </html>
