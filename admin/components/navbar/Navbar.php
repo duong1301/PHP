@@ -1,26 +1,34 @@
 <div class="navbar-wrapper">
-    <div class="nap-item">
-        <a href="?page=user">User</a>
-    </div>
+    <!-- user router -->
 
-    <div class="nap-item">
-        <a href="?page=teacher">Teacher</a>
-    </div>
+    <a href="?page=user">
+        <div class="nav-item">
+            User
+        </div>
+    </a>
 
-    <div class="nap-item">
-        <a href="?page=class">Class</a>
-    </div>
+    <a href="?page=subject">
+        <div class="nav-item">
+            Subject
+        </div>
+    </a>
 
-    <div class="nap-item">
-        <a href="?page=subject">Subject</a>
-    </div>
+    <a href="?page=teacher">
+        <div class="nav-item">
+            Teacher
+        </div>
+    </a>
 
-    <div class="nap-item">
-        <a href="?page=student">Student</a>
-    </div>
+    <a href="?page=class">
+        <div class="nav-item">
+            Class
+        </div>
+    </a>
 
-    <div class="nap-item">
-        <a href="?page=score">Score</a>
-    </div>
+    <a href="?page=score">
+        <div class="nav-item">
+            Score
+        </div>
+    </a>
 
 </div>

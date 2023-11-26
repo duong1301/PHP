@@ -1,4 +1,5 @@
 <?php
+include('../config/connect.php');
 if (null == isset($_SESSION["email"]))
     header("Location: login.php ");
 $page = "";
@@ -8,10 +9,10 @@ if (isset($_GET["page"]))
 
 
 <div class="App">
-    <header>
+    <header class="header">
         <?php include_once('./components/header/header.php') ?>
     </header>
-    <div class="container">
+    <div class="app-container">
         <nav class="navbar">
             <?php include_once('./components/navbar/Navbar.php') ?>
         </nav>
@@ -19,28 +20,57 @@ if (isset($_GET["page"]))
             <?php
             switch ($page) {
                 case 'user':
-                    include_once('./pages/userPage/UserPage.php');
-                    break;
-                case 'teacher':
-                    include_once('./pages/teacherPage/TeacherPage.php');
-                    break;
-                case 'subject':
-                    include_once('./pages/subjectPage/SubjectPage.php');
-                    break;
-                case 'class':
-                    include_once('./pages/classPage/ClassPage.php');
-                    break;
-                case 'student':
-                    include_once('./pages/studentPage/studentPage.php');
-                    break;
-
-                case 'user_edit':
-                    include_once('./pages/userEditPage/UserEditPage.php');
+                    include_once('./pages/user/User.php');
                     break;
                 case 'user_add':
-                    include_once('./pages/userAddPage/UserAddPage.php');
+                    include_once('./pages/user_add/User_add.php');
                     break;
 
+                case 'subject':
+                    include_once('./pages/subject/Subject.php');
+                    break;
+                
+                case 'teacher':
+                    include_once('./pages/teacher/Teacher.php');
+                    break;
+                case 'teacher_add':
+                    include_once('./pages/teacher_add/Teacher_add.php');
+                    break;
+                case 'teacher_del':
+                    include_once('./pages/teacher_del/Teacher_del.php');
+                    break;
+                
+                case 'class':
+                    include_once('./pages/class/Class.php');
+                    break;
+                case 'class_add':
+                    include_once('./pages/class_add/Class_add.php');
+                    break;
+                case 'class_del':
+                    include_once('./pages/class_del/Class_del.php');
+                    break;
+                case 'class_students':
+                    include_once('./pages/class_students/Class_students.php');
+                    break;
+
+                case 'student_add':
+                    include_once('./pages/student_add/Student_add.php');
+                    break;
+
+                case 'student_del':
+                    include_once('./pages/student_del/Student_del.php');
+                    break;
+                
+                case 'score':
+                    include_once('./pages/score/Score.php');
+                    break;
+                case 'score_class':
+                    include_once('./pages/score_class/Score_class.php');
+                    break;
+                case 'score_student':
+                    include_once('./pages/score_student/Score_student.php');
+                    break;
+                
                 default:
                     echo 404;
                     break;
@@ -50,10 +80,5 @@ if (isset($_GET["page"]))
 
         </main>
     </div>
-    <footer>
-
-    </footer>
-
-
 
 </div>
