@@ -1,75 +1,128 @@
-.App{
+.app-container{
     display: flex;
-    flex-direction: column;    
-    height: 100vh;
-    max-height: 100vh;
+    height: calc(100vh - 56px);
+    width: 100vw;
+}
+header{
+    height: 56px;
+
 }
 
-.App header{
-    height: 60px;
-    border: 1px solid black;
-}
-
-.App .container{
-    flex: 1;
-    height: 100%;
-    
-    display: flex;
-}
-
-.App .navbar{
-    height: 100%;
-    max-height: 100%;
-    overflow: auto;
+.app-container .navbar{
     width: 250px;
-    border: 1px solid black;
-    flex-shrink: 0;
+    
 }
 
-.App .main{
+main{
     width: 100%;
-    height: 100%;
-    background-color: white;
-    padding: 20px;
-}
-.page-title{
-    font-size: 24px;
+    padding: 24px;
 }
 
+/* table */
 table{
-    min-width: 100%;
-}
-
-table td,th{
-    height: 50px;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-spacing: 0;
+    width: 100%;
     border-collapse: collapse;
 }
 
 table th{
-    background-color: #e6e7e8;
+    background-color: #EEEEEE;
 }
 
-.page-content{
-    width: 100%;
-       
+table td, th{
+    padding: 0 12px;
+    height: 48px;
+    border: 1px solid #ccc;   
+    
 }
 
-.page-title{
-    margin-bottom: 12px;
-}
+/* button */
 
 .btn{
     height: 36px;
-    min-width: 80px;
-    padding: 0 24px;
+    padding: 8px 24px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #fff;
     cursor: pointer;
 }
 
-.btn .pri{
-    background-color:#8ad919 ;
+/* input */
+label{
+	display: flex;
+	flex-direction: column;
+	margin: 24px 0;
+  	font-weight: 500;
+    font-size: 14px;
 }
 
+input{
+	width: 300px;
+	height: 36px;
+	padding: 0px 12px;
+	border-radius: 4px;
+	border: 1px solid #e6e6e6;
+    margin-top: 8px;
+}
+input::placeholder{
+	color: #999999;
+  	font-size: 14px;
+	
+}
+input:hover{
+	background-color: #e6e6e6;
+  	cursor: pointer;
+}
+input:focus{
+	border: 1px solid #50b83c;
+  	outline: none;
+}
 
+/* select */
+label{
+	display: flex;
+	flex-direction: column;
+	margin: 24px 0;
+  	font-weight: 500;
+  	font-family: roboto;
+  	font-size: 14px;
+}
+select{
+	margin-top: 8px;
+  	width: 300px;
+	height: 36px;
+  	padding: 0 12px;
+  	border-radius: 4px;
+  	border: 1px solid #e6e6e6;
+    cursor: pointer;
+    outline: none;
+}
+select:hover{
+	background-color: #e6e6e6;
+  	cursor: pointer;
+}
+select:focus{
+	border: 1px solid #50b83c;
+  	outline: none;
+}
+
+/*toast */
+
+.message-container{
+    width: 100%;
+}
+.toast{
+    display: flex;
+    align-items: center;
+    width:100%;
+    padding: 0 24px;
+    background-color: white;
+    border-radius: 4px;
+   
+}
+.toast.success{
+    color: #50B83C;
+}
+
+.toast.fail{
+    color: #DE3617;
+}
