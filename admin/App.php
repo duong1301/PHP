@@ -9,7 +9,7 @@ if (isset($_GET["page"]))
 
 
 <div class="App">
-    <header class="header">
+    <header>
         <?php include_once('./components/header/header.php') ?>
     </header>
     <div class="app-container">
@@ -69,10 +69,9 @@ if (isset($_GET["page"]))
                     break;
                 case 'score_student':
                     include_once('./pages/score_student/Score_student.php');
-                    break;
-                
-                default:
-                    echo 404;
+                    break;                
+                default:     
+                    include_once('./pages/user/User.php');               
                     break;
             }
 

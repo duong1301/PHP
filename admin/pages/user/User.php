@@ -1,4 +1,5 @@
 <?php
+
 $userQueryStmt = "CALL proc_user_getAll";
 $users = mysqli_query($conn, $userQueryStmt);
 while (mysqli_next_result($conn)) {;
@@ -10,7 +11,7 @@ while (mysqli_next_result($conn)) {;
 </div>
 
 <div class="page-content">
-    <div>
+    <div class="toolbar">
         <a href="index.php?page=user_add">
 
             <button class="btn">Thêm nhân viên</button>

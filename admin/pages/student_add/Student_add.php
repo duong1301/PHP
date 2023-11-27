@@ -1,4 +1,5 @@
 <?php
+
 $classQueryStmt = "CALL proc_class_getAll;";
 $classes = mysqli_query($conn, $classQueryStmt);
 while (mysqli_next_result($conn)) {;

@@ -23,7 +23,7 @@ if (isset($_GET["id"])) {
 </div>
 
 <div class="page-content">
-    <div>
+    <div class="toolbar">
         <a href="./index.php?page=student_add&classId=<?php echo $classId ?>">
 
             <button class="btn">Thêm</button>
