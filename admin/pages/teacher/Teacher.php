@@ -1,4 +1,5 @@
 <?php
+
 const teacherQueryStmt = "CALL proc_teacher_getAll";
 $teachers = mysqli_query($conn, teacherQueryStmt);
 while(mysqli_next_result($conn)){;}
@@ -9,7 +10,7 @@ while(mysqli_next_result($conn)){;}
 </div>
 
 <div>
-    <div>
+    <div class="toolbar">
         <a href="./index.php?page=teacher_add">
             <button class="btn">Thêm giáo viên</button>
         </a>

@@ -1,0 +1,4 @@
+.page-score .table-wrapper{
+    max-height: calc(100vh - 150px);
+    border: 1px solid #ccc;
+}

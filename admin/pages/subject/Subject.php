@@ -1,4 +1,5 @@
 <?php
+
 const subjectQueryStmt = "CALL proc_subject_getAll";
 $subjects = mysqli_query($conn, subjectQueryStmt);
 while(mysqli_next_result($conn)){;}
@@ -8,7 +9,7 @@ while(mysqli_next_result($conn)){;}
     <h2>Danh sách môn học</h2>
 </div>
 
-<div class="page-content">
+<div class="page-content page-subject">
     <div class="table-wrapper">
         <table>
             <thead>

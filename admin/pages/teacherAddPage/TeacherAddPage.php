@@ -1,4 +1,5 @@
 <?php
+
 include("../config/connect.php");
 $querySubject= "CALL proc_subject_getAll";
 

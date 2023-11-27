@@ -1,0 +1,4 @@
+.page-scoreStudent .table-wrapper{
+    max-height: calc(100vh - 250px);
+    border: 1px solid #ccc;
+}

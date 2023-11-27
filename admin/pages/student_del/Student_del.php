@@ -1,4 +1,5 @@
 <?php
+
 $classId = "";
 if(isset($_GET["classId"])){
     $classId = $_GET["classId"];

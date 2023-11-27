@@ -41,8 +41,8 @@ if (isset($_GET["id"])) {
     <h2>Niên khoá <?php echo $class["schoolYear"] . " - " . $class["schoolYearEnd"] ?></h2>
 </div>
 
-<div class="page-content">
-    <div>
+<div class="page-content page-scoreClass">
+    <div class="toolbar">
         Năm học
         <select name="year">
             <option value="1"><?php echo ($class['schoolYear']) . ' - ' . ($class['schoolYear'] + 1) ?></option>

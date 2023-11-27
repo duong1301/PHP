@@ -1,4 +1,5 @@
 <?php
+
 $name = "";
 $username = "";
 $email = "";
@@ -23,7 +24,7 @@ if (isset($_POST["create"])) {
 
     $addUserStmt = "CALL proc_user_add('$name','$username','$email','$password','$level');";
     $addUserResult = mysqli_query($conn, $addUserStmt);
-    if($addUserResult){
+    if ($addUserResult) {
         $state = success;
         $message = "Thêm mới thành công";
     }
@@ -39,7 +40,7 @@ if (isset($_POST["create"])) {
     <div class="message-container">
         <div class="toast <?php echo $state ?>">
             <p>
-                <?php if($message != "") echo $message ?>
+                <?php if ($message != "") echo $message ?>
             </p>
 
         </div>
@@ -49,7 +50,14 @@ if (isset($_POST["create"])) {
             <div class="form group">
                 <label>
                     Họ và tên
-                    <input name="name" value="<?php if (isset($_POST["name"])) echo $_POST["name"] ?>" type="text">
+                    <input                         
+                        oninvalid="this.setCustomValidity('Tên không được để trống')"
+                        oninput="this.setCustomValidity('')"
+                        required 
+                        name="name" 
+                        value="<?php if (isset($_POST["name"])) echo $_POST["name"] ?>" 
+                        type="text"
+                    >
                 </label>
                 <p class="message"></p>
             </div>
@@ -57,7 +65,14 @@ if (isset($_POST["create"])) {
             <div class="form group">
                 <label>
                     Username
-                    <input name="username" value="<?php if (isset($_POST["username"])) echo $_POST["username"] ?>" type="text">
+                    <input 
+                        oninvalid="this.setCustomValidity('Username không được để trống')"
+                        oninput="this.setCustomValidity('')"
+                        required 
+                        name="username" 
+                        value="<?php if (isset($_POST["username"])) echo $_POST["username"] ?>" 
+                        type="text"
+                    >
                 </label>
                 <p class="message"></p>
             </div>
@@ -65,7 +80,14 @@ if (isset($_POST["create"])) {
             <div class="form group">
                 <label>
                     Email
-                    <input name="email" value="<?php if (isset($_POST["email"])) echo $_POST["email"] ?>" type="text">
+                    <input
+                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                        title="eee"                        
+                        required 
+                        name="email" 
+                        value="<?php if (isset($_POST["email"])) echo $_POST["email"] ?>" 
+                        type="email"
+                    >
                 </label>
                 <p class="message"></p>
             </div>
@@ -73,7 +95,7 @@ if (isset($_POST["create"])) {
             <div class="form group">
                 <label>
                     Mật khẩu
-                    <input name="password" type="password">
+                    <input required name="password" type="password">
                 </label>
                 <p class="message"></p>
             </div>
@@ -81,7 +103,7 @@ if (isset($_POST["create"])) {
             <div class="form group">
                 <label>
                     Nhập lại mật khẩu
-                    <input name="passwordConfirm" type="password">
+                    <input required name="passwordConfirm" type="password">
                 </label>
                 <p class="message"></p>
             </div>
