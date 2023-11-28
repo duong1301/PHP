@@ -56,6 +56,9 @@ if (isset($_GET["page"]))
                 case 'student_add':
                     include_once('./pages/student_add/Student_add.php');
                     break;
+                case 'student_update':
+                    include_once('./pages/student_update/Student_update.php');
+                    break;
 
                 case 'student_del':
                     include_once('./pages/student_del/Student_del.php');

@@ -1,29 +1,35 @@
 <?php
-
+$semester = 1;
+$year = 1;
+$classId = "";
+if (isset($_POST["year"]) || isset($_POST["semester"])) {
+    $year = $_POST["year"];
+    $semester =  $_POST["semester"];
+}
 const numsOfSubject = 13;
 if (isset($_GET["id"])) {
     $classId = $_GET['id'];
-    $studentQueryStmt = "CALL proc_score_getbyClass('$classId',1,1)";
+    $studentQueryStmt = "CALL proc_score_getbyClass('$classId','$year','$semester')";
     $students_scores = mysqli_query($conn, $studentQueryStmt);
     $student_scores =  [];
 
     echo "<pre>";
     while (true) {
         $flag = true;
-        $score  = [];        
-        for($i = 0; $i < numsOfSubject; ++$i){
+        $score  = [];
+        for ($i = 0; $i < numsOfSubject; ++$i) {
             $row = mysqli_fetch_array($students_scores);
-            if(!$row){
+            if (!$row) {
                 $flag = false;
                 break;
             }
-            $score += array($row['subjectId']=>$row['average']);
-            $score += $row;   
+            $score += array($row['subjectId'] => $row['average']);
+            $score += $row;
         }
-        if($flag == false) break;
+        if ($flag == false) break;
         array_push($student_scores, $score);
     }
-    
+
     echo "</pre>";
     while (mysqli_next_result($conn)) {;
     }
@@ -43,17 +49,19 @@ if (isset($_GET["id"])) {
 
 <div class="page-content page-scoreClass">
     <div class="toolbar">
-        Năm học
-        <select name="year">
-            <option value="1"><?php echo ($class['schoolYear']) . ' - ' . ($class['schoolYear'] + 1) ?></option>
-            <option value="2"><?php echo ($class['schoolYear'] + 1) . ' - ' . ($class['schoolYear'] + 2) ?></option>
-            <option value="3"><?php echo ($class['schoolYear'] + 2) . ' - ' . ($class['schoolYear'] + 3) ?></option>
-        </select>
-        Học kỳ
-        <select>
-            <option value="1">Học kỳ 1</option>
-            <option value="2">Học kỳ 2</option>
-        </select>
+        <form id="yearAndSemesterForm" action="" method="POST">
+            Năm học
+            <select onchange="handleYearAndSemesterChange();" name="year">
+                <option <?php if ($year == 1) echo "selected" ?> value="1"><?php echo ($class['schoolYear']) . ' - ' . ($class['schoolYear'] + 1) ?></option>
+                <option <?php if ($year == 2) echo "selected" ?> value="2"><?php echo ($class['schoolYear'] + 1) . ' - ' . ($class['schoolYear'] + 2) ?></option>
+                <option <?php if ($year == 3) echo "selected" ?> value="3"><?php echo ($class['schoolYear'] + 2) . ' - ' . ($class['schoolYear'] + 3) ?></option>
+            </select>
+            Học kỳ
+            <select onchange="handleYearAndSemesterChange();" name="semester">
+                <option <?php if ($semester == 1) echo "selected" ?> value="1">Học kỳ 1</option>
+                <option <?php if ($semester == 2) echo "selected" ?> value="2">Học kỳ 2</option>
+            </select>
+        </form>
     </div>
     <div class="table-wrapper">
         <table>
@@ -81,11 +89,11 @@ if (isset($_GET["id"])) {
 
             <tbody>
                 <?php
-                    while($row = array_pop($student_scores)){
+                while ($row = array_pop($student_scores)) {
                 ?>
                     <tr>
-                        <td><?php echo $row["studentCode"]?></td>
-                        <td><?php echo $row["fullName"]?></td>
+                        <td><?php echo $row["studentCode"] ?></td>
+                        <td><?php echo $row["fullName"] ?></td>
                         <td><?php echo $row["s01"] ?></td>
                         <td><?php echo $row["s02"] ?></td>
                         <td><?php echo $row["s03"] ?></td>
@@ -100,15 +108,20 @@ if (isset($_GET["id"])) {
                         <td><?php echo $row["s12"] ?></td>
                         <td><?php echo $row["s13"] ?></td>
                         <td>
-                            <a 
-                                href="./index.php?page=score_student<?php echo '&studentId='.$row['studentId'].'&classId='.$classId?>"
-                            >Điểm thành phần</a>
+                            <a href="./index.php?page=score_student<?php echo '&studentId=' . $row['studentId'] . '&classId=' . $classId ?>">Điểm thành phần</a>
                         </td>
                     </tr>
                 <?php
-                    }
+                }
                 ?>
             </tbody>
         </table>
     </div>
 </div>
+
+<script>
+    function handleYearAndSemesterChange() {
+        let form = document.querySelector("#yearAndSemesterForm");
+        form.submit();
+    }
+</script>

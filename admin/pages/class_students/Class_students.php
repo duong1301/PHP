@@ -70,7 +70,7 @@ if (isset($_GET["id"])) {
                                 >
                                     Xoá
                                 </a>
-                                <a href="">Sửa</a>
+                                <a href="./index.php?page=student_update&id=<?php echo $student["studentId"] ?>&classId=<?php echo $class['classId'] ?>">Sửa</a>
                             </td>
 
                         </tr>
