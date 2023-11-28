@@ -12,6 +12,8 @@ if (isset($_POST["login"])) {
     if (mysqli_num_rows($loginQueryResult) != 0) {
         $userInfor = mysqli_fetch_array($loginQueryResult);
         $_SESSION["email"]  = $userInfor['email'];
+        $_SESSION["username"] = $userInfor['username'];
+        $_SESSION["name"] = $userInfor["name"];
 
         header("Location: index.php?page=user");
     } else {
