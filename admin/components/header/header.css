@@ -6,3 +6,15 @@
     box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.3);
     height: 100%;
 }
+
+.header .user-infor{
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+}
+.header .avata{
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #ccc;
+}

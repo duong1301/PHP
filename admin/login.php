@@ -11,9 +11,12 @@ if (isset($_POST["login"])) {
     echo mysqli_num_rows($loginQueryResult);
     if (mysqli_num_rows($loginQueryResult) != 0) {
         $userInfor = mysqli_fetch_array($loginQueryResult);
-        $_SESSION["email"]  = $userInfor['email'];
-        $_SESSION["username"] = $userInfor['username'];
-        $_SESSION["name"] = $userInfor["name"];
+      
+        $_SESSION["user"]["userId"] = $userInfor["userId"];
+        $_SESSION["user"]["name"] = $userInfor["name"];
+        $_SESSION["user"]["userName"] = $userInfor["userName"];
+        $_SESSION["user"]["email"] = $userInfor["email"];
+        $_SESSION["user"]["level"] = $userInfor["level"];
 
         header("Location: index.php?page=user");
     } else {

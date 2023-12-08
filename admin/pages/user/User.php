@@ -32,6 +32,7 @@ while (mysqli_next_result($conn)) {;
                 <?php
                 if ($users) {
                     while ($user = mysqli_fetch_array($users)) {
+                        if($user["level"] !=0){
                 ?>
                         <tr>
                             <td><?php echo $user["name"] ?></td>
@@ -39,16 +40,23 @@ while (mysqli_next_result($conn)) {;
                             <td><?php echo $user["email"] ?></td>
                             <td><?php echo $user["level"] == 0 ? "Admin" : "Member" ?></td>
                             <td>
-                                <span>
-                                    <a onclick="return confirm('Xác nhận xoá nhân viên <?php echo $user['name']?>')" href="./pages/user_del/User_del.php?id=<?php echo $user["userId"] ?>">Xoá</a>
-                                </span>
-                                <span> , </span>
-                                <span>Cập nhật</span>
+                                <?php if($user["level"] != 0) {
+                                ?>
+                                    <span>
+                                        <a onclick="return confirm('Xác nhận xoá nhân viên <?php echo $user['name']?>')" href="./pages/user_del/User_del.php?id=<?php echo $user["userId"] ?>">Xoá</a>
+                                    </span>
+                                    <span> , </span>
+                                    <span>
+                                        <a href="./index.php?page=user_update&id=<?php echo $user["userId"] ?>">Cập nhật</a>
+                                    </span>
+                                <?php
+                                } ?>
+                                
                             </td>
 
                         </tr>
                 <?php
-                    }
+                    }}
                 }
                 ?>
             </tbody>
