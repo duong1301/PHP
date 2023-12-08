@@ -1,6 +1,6 @@
 <?php
 include('../config/connect.php');
-if (null == isset($_SESSION["email"]))
+if (null == isset($_SESSION["user"]["userId"]))
     header("Location: login.php ");
 $page = "";
 if (isset($_GET["page"]))
@@ -20,10 +20,18 @@ if (isset($_GET["page"]))
             <?php
             switch ($page) {
                 case 'user':
-                    include_once('./pages/user/User.php');
+                    if($_SESSION["user"]["level"] == 0){
+                        include_once('./pages/user/User.php');
+                    }else{
+                        include_once('./pages/forbidden/Forbidden.php');
+                    }
+                    
                     break;
                 case 'user_add':
                     include_once('./pages/user_add/User_add.php');
+                    break;
+                case 'user_update':
+                    include_once('./pages/user_update/User_update.php');
                     break;
 
                 case 'subject':
@@ -38,6 +46,9 @@ if (isset($_GET["page"]))
                     break;
                 case 'teacher_del':
                     include_once('./pages/teacher_del/Teacher_del.php');
+                    break;
+                case 'teacher_update':
+                    include_once('./pages/teacher_update/Teacher_update.php');
                     break;
                 
                 case 'class':
@@ -74,7 +85,7 @@ if (isset($_GET["page"]))
                     include_once('./pages/score_student/Score_student.php');
                     break;                
                 default:     
-                    include_once('./pages/user/User.php');               
+                    include_once('./pages/about/About.php');               
                     break;
             }
 

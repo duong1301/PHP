@@ -52,7 +52,7 @@ while(mysqli_next_result($conn)){;}
                             </span>
                             <span> , </span>
                             <span>
-                                <a href="">Cập nhật</a>
+                                <a href="./index.php?page=teacher_update&id=<?php echo $teacher["teacherId"] ?>">Cập nhật</a>
                             </span>
                         </td>
                     </tr>

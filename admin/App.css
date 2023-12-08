@@ -147,12 +147,11 @@ select:focus{
     display: none;
 }
 
-input[readonly]{
-    border: unset;  
+input[readonly]{   
     pointer-events: none;  
 }
 input[readonly]:hover{
-    border: unset;      
+        
     cursor: alias;     
     background-color: unset;
 }

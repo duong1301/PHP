@@ -1,30 +1,76 @@
 <?php
-
+include('common/phoneValidation.php');
+include('common/nameValidation.php');
+include('common/emailValidation.php');
 const subjectQueryStmt = "CALL proc_subject_getAll";
 $subjects = mysqli_query($conn, subjectQueryStmt);
 
 
 while (mysqli_next_result($conn)) 
 if(isset($_POST["create"])){
-    $firstName = $_POST["firstName"];
-    $lastName = $_POST["lastName"];
-    $phone = $_POST["phone"];
-    $email = $_POST["email"];
+    $firstName = trim($_POST["firstName"]);
+    $lastName = trim($_POST["lastName"]);
+    $phone = trim($_POST["phone"]);
+    $email = trim($_POST["email"]);
     $subject = $_POST["subject"];   
 
+    $firstNameErr = "";
+    $lastNameErr = "";
+    $phoneErr = "";
+    $emailErr = "";
+
     /**
-     * to do
      * Validate
+     * nvduong 12/07/2023
      */
-    $teacherAddStatement = "CALL proc_teacher_add('$firstName','$lastName','$phone', '$email','$subject')";
-    $addResult = mysqli_query($conn, $teacherAddStatement);
-    if($addResult){
-        echo "Success";
+
+    //firstName
+    if(empty($firstName)){
+        $firstNameErr ="Không được để trống";
     }else{
-        echo $conn->error;
+        $firstNameErr = validate_name($firstName);
     }
+    
 
+    //lastname
+    if(empty($lastName)){
+        $lastNameErr ="Không được để trống";
+    }else{
+        $lastNameErr = validate_name($lastName);
+    }
+    
 
+    //phone
+    if(empty($phone)){
+        $phoneErr = "Không được để trống";
+    }else{
+        $phoneErr = validate_phone($phone);
+    }   
+
+    
+
+    //email
+    if(empty($email)){
+        $emailErr = "Không được để trống";
+    }else{
+        $emailErr = validate_email($email);
+    }
+        
+
+    if(
+        empty($firstNameErr) &&
+        empty($lastNameErr) &&
+        empty($emailErr) &&
+        empty($phoneErr)
+    ){
+        $teacherAddStatement = "CALL proc_teacher_add('$firstName','$lastName','$phone', '$email','$subject')";
+        $addResult = mysqli_query($conn, $teacherAddStatement);
+        if($addResult){
+            echo "Success";
+        }else{
+            echo $conn->error;
+        }
+    }    
 }
 ?>
 
@@ -39,24 +85,44 @@ if(isset($_POST["create"])){
                 <label>
                     Họ
                     <input value="<?php if(isset($_POST["lastName"])) echo $_POST["lastName"]?>" name="lastName" type="text">
+                    <p class="error">
+                        <?php if(isset($lastNameErr))echo $lastNameErr  ?>
+                    </p>
                 </label>
             </div>
             <div class="form-group">
                 <label>
                     Tên
                     <input value="<?php if(isset($_POST["firstName"])) echo $_POST["firstName"]?>" name="firstName" type="text">
+                    <p class="error">
+                        <?php if(isset($firstNameErr))echo $firstNameErr  ?>
+                    </p>
                 </label>
             </div>
             <div class="form-group">
                 <label>
                     Số điện thoại
-                    <input value="<?php if(isset($_POST["phone"])) echo $_POST["phone"]?>" name="phone" type="tel">
+                    <input
+                         value="<?php if(isset($_POST["phone"])) echo $_POST["phone"]?>" 
+                         name="phone" 
+                         type="tel"
+                    
+                    >
+                    <p class="error">
+                        <?php if(isset($phoneErr))echo $phoneErr  ?>
+                    </p>
                 </label>
             </div>
             <div class="form-group">
                 <label>
                     Email
-                    <input value="<?php if(isset($_POST["email"])) echo $_POST["email"]?>" name="email" type="email">
+                    <input 
+                        value="<?php if(isset($_POST["email"])) echo $_POST["email"]?>" 
+                        name="email" 
+                        
+                    <p class="error">
+                        <?php if(isset($emailErr)) echo $emailErr ?>
+                    </p>
                 </label>
             </div>
             <div class="form-group">
