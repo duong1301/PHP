@@ -31,4 +31,12 @@
         </div>
     </a>
 
+    <a href="?page=about">
+        <div class="nav-item">
+            About
+        </div>
+    </a>
+
+    
+
 </div>
