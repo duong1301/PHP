@@ -5,7 +5,13 @@ $users = mysqli_query($conn, $userQueryStmt);
 while (mysqli_next_result($conn)) {;
 }
 ?>
-
+<style>
+.icon{
+    text-align:center;
+}    a{
+    color:blue;
+}
+</style>
 <div class="page-title">
     <h2>Danh sách nhân viên</h2>
 </div>
@@ -22,9 +28,9 @@ while (mysqli_next_result($conn)) {;
             <thead>
                 <tr>
                     <th>Họ tên</th>
-                    <th>username</th>
-                    <th>email</th>
-                    <th>quyền</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Quyền</th>
                     <th>Hành động</th>
                 </tr>
             </thead>
@@ -42,13 +48,17 @@ while (mysqli_next_result($conn)) {;
                             <td>
                                 <?php if($user["level"] != 0) {
                                 ?>
+                                    <div class="icon">
                                     <span>
-                                        <a onclick="return confirm('Xác nhận xoá nhân viên <?php echo $user['name']?>')" href="./pages/user_del/User_del.php?id=<?php echo $user["userId"] ?>">Xoá</a>
+                                        <a onclick="return confirm('Xác nhận xoá nhân viên<?php echo $user['name']?>')" href="./pages/user_del/User_del.php?id=<?php echo $user["userId"] ?>">
+                                        <i class="fa-solid fa-trash"></i></a>
                                     </span>
-                                    <span> , </span>
+                                    <span>&emsp;</span>
                                     <span>
-                                        <a href="./index.php?page=user_update&id=<?php echo $user["userId"] ?>">Cập nhật</a>
+                                        <a href="./index.php?page=user_update&id=<?php echo $user["userId"] ?>">
+                                        <i class="fa-solid fa-arrows-rotate"></i></a>
                                     </span>
+                                    </div>
                                 <?php
                                 } ?>
                                 

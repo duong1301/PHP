@@ -67,7 +67,27 @@ if (isset($_POST["create"])) {
 }
 
 ?>
+<style>
+    *{
+        font-family:sans-serif;
+    }
+    button:hover{
+        background:black;
+        color:white;
+        transition:  1s ease ;
+        transition-property: color,background;
+    }
+    .form.group{
+        position: relative;
+    }
+    .form.group .message{
+        position: absolute;
+        top:40px;
+        left:320px;
+        font-size:1rem;
+        }
 
+</style>
 <div class="page-title">
     <h2>Thêm nhân viên</h2>
 </div>
@@ -84,7 +104,7 @@ if (isset($_POST["create"])) {
     <div>
         <form action="" method="post">
             <div class="form group">
-                <label>
+                <label style="font-size: 1.2rem;">
                     Họ và tên
                     <input name="name" value="<?php if (isset($_POST["name"])) echo $_POST["name"] ?>" type="text">
                 </label>
@@ -94,7 +114,7 @@ if (isset($_POST["create"])) {
             </div>
 
             <div class="form group">
-                <label>
+                <label style="font-size: 1.2rem;">
                     Username
                     <input name="username" value="<?php if (isset($_POST["username"])) echo $_POST["username"] ?>" type="text">
                 </label>
@@ -104,7 +124,7 @@ if (isset($_POST["create"])) {
             </div>
 
             <div class="form group">
-                <label>
+                <label style="font-size: 1.2rem;">
                     Email
                     <input name="email" value="<?php if (isset($_POST["email"])) echo $_POST["email"] ?>" type="text">
                 </label>
@@ -114,7 +134,7 @@ if (isset($_POST["create"])) {
             </div>
 
             <div class="form group">
-                <label>
+                <label style="font-size: 1.2rem;">
                     Mật khẩu
                     <input value="<?php if(isset($password)) echo $password ?>" name="password" type="password">
                 </label>
@@ -124,7 +144,7 @@ if (isset($_POST["create"])) {
             </div>
 
             <div class="form group">
-                <label>
+                <label style="font-size: 1.2rem;">
                     Nhập lại mật khẩu
                     <input value="<?php if(isset($passwordConfirm)) echo $passwordConfirm ?>"  name="passwordConfirm" type="password">
                 </label>

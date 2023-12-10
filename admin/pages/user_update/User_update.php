@@ -83,7 +83,26 @@ if (isset($_POST["update"])) {
 }
 
 ?>
-
+<style>
+        *{
+        font-family:sans-serif;
+    }
+    button:hover{
+        background:black;
+        color:white;
+        transition:  1s ease ;
+        transition-property: color,background;
+    }
+    .form.group{
+        position: relative;
+    }
+    .form.group .message{
+        position: absolute;
+        top:40px;
+        left:320px;
+        font-size:1rem;
+        }
+</style>
 <div class="page-title">
     <h2>Thêm nhân viên</h2>
 </div>

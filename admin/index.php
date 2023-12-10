@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="./index.css">
     <link rel="stylesheet" href="./App.css">
     <link rel="stylesheet" href="./components/navbar/navbar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>   
     <?php include_once('./App.php') ?>

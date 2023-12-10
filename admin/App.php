@@ -25,7 +25,6 @@ if (isset($_GET["page"]))
                     }else{
                         include_once('./pages/forbidden/Forbidden.php');
                     }
-                    
                     break;
                 case 'user_add':
                     include_once('./pages/user_add/User_add.php');
