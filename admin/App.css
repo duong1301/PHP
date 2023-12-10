@@ -119,6 +119,7 @@ select:hover{
 select:focus{
 	border: 1px solid #50b83c;
   	outline: none;
+    
 }
 
 /*toast */

@@ -4,7 +4,13 @@ const teacherQueryStmt = "CALL proc_teacher_getAll";
 $teachers = mysqli_query($conn, teacherQueryStmt);
 while(mysqli_next_result($conn)){;}
 ?>
-
+<style>
+.icon{
+    text-align:center;
+}    a{
+    color:blue;
+}
+</style>
 <div class="page-title">
     <h2>Danh sách giáo viên</h2>
 </div>
@@ -44,16 +50,16 @@ while(mysqli_next_result($conn)){;}
                         <td><?php echo $teacher["email"] ?></td>
                         <td><?php echo $teacher["phone"] ?></td>
                         <td>
-                            <span>
+                            <div class="icon"><span>
                                 <a 
                                     href="./index.php?page=teacher_del&id=<?php echo $teacher["teacherId"] ?>"
                                     onclick="return confirm('Xác nhận xoá giáo viên <?php echo $teacher['fullname'] ?> ')"
-                                >Xoá</a>
+                                ><i class="fa-solid fa-trash"></i></a>
                             </span>
-                            <span> , </span>
+                            <span> &emsp; </span>
                             <span>
-                                <a href="./index.php?page=teacher_update&id=<?php echo $teacher["teacherId"] ?>">Cập nhật</a>
-                            </span>
+                                <a href="./index.php?page=teacher_update&id=<?php echo $teacher["teacherId"] ?>"> <i class="fa-solid fa-arrows-rotate"></i></a>
+                            </span></div>
                         </td>
                     </tr>
 

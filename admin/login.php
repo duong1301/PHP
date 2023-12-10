@@ -59,11 +59,11 @@ if (isset($_POST["login"])) {
                     ?>
 
                     <div>
-                        <input placeholder="Nhập tên đăng nhập, Email" value="" type="text" name="login" id="">
+                        <label>UserName<input placeholder="Nhập tên đăng nhập, Email" value="" type="text" name="login" id=""></label>
                     </div>
 
                     <div>
-                        <input placeholder="Nhập mật khẩu" type="password" name="password" id="">
+                        Password<input placeholder="Nhập mật khẩu" type="password" name="password" id="">
                     </div>
                     <div>
                         <button class="btn btn-login" type="submit">Đăng nhập</button>
@@ -71,7 +71,7 @@ if (isset($_POST["login"])) {
                 </form>
             </div>
         </div>
-    </div>
+    </div>  
 
 </body>
 

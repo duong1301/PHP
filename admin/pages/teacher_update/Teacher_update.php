@@ -93,7 +93,28 @@ if (isset($_POST["update"])) {
     }
 }
 ?>
-
+<style>    *{
+        font-family:sans-serif;
+    }
+    button:hover{
+        background:black;
+        color:white;
+        transition:  1s ease ;
+        transition-property: color,background;
+    }
+    .form-group{
+        position: relative;
+    }
+    .form-group .error{
+        position: absolute;
+        top:40px;
+        left:320px;
+        font-size:1rem;
+        }
+        .form-group .subject{
+            font-size:1rem;
+        }
+</style>
 <div class="page-title">
     <h2>Cập nhật thông tin giáo viên</h2>
 </div>
@@ -102,13 +123,13 @@ if (isset($_POST["update"])) {
         <div></div>
         <form action="" method="post">
             <div class="form-group">
-                <label>
+                <label style="font-size: 1.2rem;">
                     Mã giáo viên
                     <input readonly value="<?php if (isset($teacherCode)) echo $teacherCode ?>" type="text">                   
                 </label>
             </div>
             <div class="form-group">
-                <label>
+                <label style="font-size: 1.2rem;">
                     Họ
                     <input value="<?php if (isset($lastName)) echo $lastName ?>" name="lastName" type="text">
                     <p class="error">
@@ -117,7 +138,7 @@ if (isset($_POST["update"])) {
                 </label>
             </div>
             <div class="form-group">
-                <label>
+                <label style="font-size: 1.2rem;">
                     Tên
                     <input value="<?php if (isset($firstName)) echo $firstName ?>" name="firstName" type="text">
                     <p class="error">
@@ -126,7 +147,7 @@ if (isset($_POST["update"])) {
                 </label>
             </div>
             <div class="form-group">
-                <label>
+                <label style="font-size: 1.2rem;">
                     Số điện thoại
                     <input value="<?php if (isset($phone)) echo $phone?>" name="phone" type="tel">
                     <p class="error">
@@ -135,17 +156,18 @@ if (isset($_POST["update"])) {
                 </label>
             </div>
             <div class="form-group">
-                <label>
+                <label style="font-size: 1.2rem;">
                     Email
-                    <input value="<?php if (isset($email)) echo $email ?>" name="email" <p class="error">
+                    <input value="<?php if (isset($email)) echo $email ?>" name="email" type="email">
+                    <p class="error">
                         <?php if (isset($emailErr)) echo $emailErr ?>
                     </p>
                 </label>
             </div>
             <div class="form-group">
-                <label>
+                <label style="font-size: 1.2rem;">
                     Môn giảng dạy
-                    <select name="subject">
+                    <select name="subject" class="subject">
                         <?php
                         if ($subjects) {
                             while ($subjectItem = mysqli_fetch_array($subjects)) {

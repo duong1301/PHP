@@ -5,7 +5,11 @@ $classes = mysqli_query($conn, classQueryStmt);
 while (mysqli_next_result($conn)) {;
 }
 ?>
-
+<style>
+    a{
+    color:blue;
+}
+</style>
 
 <div class="page-title">
     <h2>Kết quả học tập</h2>

@@ -2,8 +2,10 @@
     background-color: #041434;
     height: 100%;
     color: white;
-    padding: 8px;
+    /* padding: 8px; */
     width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .navbar-wrapper a{
@@ -22,5 +24,11 @@
     text-decoration: unset;
 }
 .navbar-wrapper .nav-item:hover{
-    background-color: #a7c4ff5e;
+    background-color: white;
+    color: black;
+}.navbar-item {
+    display: inline-block;
+}.navbar-item.active {
+    background-color: black;
+    color: white;
 }

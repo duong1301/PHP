@@ -1,6 +1,6 @@
 
 <div class="darksoul-dropdown-js ml-50 mt-50">
-    <button onclick="dropdown()" class="darksoul-btn-medium white" type="button">v</button>
+    <i class="fa-solid fa-chevron-down darksoul-btn-medium white" onclick="dropdown()"></i>
     <ul id="jsDropdown" class="darksoul-dropdown-content-js">
       <li class="darksoul-dropdown-item-js"><a class="none black" href="#">Action</a></li>
       <li class="darksoul-dropdown-item-js"><a class="none black" href="./logout.php">Đăng xuất</a></li>
@@ -8,7 +8,22 @@
 </div>   
 
 <style>
-    
+    #jsDropdown{
+        z-index: 9999;
+    }
+a{
+    text-decoration:none;
+    color:black;
+}
+.fa-chevron-down{
+    border:1px solid black;
+    padding: 5px;
+    border-radius:5px;
+    cursor: pointer;
+}
+.fa-chevron-down:hover{
+background-color:black;
+    color:white;}
 /* Dropdowns - Js - Start */
 .darksoul-dropdown-js button{
     border: unset;
@@ -32,16 +47,18 @@
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
-
-.darksoul-dropdown-item-js
-{
-    display: block;
-    height: 30px;
+.darksoul-dropdown-item-js{
+    font-size:0;
 }
-.darksoul-dropdown-item-js:hover
+.darksoul-dropdown-item-js a
+{   font-size:1rem;
+    display: block;padding:5px 0px 5px 10px;line-height:30px;text-align:left;
+    border-radius:5px;
+}
+.darksoul-dropdown-item-js a:hover
 {
-    background-color: rgb(255, 255, 255);
-    font-weight: bold;
+    background:black;
+    color:white;
 }
 .show-dropdown 
 {

@@ -9,7 +9,11 @@ if(isset($_GET['error'])){
     $error = "Không thể xoá lớp đang có học sinh";
 }
 ?>
-
+<style>
+    a{
+        color:blue;
+    }
+</style>
 
 <div class="page-title">
     <h2>Danh sách lớp học</h2>
