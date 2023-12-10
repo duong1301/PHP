@@ -31,6 +31,7 @@
     </a>
 </div>
 
+<<<<<<< HEAD
 <script>
     function highlightNavItem(element) {
         // Xóa lớp CSS 'active' khỏi tất cả các mục
@@ -43,3 +44,14 @@
         element.classList.add('active');
     }
 </script>
+=======
+    <a href="?page=about">
+        <div class="nav-item">
+            About
+        </div>
+    </a>
+
+    
+
+</div>
+>>>>>>> f349285e615e64b3d4dd22399541f1e90315c260

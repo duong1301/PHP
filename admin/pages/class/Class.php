@@ -37,6 +37,7 @@ if(isset($_GET['error'])){
                     <th>Sĩ số</th>
                     <th></th>
                     <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -48,8 +49,12 @@ if(isset($_GET['error'])){
                             <td><?php echo $class['name'] ?></td>
                             <td><?php echo $class['schoolYear'] . " - " . $class["schoolYearEnd"] ?></td>
                             <td><?php echo $class['qlt'] ?></td>
+                            
                             <td>
                                 <a href="./index.php?page=class_students&id=<?php echo $class['classId'] ?>">Xem danh sách lớp học</a>
+                            </td>
+                            <td>
+                                <a href="./index.php?page=class_teaching&id=<?php echo $class['classId'] ?>">Phân công giảng dạy</a>
                             </td>
                             <td>
                                 <span>

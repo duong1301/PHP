@@ -12,24 +12,26 @@ if (isset($_GET["id"])) {
     $studentQueryStmt = "CALL proc_score_getbyClass('$classId','$year','$semester')";
     $students_scores = mysqli_query($conn, $studentQueryStmt);
     $student_scores =  [];
+    while(mysqli_next_result($conn)){;}
 
-    echo "<pre>";
-    while (true) {
-        $flag = true;
-        $score  = [];
-        for ($i = 0; $i < numsOfSubject; ++$i) {
-            $row = mysqli_fetch_array($students_scores);
-            if (!$row) {
-                $flag = false;
-                break;
-            }
-            $score += array($row['subjectId'] => $row['average']);
-            $score += $row;
-        }
-        if ($flag == false) break;
-        array_push($student_scores, $score);
+    $studentSemesterAverageScoreStmt = "CALL proc_score_semesterAverage('$classId', '$semester', '$year')";
+    $studentSemesterAverageScoreResult = mysqli_query($conn, $studentSemesterAverageScoreStmt);
+    $studentSemesterAverageScore = [];
+    
+    while($score = mysqli_fetch_array($studentSemesterAverageScoreResult)){
+        $studentSemesterAverageScore[$score['studentId']] = $score;
     }
-
+    while(mysqli_next_result($conn)){;}
+    
+    echo "<pre>";
+        while($row = mysqli_fetch_array($students_scores)){
+            $student_scores[$row["studentId"]]["studentId"] = $row["studentId"];
+            $student_scores[$row["studentId"]]["fullName"] = $row["fullName"];
+            $student_scores[$row["studentId"]]["studentCode"] = $row["studentCode"];
+            $student_scores[$row["studentId"]][$row["subjectId"]] = $row["average"]; 
+            $student_scores[$row["studentId"]]["semesterAvg"] = $studentSemesterAverageScore[$row["studentId"]]["semesterAverage"]; 
+        }
+        // print_r($student_scores);
     echo "</pre>";
     while (mysqli_next_result($conn)) {;
     }
@@ -82,6 +84,7 @@ if (isset($_GET["id"])) {
                     <th>Công nghệ</th>
                     <th>Thể dục</th>
                     <th>QPAN</th>
+                    <th>TB</th>
                     <th></th>
 
                 </tr>
@@ -90,6 +93,7 @@ if (isset($_GET["id"])) {
             <tbody>
                 <?php
                 while ($row = array_pop($student_scores)) {
+                    
                 ?>
                     <tr>
                         <td><?php echo $row["studentCode"] ?></td>
@@ -99,14 +103,15 @@ if (isset($_GET["id"])) {
                         <td><?php echo $row["s03"] ?></td>
                         <td><?php echo $row["s04"] ?></td>
                         <td><?php echo $row["s05"] ?></td>
-                        <td><?php echo $row["s05"] ?></td>
+                        <td><?php echo $row["s06"] ?></td>
                         <td><?php echo $row["s07"] ?></td>
                         <td><?php echo $row["s08"] ?></td>
                         <td><?php echo $row["s09"] ?></td>
                         <td><?php echo $row["s10"] ?></td>
                         <td><?php echo $row["s11"] ?></td>
-                        <td><?php echo $row["s12"] ?></td>
+                        <td><?php if($row["s12"] > 5) echo "Đ"; else echo "CĐ" ?></td>
                         <td><?php echo $row["s13"] ?></td>
+                        <td><?php echo $row["semesterAvg"] ?></td>                        
                         <td>
                             <a href="./index.php?page=score_student<?php echo '&studentId=' . $row['studentId'] . '&classId=' . $classId ?>">Điểm thành phần</a>
                         </td>

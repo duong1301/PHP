@@ -62,6 +62,9 @@ if (isset($_GET["page"]))
                 case 'class_students':
                     include_once('./pages/class_students/Class_students.php');
                     break;
+                case 'class_teaching':
+                    include_once('./pages/class_teaching/Class_teaching.PHP');
+                    break;
 
                 case 'student_add':
                     include_once('./pages/student_add/Student_add.php');
