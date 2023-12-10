@@ -2,7 +2,7 @@
 <div class="darksoul-dropdown-js ml-50 mt-50">
     <button onclick="dropdown()" class="darksoul-btn-medium white" type="button">v</button>
     <ul id="jsDropdown" class="darksoul-dropdown-content-js">
-      <li class="darksoul-dropdown-item-js"><a class="none black" href="#">Action</a></li>
+      <li class="darksoul-dropdown-item-js"><a class="none black" href="./index.php?page=account">Action</a></li>
       <li class="darksoul-dropdown-item-js"><a class="none black" href="./logout.php">Đăng xuất</a></li>
     </ul>
 </div>   
