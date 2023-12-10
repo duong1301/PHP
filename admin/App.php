@@ -86,7 +86,11 @@ if (isset($_GET["page"]))
                     break;
                 case 'score_student':
                     include_once('./pages/score_student/Score_student.php');
-                    break;                
+                    break;      
+                    
+                case 'account':
+                    include_once('./pages/account/Account.php');
+                    break;
                 default:     
                     include_once('./pages/about/About.php');               
                     break;
