@@ -1,0 +1,19 @@
+.wrapper{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.header .user-infor{
+    display: flex;
+    align-items: center;
+    column-gap: 12px;
+}
+
+.header .avata{
+    width: 32px;
+    height: 32px;
+    background-color: #ccc;
+    border-radius: 50%;
+}

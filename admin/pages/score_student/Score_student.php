@@ -88,7 +88,8 @@ while (mysqli_next_result($conn)) {;
                             <td>
                                 <?php echo $score['subjectName'] ?>
                             </td>
-                            <td><input class="inp-<?php echo $score['subjectId'] ?>" readonly onkeydown="scoreValidate(event)" style="width: 40px; padding:4px;" value="<?php echo $score['oralTest'] ?>" name="oralTest" type="text"></td>
+                            <td><input class="inp-<?php echo $score['subjectId'] ?>" readonly 
+ style="width: 40px; padding:4px;" value="<?php echo $score['oralTest'] ?>" name="oralTest" type="text"></td>
                             <td><input class="inp-<?php echo $score['subjectId'] ?>" readonly onkeydown="scoreValidate(event)" style="width: 40px; padding:4px;" value="<?php echo $score['fifTest1'] ?>" name="fifTest1" type="text"></td>
                             <td><input class="inp-<?php echo $score['subjectId'] ?>" readonly onkeydown="scoreValidate(event)" style="width: 40px; padding:4px;" value="<?php echo $score['fifTest2'] ?>" name="fifTest2" type="text"></td>
                             <td><input class="inp-<?php echo $score['subjectId'] ?>" readonly onkeydown="scoreValidate(event)" style="width: 40px; padding:4px;" value="<?php echo $score['periodTest1'] ?>" name="periodTest1" type="text"></td>
