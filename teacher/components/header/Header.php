@@ -1,16 +1,19 @@
 <?php
-$semester = 1;
-$schoolYearMax = 2023;
-$schoolYear = $schoolYearMax;
+$teacherName = $_SESSION["teacher"]["lastName"]." ".$_SESSION["teacher"]["firstName"];
+
+$schoolYear = $_SESSION["schoolYear"];
+$semester = $_SESSION["semester"];
+
+$schoolYearMax = getdate()["year"];
 $schoolYearMin = 2020;
-$classId = "";
-$GLOBALS["schoolYear"] = $schoolYear;
-$GLOBALS["semeter"] = $semester;
+
+
 if (isset($_POST["yeschoolYear"]) || isset($_POST["semester"])) {
     $schoolYear = $_POST["schoolYear"];
     $semester =  $_POST["semester"];
-    $GLOBALS["schoolYear"] = $schoolYear;
-    $GLOBALS["semeter"] = $semester;
+    $_SESSION["schoolYear"] = $schoolYear;
+    $_SESSION["semester"] = $semester;    
+    header("Location: ./index.php");
 }
 ?>
 
@@ -41,7 +44,7 @@ if (isset($_POST["yeschoolYear"]) || isset($_POST["semester"])) {
         </form>
     </div>
     <div class="user-infor">
-        <div class="name">Nguyen Van A</div>
+        <div class="name"><?php echo $teacherName ?></div>
         <div class="avata">
         </div>
         <?php include('./components/dropdownHeader/dropdownHeader.php') ?>
