@@ -29,6 +29,7 @@ while(mysqli_next_result($conn)){;}
                         <th>Email</th>
                     
                         <th>Số điện thoại</th>
+                        <th>Mật khẩu</th>
                         <th>Hành động</th>
                     </tr>
                 </thead>
@@ -43,6 +44,7 @@ while(mysqli_next_result($conn)){;}
                         <td><?php echo $teacher["subjectName"] ?></td>
                         <td><?php echo $teacher["email"] ?></td>
                         <td><?php echo $teacher["phone"] ?></td>
+                        <td><?php echo $teacher["password"]?></td>
                         <td>
                             <span>
                                 <a 

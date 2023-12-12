@@ -28,7 +28,7 @@
 }
 
 .navbar .class-list{
-    /* display: none; */
+    display: none;
     margin-left: 24px;
 }
 .navbar .class-item{
