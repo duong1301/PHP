@@ -6,17 +6,17 @@ if (isset($_POST["login"])) {
     $login = $_POST["login"];
     $password = $_POST["password"];
 
-    $loginQueryStmt = "CALL proc_login('$login', '$password')";
+    $loginQueryStmt = "CALL proc_login_teacher('$login', '$password')";
     $loginQueryResult = mysqli_query($conn, $loginQueryStmt);
     echo mysqli_num_rows($loginQueryResult);
     if (mysqli_num_rows($loginQueryResult) != 0) {
-        $userInfor = mysqli_fetch_array($loginQueryResult);
-      
-        $_SESSION["user"]["userId"] = $userInfor["userId"];
-        $_SESSION["user"]["name"] = $userInfor["name"];
-        $_SESSION["user"]["userName"] = $userInfor["userName"];
-        $_SESSION["user"]["email"] = $userInfor["email"];
-        $_SESSION["user"]["level"] = $userInfor["level"];
+        $teacher = mysqli_fetch_array($loginQueryResult);
+        $_SESSION["teacher"]["teacherId"] = $teacher["teacherId"];
+        $_SESSION["teacher"]["firstName"] = $teacher["firstName"];
+        $_SESSION["teacher"]["lastName"] = $teacher["lastName"];
+        $_SESSION["teacher"]["email"] = $teacher["email"];
+        $_SESSION["teacher"]["phone"] = $teacher["phone"];
+       
 
         header("Location: index.php?page=user");
     } else {

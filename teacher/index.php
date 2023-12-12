@@ -1,9 +1,21 @@
 <?php
+session_start();
+    
+if(!isset($_SESSION["teacher"]["teacherId"])){
+    header("Location: ./login.php");
+}
+
 include('../config/connect.php');
 $date = getdate();
-$GLOBALS["schoolYear"] = $date["year"];
-echo $date["month"];
-$GLOBALS["semester"] = 1;
+
+if(!isset($_SESSION["schoolYear"])){
+   $_SESSION["schoolYear"] = getdate()["year"];   
+}
+
+if(!isset($_SESSION["semester"])){
+    $_SESSION["semester"] = 1;
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

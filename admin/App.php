@@ -6,8 +6,6 @@ $page = "";
 if (isset($_GET["page"]))
     $page = $_GET["page"];
 ?>
-
-
 <div class="App">
     <header>
         <?php include_once('./components/header/header.php') ?>

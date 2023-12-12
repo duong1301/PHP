@@ -1,12 +1,17 @@
 <?php
-$year = $GLOBALS["schoolYear"];
+ob_start();
+$year = $_SESSION["schoolYear"];
+$semester = $_SESSION["semester"];
+
+$teacherId = $_SESSION["teacher"]["teacherId"];
+
 if (isset($_GET["grade"])) {
     $grade = $_GET["grade"];
 }
 
-$classesQueryStmt = "CALL proc_class_getWithGrade($year)";
+$classesQueryStmt = "CALL proc_class_getByTeacher('$teacherId',$year,$semester)";
 $classesQueryResult = mysqli_query($conn, $classesQueryStmt);
-mysqli_next_result($conn);
+while(mysqli_next_result($conn)){;}
 
 $classes = [];
 while ($class = mysqli_fetch_array($classesQueryResult)) {
@@ -14,7 +19,6 @@ while ($class = mysqli_fetch_array($classesQueryResult)) {
 };
 ?>
 <div class="navbar-wrapper">
-
     <div class="nav-item">
         <label for="grade-10" class="grade">
             Khối 10
@@ -92,3 +96,7 @@ while ($class = mysqli_fetch_array($classesQueryResult)) {
     </div>
 
 </div>
+
+<?php 
+    ob_end_flush();
+?>
