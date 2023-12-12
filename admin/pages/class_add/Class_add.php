@@ -1,15 +1,19 @@
 <?php
 
 if (isset($_POST["create"])) {
-    $name = $_POST["name"];
-    $schoolYear = $_POST["schoolYear"];
-    $classAddStmt = "CALL proc_class_add('$name', '$schoolYear')";
-    $addResult = mysqli_query($conn, $classAddStmt);
-    if ($addResult) {
-        echo "Success";
-        // header("location: ./index.php?page=class");
+    $name = trim($_POST["name"]);
+    if (empty($name)) {
+        echo "Không để trống tên lớp";
     } else {
-        echo $conn->error;
+        $schoolYear = $_POST["schoolYear"];
+        $classAddStmt = "CALL proc_class_add('$name', '$schoolYear')";
+        $addResult = mysqli_query($conn, $classAddStmt);
+        if ($addResult) {
+            echo "Success";
+            // header("location: ./index.php?page=class");
+        } else {
+            echo $conn->error;
+        }
     }
 }
 ?>
