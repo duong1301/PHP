@@ -21,42 +21,53 @@ while (mysqli_next_result($conn)) {;
         <table>
             <thead>
                 <tr>
-                    <th>Họ tên</th>
-                    <th>username</th>
-                    <th>email</th>
-                    <th>quyền</th>
-                    <th>Hành động</th>
+                    <th>Họ và tên</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Mật khẩu</th>
+                    <th>Chức năng</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
                 if ($users) {
                     while ($user = mysqli_fetch_array($users)) {
-                        if($user["level"] !=0){
+                        if ($user["level"] != 0) {
                 ?>
-                        <tr>
-                            <td><?php echo $user["name"] ?></td>
-                            <td><?php echo $user["username"] ?></td>
-                            <td><?php echo $user["email"] ?></td>
-                            <td><?php echo $user["level"] == 0 ? "Admin" : "Member" ?></td>
-                            <td>
-                                <?php if($user["level"] != 0) {
-                                ?>
-                                    <span>
-                                        <a onclick="return confirm('Xác nhận xoá nhân viên <?php echo $user['name']?>')" href="./pages/user_del/User_del.php?id=<?php echo $user["userId"] ?>">Xoá</a>
-                                    </span>
-                                    <span> , </span>
-                                    <span>
-                                        <a href="./index.php?page=user_update&id=<?php echo $user["userId"] ?>">Cập nhật</a>
-                                    </span>
-                                <?php
-                                } ?>
+                            <tr>
+                                <td><?php echo $user["name"] ?></td>
+                                <td><?php echo $user["username"] ?></td>
+                                <td><?php echo $user["email"] ?></td>
+                                <td><?php echo $user["password"] ?></td>
                                 
-                            </td>
+                                <td>
+                                    <?php if ($user["level"] != 0) {
+                                    ?>
+                                        <span>
+                                            <span class="icon">
 
-                        </tr>
+                                                <a onclick="return confirm('Xác nhận xoá nhân viên <?php echo $user['name'] ?>')" href="./pages/user_del/User_del.php?id=<?php echo $user["userId"] ?>">
+                                                    <i class="far fa-trash"></i>
+                                                </a>
+                                            </span>
+                                        </span>
+                                        
+                                        <span>
+                                            <span class="icon ">
+                                                <a href="./index.php?page=user_update&id=<?php echo $user["userId"] ?>">
+                                                    <i class="far fa-edit"></i>
+                                                </a>
+                                            </span>
+                                        </span>
+                                    <?php
+                                    } ?>
+
+                                </td>
+
+                            </tr>
                 <?php
-                    }}
+                        }
+                    }
                 }
                 ?>
             </tbody>

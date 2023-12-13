@@ -2,6 +2,8 @@
 include('common/phoneValidation.php');
 include('common/nameValidation.php');
 include('common/emailValidation.php');
+const success = "success";
+const error = "error";
 const subjectQueryStmt = "CALL proc_subject_getAll";
 $subjects = mysqli_query($conn, subjectQueryStmt);
 
@@ -10,11 +12,10 @@ while (mysqli_next_result($conn)) {;
 $id = "";
 if (isset($_GET["id"])) {
     $id = $_GET["id"];
-    
 }
 $teacherQueryStmt = "CALL proc_teacher_getById('$id')";
-    $teacherQueryResult = mysqli_query($conn, $teacherQueryStmt);
-    $teacher = mysqli_fetch_array($teacherQueryResult);
+$teacherQueryResult = mysqli_query($conn, $teacherQueryStmt);
+$teacher = mysqli_fetch_array($teacherQueryResult);
 
 while (mysqli_next_result($conn));
 if (mysqli_num_rows($teacherQueryResult) != 0) {
@@ -24,7 +25,6 @@ if (mysqli_num_rows($teacherQueryResult) != 0) {
     $phone = $teacher["phone"];
     $email = $teacher["email"];
     $subject = $teacher["subjectId"];
-   
 }
 
 if (isset($_POST["update"])) {
@@ -86,9 +86,11 @@ if (isset($_POST["update"])) {
         $teacherAddStatement = "CALL proc_teacher_update('$id','$lastName','$firstName','$phone', '$email','$subject')";
         $addResult = mysqli_query($conn, $teacherAddStatement);
         if ($addResult) {
-            echo "Success";
+            $state = success;
+            $message = "Cập nhật thành công";
         } else {
-            echo $conn->error;
+            $state = error;
+            $message = $conn->error;
         }
     }
 }
@@ -96,77 +98,94 @@ if (isset($_POST["update"])) {
 
 <div class="page-title">
     <h2>Cập nhật thông tin giáo viên</h2>
+    <h4 class="form-group">
+        <span class="label">Mã giáo viên</span>
+        <?php if (isset($teacherCode)) echo $teacherCode ?>
+    </h4>
 </div>
 <div>
+    <div class="message-container">
+        <div class="toast <?php echo $state ?>">
+            <p>
+                <?php if ($message != "") echo $message ?>
+            </p>
+        </div>
+    </div>
     <div>
-        <div></div>
         <form action="" method="post">
-            <div class="form-group">
-                <label>
-                    Mã giáo viên
-                    <input readonly value="<?php if (isset($teacherCode)) echo $teacherCode ?>" type="text">                   
-                </label>
+
+            <div class="form-container">
+
+                <div class="group">
+
+                    <div class="form-group">
+                        <label>
+                            <span class="label">Họ</span>
+                            <input value="<?php if (isset($lastName)) echo $lastName ?>" name="lastName" type="text">
+                            <p class="message">
+                                <?php if (isset($lastNameErr)) echo $lastNameErr  ?>
+                            </p>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <span class="label">Tên</span>
+                            <input value="<?php if (isset($firstName)) echo $firstName ?>" name="firstName" type="text">
+                            <p class="message">
+                                <?php if (isset($firstNameErr)) echo $firstNameErr  ?>
+                            </p>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            Môn giảng dạy
+                            <select name="subject">
+                                <?php
+                                if ($subjects) {
+                                    while ($subjectItem = mysqli_fetch_array($subjects)) {
+                                ?>
+                                        <option <?php
+                                                if (isset($subject)) {
+
+                                                    if ($subject == $subjectItem["subjectId"]) echo "selected";
+                                                }
+                                                ?> value="<?php echo $subjectItem["subjectId"] ?>"><?php echo $subjectItem['name'] ?>
+                                        </option>
+                                <?php
+                                    }
+                                }
+                                ?>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="group">
+                    <div class="form-group">
+                        <label>
+                            <span class="label">Số điện thoại</span>
+                            <input value="<?php if (isset($phone)) echo $phone ?>" name="phone" type="tel">
+                            <p class="message">
+                                <?php if (isset($phoneErr)) echo $phoneErr  ?>
+                            </p>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <span class="label">Email</span>
+                            <input value="<?php if (isset($email)) echo $email ?>" name="email" <p class="error">
+                            <p class="message">
+                            <?php if (isset($emailErr)) echo $emailErr ?>
+                            </p>
+                        </label>
+                    </div>
+
+                </div>
             </div>
-            <div class="form-group">
-                <label>
-                    Họ
-                    <input value="<?php if (isset($lastName)) echo $lastName ?>" name="lastName" type="text">
-                    <p class="error">
-                        <?php if (isset($lastNameErr)) echo $lastNameErr  ?>
-                    </p>
-                </label>
-            </div>
-            <div class="form-group">
-                <label>
-                    Tên
-                    <input value="<?php if (isset($firstName)) echo $firstName ?>" name="firstName" type="text">
-                    <p class="error">
-                        <?php if (isset($firstNameErr)) echo $firstNameErr  ?>
-                    </p>
-                </label>
-            </div>
-            <div class="form-group">
-                <label>
-                    Số điện thoại
-                    <input value="<?php if (isset($phone)) echo $phone?>" name="phone" type="tel">
-                    <p class="error">
-                        <?php if (isset($phoneErr)) echo $phoneErr  ?>
-                    </p>
-                </label>
-            </div>
-            <div class="form-group">
-                <label>
-                    Email
-                    <input value="<?php if (isset($email)) echo $email ?>" name="email" <p class="error">
-                        <?php if (isset($emailErr)) echo $emailErr ?>
-                    </p>
-                </label>
-            </div>
-            <div class="form-group">
-                <label>
-                    Môn giảng dạy
-                    <select name="subject">
-                        <?php
-                        if ($subjects) {
-                            while ($subjectItem = mysqli_fetch_array($subjects)) {
-                        ?>
-                                <option 
-                                    <?php 
-                                        if (isset($subject)) {
-                                                                              
-                                            if ($subject == $subjectItem["subjectId"]) echo "selected";
-                                        } 
-                                    ?> 
-                                    value="<?php echo $subjectItem["subjectId"] ?>"><?php echo $subjectItem['name'] ?>
-                                </option>
-                        <?php
-                            }
-                        }
-                        ?>
-                    </select>
-                </label>
-            </div>
-            <div>
+
+
+
+            <div class="form-buttons">
                 <button class="btn" name="update">Lưu</button>
             </div>
         </form>

@@ -1,0 +1,33 @@
+.table-wrapper{
+    overflow: auto;
+}
+
+table{
+    min-width: 100%;
+    border-spacing: 0;   
+}
+
+table tr:has(th){
+    background-color: #F5F5F5;        
+}
+
+table th, td{
+    font-size: 14px;
+    padding: 16px;
+    text-align: left;
+    border-bottom: solid #E0E0E0 1px ;
+    border-right: 1px dotted #e0e0e0;
+}
+th{
+    position: sticky;
+    top: 0;
+    background-color: #F5F5F5;
+}
+
+td:first-child, th:first-child{
+    border-left: 1px solid #e0e0e0;
+}
+
+td:last-child, th:last-child{
+    border-right: 1px solid #e0e0e0;
+}
