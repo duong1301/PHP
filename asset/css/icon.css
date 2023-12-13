@@ -1,0 +1,28 @@
+.icon{
+    width: 24px;
+    height: 24px;
+    font-size: 20px;
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+    
+    color: #616161;
+    cursor: pointer;
+}
+
+.icon a{
+    text-decoration: none;
+    color: currentColor;
+}
+
+.icon--large{
+    width: 32px;
+    height: 32px;
+    font-size: 28px;
+}
+
+.icon--small{
+    width: 16px;
+    height: 16px;
+    font-size: 14px;
+}

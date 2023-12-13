@@ -12,14 +12,15 @@ const success = "success";
 const error = "error";
 $state;
 $id = "";
-if(isset($_GET["id"])){
+if (isset($_GET["id"])) {
     $id = $_GET["id"];
 }
 $userQueryStmt = "CALL proc_user_getById('$id')";
-$userQueryResult = mysqli_query($conn,$userQueryStmt);
+$userQueryResult = mysqli_query($conn, $userQueryStmt);
 $user = mysqli_fetch_array($userQueryResult);
-while(mysqli_next_result($conn)){;}
-if(mysqli_num_rows($userQueryResult) !=0){
+while (mysqli_next_result($conn)) {;
+}
+if (mysqli_num_rows($userQueryResult) != 0) {
     $name = $user["name"];
     $username = $user["username"];
     $email = $user["email"];
@@ -34,7 +35,7 @@ if (isset($_POST["update"])) {
     $usernameErr = "";
     $email = trim($_POST["email"], " ");
     $emailErr = "";
-    $level = trim($_POST["level"], " ");
+    $level = 1;
     $password = trim($_POST["password"], " ");
     $passwordErr = "";
     $passwordConfirm = trim($_POST["passwordConfirm"], " ");
@@ -75,9 +76,10 @@ if (isset($_POST["update"])) {
         $addUserResult = mysqli_query($conn, $addUserStmt);
         if ($addUserResult) {
             $state = success;
-            $message = "Thêm mới thành công";
+            $message = "Cập nhật thành công";
         } else {
-            echo $conn->error;
+            $state = error;
+            $message = $conn->error;
         }
     }
 }
@@ -85,7 +87,7 @@ if (isset($_POST["update"])) {
 ?>
 
 <div class="page-title">
-    <h2>Thêm nhân viên</h2>
+    <h2>Cập nhật thông tin nhân viên</h2>
 </div>
 
 <div class="page-content">
@@ -94,73 +96,68 @@ if (isset($_POST["update"])) {
             <p>
                 <?php if ($message != "") echo $message ?>
             </p>
-
         </div>
     </div>
     <div>
         <form action="" method="post">
-            <div class="form group">
-                <label>
-                    Họ và tên
-                    <input name="name" value="<?php if (isset($name)) echo $name ?>" type="text">
-                </label>
-                <p class="message">
-                    <?php if (isset($nameErr)) echo $nameErr ?>
-                </p>
-            </div>
+            <div class="form-container">
+                <div class="group">
+                    <div class="form group">
+                        <label>
+                            <span class="label">Họ và tên</span>
+                            <input name="name" value="<?php if (isset($name)) echo $name ?>" type="text">
+                            <p class="message">
+                                <?php if (isset($nameErr)) echo $nameErr ?>
+                            </p>
+                        </label>
+                    </div>
 
-            <div class="form group">
-                <label>
-                    Username
-                    <input name="username" value="<?php if (isset($username)) echo $username ?>" type="text">
-                </label>
-                <p class="message">
-                    <?php if (isset($usernameErr)) echo $usernameErr ?>
-                </p>
-            </div>
+                    <div class="form group">
+                        <label>
+                            <span class="label">Username</span>
+                            <input name="username" value="<?php if (isset($username)) echo $username ?>" type="text">
+                            <p class="message">
+                                <?php if (isset($usernameErr)) echo $usernameErr ?>
+                            </p>
+                        </label>
+                    </div>
 
-            <div class="form group">
-                <label>
-                    Email
-                    <input name="email" value="<?php if (isset($email)) echo $email ?>" type="text">
-                </label>
-                <p class="message">
-                    <?php if (isset($emailErr)) echo $emailErr ?>
-                </p>
-            </div>
+                    <div class="form group">
+                        <label>
+                            <span class="label">Email</span>
+                            <input name="email" value="<?php if (isset($email)) echo $email ?>" type="text">
+                            <p class="message">
+                                <?php if (isset($emailErr)) echo $emailErr ?>
+                            </p>
+                        </label>
+                    </div>
+                </div>
+                <div class="group">
+                    <div class="form group">
+                        <label>
+                            <span class="label">Mật khẩu</span>
+                            <input value="<?php if (isset($password)) echo $password ?>" name="password" type="password">
+                            <p class="message">
+                                <?php if (isset($passwordErr)) echo $passwordErr ?>
+                            </p>
+                        </label>
+                    </div>
 
-            <div class="form group">
-                <label>
-                    Mật khẩu
-                    <input value="<?php if(isset($password)) echo $password ?>" name="password" type="password">
-                </label>
-                <p class="message">
-                    <?php if (isset($passwordErr)) echo $passwordErr ?>
-                </p>
+                    <div class="form group">
+                        <label>
+                            <span class="label">Nhập lại mật khẩu</span>
+                            <input value="<?php if (isset($passwordConfirm)) echo $passwordConfirm ?>" name="passwordConfirm" type="password">
+                            <p class="message">
+                                <?php if (isset($passwordConfirmErr)) echo $passwordConfirmErr ?>
+                            </p>
+                        </label>
+                    </div>
+                </div>
             </div>
-
-            <div class="form group">
-                <label>
-                    Nhập lại mật khẩu
-                    <input value="<?php if(isset($passwordConfirm)) echo $passwordConfirm ?>"  name="passwordConfirm" type="password">
-                </label>
-                <p class="message">
-                    <?php if (isset($passwordConfirmErr)) echo $passwordConfirmErr ?>
-                </p>
+            <div class="form-buttons">
+                <button type="submit" name="update" class="btn">Lưu</button>
+                <button type="submit" name="clear" class="btn">Xoá</button>
             </div>
-
-            <div class="form group">
-                <label>
-                    Quyền
-                    <select name="level">
-                        <option <?php if(isset($user)) if($user["level"] == 1) echo "selected" ?> value="1">Member</option>
-                        <option <?php if(isset($user)) if($user["level"] == 0) echo "selected" ?> value="0">Admin</option>
-                    </select>
-                </label>
-                <p class="message"></p>
-            </div>
-            <button type="submit" name="update" class="btn">Lưu</button>
-            <button type="submit" name="clear" class="btn">Xoá</button>
         </form>
     </div>
 

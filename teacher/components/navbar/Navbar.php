@@ -2,7 +2,10 @@
 ob_start();
 $year = $_SESSION["schoolYear"];
 $semester = $_SESSION["semester"];
-
+$classId = "";
+if(isset($_GET["classId"])){
+    $classId = $_GET["classId"];
+}
 $teacherId = $_SESSION["teacher"]["teacherId"];
 
 if (isset($_GET["grade"])) {
@@ -31,7 +34,7 @@ while ($class = mysqli_fetch_array($classesQueryResult)) {
                 foreach ($classList as $class) {
             ?>
                     <a href="./index.php?classId=<?php echo $class["classId"] . '&grade=10' ?>">
-                        <div class="class-item">
+                        <div class="class-item <?php if($classId == $class["classId"])echo "active" ?>">
                             <?php echo $class["grade"] . $class["name"] ?>
                         </div>
                     </a>
@@ -56,7 +59,7 @@ while ($class = mysqli_fetch_array($classesQueryResult)) {
                 foreach ($classList as $class) {
             ?>
                     <a href="./index.php?classId=<?php echo $class["classId"] . '&grade=11' ?>">
-                        <div class="class-item">
+                        <div class="class-item <?php if($classId == $class["classId"])echo "active" ?>">
                             <?php echo $class["grade"] . $class["name"] ?>
                         </div>
                     </a>
@@ -81,7 +84,7 @@ while ($class = mysqli_fetch_array($classesQueryResult)) {
                 foreach ($classList as $class) {
             ?>
                     <a href="./index.php?classId=<?php echo $class["classId"] . '&grade=12' ?>">
-                        <div class="class-item">
+                        <div class="class-item <?php if($classId == $class["classId"])echo "active" ?>">
                             <?php echo $class["grade"] . $class["name"] ?>
                         </div>
                     </a>

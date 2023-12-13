@@ -16,7 +16,8 @@ if(isset($_POST["updateTeaching"])){
         $updateTeachingStmt = "CALL proc_teacherClass_update(NULL,'$classId',$semester,$year,'$subjectId')";
     }else
         $updateTeachingStmt = "CALL proc_teacherClass_update('$teacherId','$classId',$semester,$year,'$subjectId')";
-    $result = mysqli_query($conn,$updateTeachingStmt);   
+    $result = mysqli_query($conn,$updateTeachingStmt);  
+    echo $conn->error; 
 }
 
 $teachersBySubject = [];

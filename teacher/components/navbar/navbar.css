@@ -21,6 +21,16 @@
 .navbar-wrapper .nav-item {
     color: white;
     text-decoration: unset;
+    
+}
+
+.nav-item .grade{
+    font-size: 16px;
+}
+
+.nav-item a{
+    color: white;
+    font-size: 14px;
 }
 .navbar-wrapper .grade:hover,.navbar-wrapper .class-item:hover {
     background-color: #a7c4ff5e;
@@ -38,4 +48,8 @@
 
 .navbar input:checked~.class-list{
     display: block;
+}
+
+.navbar .active{
+    background-color: #a7c4ff50;
 }

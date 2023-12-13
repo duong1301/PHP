@@ -25,6 +25,8 @@ if(!isset($_SESSION["semester"])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="App.css">
     <title>Document</title>
+    <link rel="stylesheet" href="../asset/font-awesome-pro-5/css/all.min.css">
+    <link rel="stylesheet" href="index.css">
     
 </head>
 

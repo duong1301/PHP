@@ -61,7 +61,8 @@ if (isset($_POST["create"])) {
             $state = success;
             $message = "Thêm mới thành công";
         } else {
-            echo $conn->error;
+            $state = error;
+            $message = $conn->error;
         }
     }
 }
@@ -81,70 +82,68 @@ if (isset($_POST["create"])) {
 
         </div>
     </div>
-    <div>
+    <div class="form-wrapper">
         <form action="" method="post">
-            <div class="form group">
-                <label>
-                    Họ và tên
-                    <input name="name" value="<?php if (isset($_POST["name"])) echo $_POST["name"] ?>" type="text">
-                </label>
-                <p class="message">
-                    <?php if (isset($nameErr)) echo $nameErr ?>
-                </p>
+
+            <div class="form-container">
+                <div class="group">
+                    <div class="form group">
+                        <label>
+                            <span class="label">Họ và tên</span>
+                            <input name="name" value="<?php if (isset($_POST["name"])) echo $_POST["name"] ?>" type="text">
+                            <p class="message"><?php if (isset($nameErr)) echo $nameErr ?></p>
+                        </label>
+                    </div>
+
+                    <div class="form group">
+                        <label>
+                            <span class="label">Username</span>
+                            <input name="username" value="<?php if (isset($_POST["username"])) echo $_POST["username"] ?>" type="text">
+                            <p class="message">
+                                <?php if (isset($usernameErr)) echo $usernameErr ?>
+                            </p>
+                        </label>
+                    </div>
+
+                    <div class="form group">
+                        <label>
+                            <span class="label">Email</span>
+                            <input name="email" value="<?php if (isset($_POST["email"])) echo $_POST["email"] ?>" type="text">
+                            <p class="message">
+                                <?php if (isset($emailErr)) echo $emailErr ?>
+                            </p>
+                        </label>
+                    </div>
+                </div>
+                <div class="group">
+
+                    <div class="form group">
+                        <label>
+                            <span class="label">Mật khẩu</span>                            
+                            <input value="<?php if (isset($password)) echo $password ?>" name="password" type="password">
+                            <p class="message">
+                                <?php if (isset($passwordErr)) echo $passwordErr ?>
+                            </p>
+                        </label>
+                    </div>
+
+                    <div class="form group">
+                        <label>
+                            <span class="label">Nhập lại mật khẩu</span>                           
+                            
+                            <input value="<?php if (isset($passwordConfirm)) echo $passwordConfirm ?>" name="passwordConfirm" type="password">
+                            <p class="message">
+                                <?php if (isset($passwordConfirmErr)) echo $passwordConfirmErr ?>
+                            </p>
+                        </label>
+                    </div>
+                </div>
             </div>
 
-            <div class="form group">
-                <label>
-                    Username
-                    <input name="username" value="<?php if (isset($_POST["username"])) echo $_POST["username"] ?>" type="text">
-                </label>
-                <p class="message">
-                    <?php if (isset($usernameErr)) echo $usernameErr ?>
-                </p>
+            <div class="form-buttons">
+                <button type="submit" name="create" class="btn">Tạo</button>
+                <button type="submit" name="clear" class="btn">Xoá</button>
             </div>
-
-            <div class="form group">
-                <label>
-                    Email
-                    <input name="email" value="<?php if (isset($_POST["email"])) echo $_POST["email"] ?>" type="text">
-                </label>
-                <p class="message">
-                    <?php if (isset($emailErr)) echo $emailErr ?>
-                </p>
-            </div>
-
-            <div class="form group">
-                <label>
-                    Mật khẩu
-                    <input value="<?php if(isset($password)) echo $password ?>" name="password" type="password">
-                </label>
-                <p class="message">
-                    <?php if (isset($passwordErr)) echo $passwordErr ?>
-                </p>
-            </div>
-
-            <div class="form group">
-                <label>
-                    Nhập lại mật khẩu
-                    <input value="<?php if(isset($passwordConfirm)) echo $passwordConfirm ?>"  name="passwordConfirm" type="password">
-                </label>
-                <p class="message">
-                    <?php if (isset($passwordConfirmErr)) echo $passwordConfirmErr ?>
-                </p>
-            </div>
-
-            <!-- <div class="form group">
-                <label>
-                    Quyền
-                    <select name="level">
-                        <option value="1">Member</option>
-                        <option value="0">Admin</option>
-                    </select>
-                </label>
-                <p class="message"></p>
-            </div> -->
-            <button type="submit" name="create" class="btn">Tạo</button>
-            <button type="submit" name="clear" class="btn">Xoá</button>
         </form>
     </div>
 

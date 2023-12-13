@@ -31,7 +31,8 @@ if (mysqli_num_rows($userQueryResult) != 0) {
 if (isset($_POST["updateInfor"])) {
     $firstName = trim($_POST["firstName"], " ");
     $lastName = trim($_POST["lastName"], " ");
-    $firstNameErr = "";$lastNameErr = "";
+    $firstNameErr = "";
+    $lastNameErr = "";
     $email = trim($_POST["email"], " ");
     $phone = trim($_POST["phone"], " ");
     $emailErr = "";
@@ -53,9 +54,9 @@ if (isset($_POST["updateInfor"])) {
         $emailErr = validate_email($email);
     }
     //phone
-    if(empty($phone)){
+    if (empty($phone)) {
         $phoneErr = "Không được để trống";
-    }else{
+    } else {
         $phoneErr = validate_phone($phone);
     }
     //
@@ -91,17 +92,17 @@ if (isset($_POST["updatePassword"])) {
     if (empty($oldPassword)) {
         $oldPasswordErr = "Không được để trống";
     }
-   
+
     //password
     if (empty($password)) {
         $passwordErr = "Không được để trống";
-    }elseif($password == $oldPassword){
+    } elseif ($password == $oldPassword) {
         $passwordErr = "Mật khẩu mới phải khác mật khẩu cũ";
     }
     //passwordConfirm
     if (empty($passwordConfirm)) {
         $passwordConfirmErr = "Không được để trống";
-    }else
+    } else
     if (strcmp($password, $passwordConfirm) != 0) {
         $passwordConfirmErr = "Mật khẩu không trùng khớp";
     }
@@ -112,21 +113,20 @@ if (isset($_POST["updatePassword"])) {
         empty($emailErr) &&
         empty($passwordErr) &&
         empty($passwordConfirmErr)
-    ){
+    ) {
         echo "update password";
         $updateUserPasswordStmt = "CALL proc_teacher_updatePassword('$id','$password','$oldPassword');";
         $updateUserPasswordResult = mysqli_query($conn, $updateUserPasswordStmt);
-        if(mysqli_affected_rows($conn) == 0){
+        if (mysqli_affected_rows($conn) == 0) {
             echo "Cập nhật thất bại, mật khẩu cũ không đúng";
-        }elseif ($updateUserPasswordResult) {
-            $state = success;   
-                
+        } elseif ($updateUserPasswordResult) {
+            $state = success;
+
             header("Location: ./logout.php");
-        }else{
+        } else {
             echo $conn->error;
         }
     }
-    
 }
 
 
@@ -134,11 +134,12 @@ if (isset($_POST["updatePassword"])) {
 
 ?>
 
-<div class="page-title">
-    <h2>Tài khoản</h2>
-</div>
 
-<div class="page-content">
+
+<div class="page-content page-account">
+    <div class="page-title">
+        <h2>Tài khoản</h2>
+    </div>
     <div class="message-container">
         <div class="toast <?php echo $state ?>">
             <p>
@@ -155,46 +156,46 @@ if (isset($_POST["updatePassword"])) {
     </style>
     <div class="flex">
         <div>
-            Thông tin cá nhân
+            <h4>Thông tin cá nhân</h4>
             <form action="" method="post">
                 <div class="form group">
                     <label>
-                        Họ
+                        <span class="label">Họ</span>
                         <input name="lastName" value="<?php if (isset($lastName)) echo $lastName ?>" type="text">
+                        <p class="message">
+                            <?php if (isset($lastNameErr)) echo $lastNameErr ?>
+                        </p>
                     </label>
-                    <p class="message">
-                        <?php if (isset($lastNameErr)) echo $lastNameErr ?>
-                    </p>
                 </div>
 
                 <div class="form group">
                     <label>
-                        Tên
+                        <span class="label">Tên</span>
                         <input name="firstName" value="<?php if (isset($firstName)) echo $firstName ?>" type="text">
+                        <p class="message">
+                            <?php if (isset($firstNameErr)) echo $firstNameErr ?>
+                        </p>
                     </label>
-                    <p class="message">
-                        <?php if (isset($firstNameErr)) echo $firstNameErr ?>
-                    </p>
                 </div>
 
                 <div class="form group">
                     <label>
-                        phone
+                        <span class="label">Số điện thoại</span>
                         <input name="phone" value="<?php if (isset($phone)) echo $phone ?>" type="text">
+                        <p class="message">
+                            <?php if (isset($phoneErr)) echo $phoneErr ?>
+                        </p>
                     </label>
-                    <p class="message">
-                        <?php if (isset($phoneErr)) echo $phoneErr ?>
-                    </p>
                 </div>
 
                 <div class="form group">
                     <label>
-                        Email
+                        <span class="label">Email</span>
                         <input name="email" value="<?php if (isset($email)) echo $email ?>" type="text">
+                        <p class="message">
+                            <?php if (isset($emailErr)) echo $emailErr ?>
+                        </p>
                     </label>
-                    <p class="message">
-                        <?php if (isset($emailErr)) echo $emailErr ?>
-                    </p>
                 </div>
 
                 <button type="submit" name="updateInfor" class="btn">Lưu thay đổi</button>
@@ -203,36 +204,36 @@ if (isset($_POST["updatePassword"])) {
         </div>
 
         <div>
-            Đổi mật khẩu
+            <h4>Thay đổi mật khẩu</h4>
             <form action="" method="post">
 
                 <div class="form group">
                     <label>
-                        Nhập khẩu cũ
+                        <span class="label">Nhập khẩu cũ</span>
                         <input value="<?php if (isset($oldPassword)) echo $oldPassword ?>" name="oldPassword" type="password">
+                        <p class="message">
+                            <?php if (isset($oldPasswordErr)) echo $oldPasswordErr ?>
+                        </p>
                     </label>
-                    <p class="message">
-                        <?php if (isset($oldPasswordErr)) echo $oldPasswordErr ?>
-                    </p>
                 </div>
                 <div class="form group">
                     <label>
-                        Nhập khẩu mới
+                        <span class="label">Nhập khẩu mới</span>
                         <input value="<?php if (isset($password)) echo $password ?>" name="password" type="password">
+                        <p class="message">
+                            <?php if (isset($passwordErr)) echo $passwordErr ?>
+                        </p>
                     </label>
-                    <p class="message">
-                        <?php if (isset($passwordErr)) echo $passwordErr ?>
-                    </p>
                 </div>
 
                 <div class="form group">
                     <label>
-                        Nhập lại mật khẩu
+                        <span class="label">Nhập lại mật khẩu</span>
                         <input value="<?php if (isset($passwordConfirm)) echo $passwordConfirm ?>" name="passwordConfirm" type="password">
+                        <p class="message">
+                            <?php if (isset($passwordConfirmErr)) echo $passwordConfirmErr ?>
+                        </p>
                     </label>
-                    <p class="message">
-                        <?php if (isset($passwordConfirmErr)) echo $passwordConfirmErr ?>
-                    </p>
                 </div>
 
                 <button type="submit" name="updatePassword" class="btn">Lưu thay đổi</button>
