@@ -8,16 +8,20 @@ if (isset($_POST["login"])) {
 
     $loginQueryStmt = "CALL proc_login('$login', '$password')";
     $loginQueryResult = mysqli_query($conn, $loginQueryStmt);
-    echo mysqli_num_rows($loginQueryResult);
+    
     if (mysqli_num_rows($loginQueryResult) != 0) {
         $userInfor = mysqli_fetch_array($loginQueryResult);
       
         $_SESSION["user"]["userId"] = $userInfor["userId"];
         $_SESSION["user"]["name"] = $userInfor["name"];
-        $_SESSION["user"]["userName"] = $userInfor["userName"];
+        $_SESSION["user"]["userName"] = $userInfor["username"];
         $_SESSION["user"]["email"] = $userInfor["email"];
         $_SESSION["user"]["level"] = $userInfor["level"];
         $_SESSION["user"]["avata"] = $userInfor["avata"];
+        // echo "<pre>";
+        // print_r($userInfor);
+        // echo "</pre>";
+
 
         header("Location: index.php?page=user");
     } else {
@@ -38,7 +42,7 @@ if (isset($_POST["login"])) {
 </head>
 
 <body>
-    <div class="login-container">
+    <div class="login-containe">
 
         <div class="login">
             <div class="background-left">
