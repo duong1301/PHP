@@ -17,6 +17,7 @@ if (isset($_POST["login"])) {
         $_SESSION["user"]["userName"] = $userInfor["userName"];
         $_SESSION["user"]["email"] = $userInfor["email"];
         $_SESSION["user"]["level"] = $userInfor["level"];
+        $_SESSION["user"]["avata"] = $userInfor["avata"];
 
         header("Location: index.php?page=user");
     } else {
