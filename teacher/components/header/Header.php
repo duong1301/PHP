@@ -1,4 +1,5 @@
 <?php
+ob_start();
 $teacherName = $_SESSION["teacher"]["lastName"]." ".$_SESSION["teacher"]["firstName"];
 
 $schoolYear = $_SESSION["schoolYear"];
@@ -46,6 +47,7 @@ if (isset($_POST["yeschoolYear"]) || isset($_POST["semester"])) {
     <div class="user-infor">
         <div class="name"><?php echo $teacherName ?></div>
         <div class="avata">
+            <img src="avatas/<?php echo $_SESSION["teacher"]["avata"] ?>" alt="">
         </div>
         <?php include('./components/dropdownHeader/dropdownHeader.php') ?>
     </div>

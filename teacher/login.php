@@ -16,6 +16,8 @@ if (isset($_POST["login"])) {
         $_SESSION["teacher"]["lastName"] = $teacher["lastName"];
         $_SESSION["teacher"]["email"] = $teacher["email"];
         $_SESSION["teacher"]["phone"] = $teacher["phone"];
+        $_SESSION["teacher"]["subjectId"] = $teacher["subjectId"];
+        $_SESSION["teacher"]["avata"] = $teacher["avata"];
        
 
         header("Location: index.php?page=user");

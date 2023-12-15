@@ -1,7 +1,7 @@
 <?php
+
 include('common/emailValidation.php');
 include('common/phoneValidation.php');
-
 
 $id = $_SESSION["teacher"]["teacherId"];
 
@@ -23,7 +23,10 @@ const error = "error";
 if (mysqli_num_rows($userQueryResult) != 0) {
     $firstName = $teacher["firstName"];
     $lastName = $teacher["lastName"];
-    $_SESSION['user']['name'] = $name;
+    $_SESSION['teacher']['firstName'] = $teacher['firstName'];
+    $_SESSION['teacher']['lastName'] = $teacher['lastName'];
+    $_SESSION['teacher']['avata'] = $teacher['avata'];
+    $avata = $teacher['avata'];
     $email = $teacher["email"];
     $phone = $teacher["phone"];
 }
@@ -37,6 +40,29 @@ if (isset($_POST["updateInfor"])) {
     $phone = trim($_POST["phone"], " ");
     $emailErr = "";
     $phoneErr = "";
+    $avataErr = "";
+    if(isset($_FILES["avata"])){
+        $maxSizeFileUpload = 5;
+        $file = $_FILES["avata"];
+        $fileName = $file["name"];
+        $explodeResult = explode(".",$fileName);
+        $ext = end($explodeResult);
+        $size = $file["size"]/1024/1024;
+        $allowedFile = ["jpg","jpeg","png"];
+        print_r($file);
+        
+        if($file["error"] == 0)
+        if($size > $maxSizeFileUpload){
+            $avataErr = "Vui lòng chọn file dung lượng < 5MB";
+        }else
+        if(!in_array($ext,$allowedFile)){
+            $avataErr = "Vui lòng chọn định dạng .png hoặc .jpg";
+        }else
+        if($file["error"] == 0){
+            $newName = $id.".".$ext;
+            $avata = $newName;
+        }
+    }
 
     //to do: validate
     //name
@@ -60,7 +86,8 @@ if (isset($_POST["updateInfor"])) {
         $phoneErr = validate_phone($phone);
     }
     //
-    if (
+    if (       
+        empty($avataErr) &&
         empty($firstNameErr) &&
         empty($lastNameErr) &&
         empty($phoneNameErr) &&
@@ -70,9 +97,17 @@ if (isset($_POST["updateInfor"])) {
         $addUserResult = mysqli_query($conn, $addUserStmt);
         if ($addUserResult) {
             $state = success;
-            $_SESSION['user']['name'] = $name;
-            // header("Location: ./index.php?page=account");
-            echo 12;
+            $message = "Cập nhật thành công";
+
+            $avataUpdateQuery = "CALL proc_teacher_avata('$teacherId','$avata')";
+            move_uploaded_file($file["tmp_name"],"avatas/$avata");
+            mysqli_query($conn,$avataUpdateQuery);
+
+            $_SESSION['teacher']['firstName'] = $firstName;
+            $_SESSION['teacher']['lastName'] = $lastName;
+            $_SESSION['teacher']['avata'] = $avata;
+            header("Location: ./index.php?page=account");
+            
         } else {
             echo $conn->error;
         }
@@ -121,7 +156,7 @@ if (isset($_POST["updatePassword"])) {
             echo "Cập nhật thất bại, mật khẩu cũ không đúng";
         } elseif ($updateUserPasswordResult) {
             $state = success;
-
+            
             header("Location: ./logout.php");
         } else {
             echo $conn->error;
@@ -157,7 +192,8 @@ if (isset($_POST["updatePassword"])) {
     <div class="flex">
         <div>
             <h4>Thông tin cá nhân</h4>
-            <form action="" method="post">
+            <form action="" method="post" enctype="multipart/form-data">
+                
                 <div class="form group">
                     <label>
                         <span class="label">Họ</span>
@@ -197,6 +233,17 @@ if (isset($_POST["updatePassword"])) {
                         </p>
                     </label>
                 </div>
+
+                <div class="form group">
+                    <label>
+                        <span class="label">Avata</span>
+                        <input accept="image/png, image/jpeg" type="file" name="avata">
+                        <p class="message">
+                            <?php if (isset($avataErr)) echo $avataErr ?>
+                        </p>
+                    </label>
+                </div>
+                
 
                 <button type="submit" name="updateInfor" class="btn">Lưu thay đổi</button>
                 <button type="submit" name="clear" class="btn">Huỷ</button>
@@ -243,3 +290,5 @@ if (isset($_POST["updatePassword"])) {
     </div>
 
 </div>
+
+<?php ob_end_flush() ?>

@@ -10,14 +10,15 @@ if (isset($_GET["grade"])) $grade = $_GET["grade"];
 $semester = $_SESSION["semester"];
 $year = $_SESSION["schoolYear"];
 $teacherId = $_SESSION["teacher"]["teacherId"];
-
+$subjectId = $_SESSION["teacher"]["subjectId"];
+  
 $classQueryStmt = "CALL proc_class_getById('$classId')";
 $classQueryResult = mysqli_query($conn, $classQueryStmt);
 while (mysqli_next_result($conn)) {;
 }
 $class = mysqli_fetch_array($classQueryResult);
 
-$subjectId = "s01";
+$subjectId = $_SESSION["teacher"]["subjectId"];
 $studentScoresQueryStmt = "CALL proc_score_getBySubject('$classId','$subjectId',$semester,$year,'$teacherId')";
 $studentScoresQueryResult = mysqli_query($conn, $studentScoresQueryStmt);
 while (mysqli_next_result($conn));
