@@ -22,6 +22,8 @@ const error = "error";
 if (mysqli_num_rows($userQueryResult) != 0) {
     $name = $user["name"];
     $_SESSION['user']['name'] = $name;
+    $_SESSION['user']['avata'] = $user['avata'];
+    $avata = $user['avata'];
     $username = $user["username"];
     $email = $user["email"];
 }
@@ -33,6 +35,29 @@ if (isset($_POST["updateInfor"])) {
     $usernameErr = "";
     $email = trim($_POST["email"], " ");
     $emailErr = "";
+    $avataErr = "";    
+    if(isset($_FILES["avata"])){
+        $maxSizeFileUpload = 5;
+        $file = $_FILES["avata"];
+        $fileName = $file["name"];
+        $explodeResult = explode(".",$fileName);
+        $ext = end($explodeResult);
+        $size = $file["size"]/1024/1024;
+        $allowedFile = ["jpg","jpeg","png"];
+        print_r($file);
+        
+        if($file["error"] == 0)
+        if($size > $maxSizeFileUpload){
+            $avataErr = "Vui lòng chọn file dung lượng < 5MB";
+        }else
+        if(!in_array($ext,$allowedFile)){
+            $avataErr = "Vui lòng chọn định dạng .png hoặc .jpg";
+        }else
+        if($file["error"] == 0){
+            $newName = $id.".".$ext;
+            $avata = $newName;
+        }
+    }
 
     //to do: validate
     //name
@@ -51,6 +76,7 @@ if (isset($_POST["updateInfor"])) {
     }
     //
     if (
+        empty($avataErr) &&
         empty($nameErr) &&
         empty($usernameErr) &&
         empty($emailErr)
@@ -59,6 +85,10 @@ if (isset($_POST["updateInfor"])) {
         $addUserResult = mysqli_query($conn, $addUserStmt);
         if ($addUserResult) {
             $state = success;
+            $avataUpdateQuery = "CALL proc_user_avata('$id','$avata')";
+            move_uploaded_file($file["tmp_name"],"avatas/$avata");
+            mysqli_query($conn,$avataUpdateQuery);
+            $_SESSION['user']['avata'] = $avata;
             $_SESSION['user']['name'] = $name;
             header("Location: ./index.php?page=account");
             echo 12;
@@ -143,7 +173,7 @@ if (isset($_POST["updatePassword"])) {
     <div class="flex">
         <div>
             Thông tin tài khoản
-            <form action="" method="post">
+            <form action="" method="post" enctype="multipart/form-data">
                 <div class="form group">
                     <label>
                         Họ và tên
@@ -172,6 +202,16 @@ if (isset($_POST["updatePassword"])) {
                     <p class="message">
                         <?php if (isset($emailErr)) echo $emailErr ?>
                     </p>
+                </div>
+
+                <div class="form group">
+                    <label>
+                        <span class="label">Avata</span>
+                        <input accept="image/png, image/jpeg" type="file" name="avata">
+                        <p class="message">
+                            <?php if (isset($avataErr)) echo $avataErr ?>
+                        </p>
+                    </label>
                 </div>
 
                 <button type="submit" name="updateInfor" class="btn">Lưu thay đổi</button>
