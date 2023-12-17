@@ -29,6 +29,11 @@ if (isset($_GET["id"])) {
             <button class="btn">Thêm</button>
         </a>
     </div>
+    <style>
+        .table-wrapper{
+            max-height: calc(100vh - 250px);
+        }
+    </style>
     <div class="table-wrapper">
         <table>
             <thead>
