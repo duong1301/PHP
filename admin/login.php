@@ -42,7 +42,7 @@ if (isset($_POST["login"])) {
 </head>
 
 <body>
-    <div class="login-containe">
+    <div class="login-container">
 
         <div class="login">
             <div class="background-left">

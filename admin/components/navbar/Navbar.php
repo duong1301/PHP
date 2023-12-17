@@ -22,7 +22,8 @@
         <div class="nav-item <?php if($isUserAcvite) echo "active" ?>">
             <span class="nav-icon">
                 <i class="far fa-user-friends"></i>
-            </span>User
+            </span>
+            Quản lý nhân viên
         </div>
     </a>
 
@@ -31,7 +32,7 @@
             <span class="nav-icon">
                 <i class="far fa-books"></i>
             </span>
-            Subject
+            Danh sách môn học
         </div>
     </a>
 
@@ -40,7 +41,7 @@
             <span class="nav-icon">
                 <i class="far fa-chalkboard-teacher"></i>
             </span>
-            Teacher
+            Quản lý giáo viên
         </div>
     </a>
 
@@ -49,7 +50,7 @@
             <span class="nav-icon">
                 <i class="far fa-users-class"></i>
             </span>
-            Class
+            Quản lý lớp học
         </div>
     </a>
 
@@ -58,7 +59,7 @@
             <span class="nav-icon">
             <i class="far fa-poll-h"></i>
             </span>
-            Score
+            Quản lý điểm số
         </div>
     </a>
 
@@ -67,7 +68,7 @@
             <span class="nav-icon">
                 <i class="far fa-info-circle"></i>
             </span>
-            About
+            Giới thiệu
         </div>
     </a>
 </div>
