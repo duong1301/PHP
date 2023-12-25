@@ -20,8 +20,8 @@ while (mysqli_next_result($conn)) {;
                     <th>Tên lớp</th>
                     <th>Niên khoá</th>
                     <th>Sĩ số</th>
-                    <th></th>
-    
+                    <th>Xem chi tiết</th>
+
                 </tr>
             </thead>
             <tbody>
@@ -34,9 +34,13 @@ while (mysqli_next_result($conn)) {;
                             <td><?php echo $class['schoolYear'] . " - " . $class["schoolYearEnd"] ?></td>
                             <td><?php echo $class['qlt'] ?></td>
                             <td>
-                                <a href="./index.php?page=score_class&id=<?php echo $class['classId'] ?>">Xem danh sách lớp học</a>
+                                <a href="./index.php?page=score_class&id=<?php echo $class['classId'] ?>">
+                                    <span class="icon">
+                                        <i class="fal fa-eye"></i>
+                                    </span>
+                                </a>
                             </td>
-    
+
                         </tr>
                 <?php
                     }
@@ -44,6 +48,6 @@ while (mysqli_next_result($conn)) {;
                 ?>
             </tbody>
         </table>
-    
+
     </div>
 </div>

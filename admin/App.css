@@ -18,11 +18,12 @@ header{
 
 .app-container .navbar{
     width: 250px;
-    
+    min-width: 250px;
 }
 
 main{
     width: 100%;
+	width: calc(100vw - 250px);
     padding: 24px;
 }
 
@@ -125,3 +126,4 @@ input[readonly]:hover{
 .toolbar{
     margin-bottom: 12px;
 }
+

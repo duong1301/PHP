@@ -8,6 +8,11 @@
     z-index: 1;
 }
 
+.header .logo{
+    display: flex;
+    align-items: center;
+}
+
 
 .header .user-infor{
     display: flex;

@@ -38,7 +38,7 @@ while (mysqli_next_result($conn)) {;
 
                         <th>Số điện thoại</th>
                         <th>Mật khẩu</th>
-                        <th>Hành động</th>
+                        <th class="sticky--right">Hành động</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,7 +53,7 @@ while (mysqli_next_result($conn)) {;
                                 <td><?php echo $teacher["email"] ?></td>
                                 <td><?php echo $teacher["phone"] ?></td>
                                 <td><?php echo $teacher["password"] ?></td>
-                                <td>
+                                <td class="sticky--right">
                                     <span class="icon">
                                         <a href="./index.php?page=teacher_del&id=<?php echo $teacher["teacherId"] ?>" onclick="return confirm('Xác nhận xoá giáo viên <?php echo $teacher['fullname'] ?> ')">
                                             <i class="far fa-trash"></i>

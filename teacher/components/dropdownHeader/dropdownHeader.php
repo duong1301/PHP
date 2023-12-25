@@ -8,6 +8,11 @@
                 Tài khoản
             </div>
         </a>
+        <a href="./index.php?page=account">
+            <div class="dropdown-item">
+                Bảo mật
+            </div>
+        </a>
         <a href="./logout.php">
             <div class="dropdown-item">Đăng xuất</div>
         </a>

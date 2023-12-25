@@ -22,8 +22,7 @@ if (isset($_GET["page"]))
                         include_once('./pages/user/User.php');
                     }else{
                         include_once('./pages/forbidden/Forbidden.php');
-                    }
-                    
+                    }                    
                     break;
                 case 'user_add':
                     include_once('./pages/user_add/User_add.php');
@@ -88,6 +87,9 @@ if (isset($_GET["page"]))
                     
                 case 'account':
                     include_once('./pages/account/Account.php');
+                    break;
+                case 'security':
+                    include_once('./pages/security/Security.php');
                     break;
                 default:     
                     include_once('./pages/about/About.php');               
