@@ -137,7 +137,7 @@ if (isset($_GET["id"])) {
                     define('GOOD', 2);
                     define('AVERAGE', 3);
                     define('BELOW_AVERAGE', 4);
-
+                    $i = 1;
                     while ($row = array_pop($student_scores)) {
                         $classification = 0;
                         if (
@@ -155,7 +155,6 @@ if (isset($_GET["id"])) {
                             $row["s12"] != NULL
                         ) {
                             $classification = 1;
-
                             if ($row["semesterAvg"] < 8) $classification += 1;
                             if ($row["semesterAvg"] < 6.5) $classification += 1;
                             if ($row["semesterAvg"] < 5) $classification += 1;
@@ -164,7 +163,7 @@ if (isset($_GET["id"])) {
 
                     ?>
                         <tr>
-                            <td class="sticky--left" style="min-width: 100px; width: 100px;"><?php echo $row["studentCode"] ?></td>
+                            <td class="sticky--left" style="min-width: 100px; width: 100px;"><?php echo $row["studentCode"];?></td>
                             <td class="sticky--left" style="left:100px"><?php echo $row["fullName"] ?></td>
                             <td><?php echo $row["s01"] ?></td>
                             <td><?php echo $row["s02"] ?></td>
@@ -196,11 +195,11 @@ if (isset($_GET["id"])) {
                                     case AVERAGE:
                                         echo "<div class='chip warning'>Trung Bình</div>";
                                         break;
-                                    case BELOW_AVERAGE:
+                                    case $classification >= BELOW_AVERAGE:
                                         echo "<div class='chip error'>Yếu</div>";
                                         break;
                                     default:
-                                        echo "Yếu";
+                                        
                                         break;
                                 }
                                 ?>

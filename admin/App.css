@@ -6,6 +6,7 @@
 @import url('./pages/score/score.css');
 @import url('./pages/score_class/scoreClass.css');
 @import url('./pages/score_student/scoreStudent.css');
+@import url('./pages/report/report.css');
 
 .app-container{
     display: flex;

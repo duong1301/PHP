@@ -1,0 +1,157 @@
+.report{
+    display: flex;
+    height: 100%;
+}
+
+.report select{
+    width: 100%;
+}
+
+
+.report .toolbar{
+    width: 150px;
+    flex-shrink: 0;
+}
+
+.report .content{
+    width: 100%;
+    max-width: calc(100% - 150px);
+    padding: 0 20px;
+    height: 100%;
+}
+
+.report .general-infor{    
+    overflow-x: auto;
+}
+.report .infor ~ .infor{
+    margin-top: 12px;
+}
+.report .general-infor .card{
+    flex-shrink: 0;
+}
+.report input[type="checkbox"]{
+    width: 16px
+}
+
+.report form label.form-group{
+    display: flex;
+    margin: unset;
+    align-items: center;
+    flex-direction: row ;
+    column-gap: 8px;
+    cursor: pointer;
+    user-select: none;
+}
+label{
+    display: flex;
+    margin: unset;
+    flex-direction: row;
+}
+
+.report .flex-container{
+    display: flex;
+    column-gap: 12px;
+}
+
+.report .card{
+    height: 80px;
+    width:200px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    color: #1ebfae;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.report .card{
+    position: relative;
+}
+.report .card.success{
+    color: #50B83C;
+}
+.report .card.infor{
+    color: #5bc0de;
+}
+.report .card.warning{
+    color: orange;
+}
+.report .card.error{
+    color: #DE3618;;
+}
+.report .card::before{
+    display: block;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: currentColor;
+    opacity: 0.1;
+}
+
+.report .card .card__icon{
+    background-color: white;
+    color: currentColor;
+    height: 100%;
+    width: 50%;
+    font-size: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.report .card .card__icon::before{
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: currentColor;
+    opacity: 0.2;
+}
+
+.report .card .card__content{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    width: 50%;
+}
+.report .card .quantity{
+    font-size: 24px;
+}
+
+.report .class-card{
+    flex-shrink: 0;
+    flex-grow: 0;
+    padding: 20px;
+    border: 1px #ccc solid;
+    width: 300px;
+    height: 150px;
+    
+}
+
+.report .classes-report{
+    display: flex;
+    row-gap: 12px;
+    flex-wrap: wrap;
+    width: 100%;    
+    column-gap: 12px;
+    margin-top: 12px;
+    max-height: calc(100% - 250px);
+    overflow: auto;
+}
+
+.report #grade--10:not(:checked) ~ .grade--10{
+    display: none;
+}
+.report #grade--11:not(:checked) ~ .grade--11{
+    display: none;
+}
+.report #grade--12:not(:checked) ~ .grade--12{
+    display: none;
+}
+
