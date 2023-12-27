@@ -17,6 +17,10 @@ if (isset($_GET["page"]))
         <main class="main">
             <?php
             switch ($page) {
+
+                case 'report':
+                    include_once('./pages/report/Report.php');
+                    break;
                 case 'user':
                     if($_SESSION["user"]["level"] == 0){
                         include_once('./pages/user/User.php');

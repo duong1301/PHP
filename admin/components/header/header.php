@@ -7,6 +7,9 @@
         <img class="logo__img" src="../asset/logo.png" style="height: 40px; " alt="">
         <h2 class="logo__text">Trường trung học phổ thông PHP</h2>
     </div>
+    <div>
+        
+    </div>
     <div class="user-infor">
         <p><?php echo $_SESSION["user"]["name"] ?></p>
         <div class="avata">
