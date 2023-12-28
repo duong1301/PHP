@@ -47,7 +47,9 @@ if (isset($_POST["yeschoolYear"]) || isset($_POST["semester"])) {
     <div class="user-infor">
         <div class="name"><?php echo $teacherName ?></div>
         <div class="avata">
-            <img src="avatas/<?php echo $_SESSION["teacher"]["avata"] ?>" alt="">
+            <img src="avatas/<?php echo $_SESSION["teacher"]["avata"] ?>" alt=""
+            onerror="this.onerror = null; this.src = '../asset/defaultAvata.png'"
+            >
         </div>
         <?php include('./components/dropdownHeader/dropdownHeader.php') ?>
     </div>

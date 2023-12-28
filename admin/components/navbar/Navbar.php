@@ -19,11 +19,11 @@
 <div class="navbar-wrapper">
     <!-- user router -->
     <a href="?page=report">
-        <div class="nav-item <?php if ($isReportAcvite) echo "active" ?>">
+        <div class="nav-item <?php if ($isReportActive) echo "active" ?>">
             <span class="nav-icon">
                 <i class="far fa-file-chart-line"></i>
             </span>
-            Thống kê
+            Thống kê - tổng kết
         </div>
     </a>
 

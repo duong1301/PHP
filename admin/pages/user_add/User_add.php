@@ -73,7 +73,7 @@ if (isset($_POST["create"])) {
     <h2>Thêm nhân viên</h2>
 </div>
 
-<div class="page-content">
+<div class="page-content page-user-add">
     <div class="message-container">
         <div class="toast <?php echo $state ?>">
             <p>
@@ -141,8 +141,8 @@ if (isset($_POST["create"])) {
             </div>
 
             <div class="form-buttons">
-                <button type="submit" name="create" class="btn">Tạo</button>
-                <button type="submit" name="clear" class="btn">Xoá</button>
+                <button type="submit" name="create" class="btn pri">Tạo</button>
+                <button type="submit" name="clear" class="btn">Làm mới</button>
             </div>
         </form>
     </div>

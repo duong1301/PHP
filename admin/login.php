@@ -11,7 +11,7 @@ if (isset($_POST["login"])) {
     
     if (mysqli_num_rows($loginQueryResult) != 0) {
         $userInfor = mysqli_fetch_array($loginQueryResult);
-      
+        $_SESSION["schoolYear"] = date("Y");
         $_SESSION["user"]["userId"] = $userInfor["userId"];
         $_SESSION["user"]["name"] = $userInfor["name"];
         $_SESSION["user"]["userName"] = $userInfor["username"];
@@ -23,7 +23,7 @@ if (isset($_POST["login"])) {
         // echo "</pre>";
 
 
-        header("Location: index.php?page=user");
+        header("Location: index.php");
     } else {
         $message = "Đăng nhập thất bại! Tên đăng nhập, email hoặc mật khẩu không đúng";
     }

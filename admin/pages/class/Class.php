@@ -1,7 +1,7 @@
 <?php
-
-const classQueryStmt = "CALL proc_class_getAll";
-$classes = mysqli_query($conn, classQueryStmt);
+$year = $_SESSION["schoolYear"];
+$classQueryStmt = "CALL proc_class_getByYear($year)";
+$classes = mysqli_query($conn, $classQueryStmt);
 while (mysqli_next_result($conn)) {;
 }
 $error = "";
@@ -12,69 +12,90 @@ if (isset($_GET['error'])) {
 
 
 <div class="page-title">
-    <h2>Danh sách lớp học</h2>
+    <h2>Quản lý lớp học</h2>
 </div>
 
 <div class="page-content page-class">
-    <div class="toolbar">
-        <a href="./index.php?page=class_add">
-            <button class="btn">Thêm lớp học</button>
-        </a>
-    </div>
-    <div class="message-container">
-        <div class="toast <?php if($error!="") echo "error" ?>">
-            <p>
-                <?php if ($error != "") echo $error ?>
-            </p>
+    <div class="main-content">
+        <div class="toolbar">
+            <a href="./index.php?page=class_add">
+                <button class="btn pri">Thêm lớp học</button>
+            </a>
         </div>
-    </div>
-    <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>Tên lớp</th>
-                    <th>Niên khoá</th>
-                    <th>Sĩ số</th>
-                    <th>Danh sách học sinh</th>
-                    <th>Phân công giảng dạy</th>
-                    <th>Xoá</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                if ($classes) {
-                    while ($class = mysqli_fetch_array($classes)) {
-                ?>
-                        <tr>
-                            <td><?php echo $class['name'] ?></td>
-                            <td><?php echo $class['schoolYear'] . " - " . $class["schoolYearEnd"] ?></td>
-                            <td><?php echo $class['qlt'] ?></td>
+        <div class="message-container">
+            <div class="toast <?php if ($error != "") echo "error" ?>">
+                <p>
+                    <?php if ($error != "") echo $error ?>
+                </p>
+            </div>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên lớp</th>
+                        <th>Khối</th>
+                        <th>Sĩ số</th>
+                        <th>Danh sách học sinh</th>
+                        <th style="max-width: 100px;">Phân công giảng dạy</th>
+                        <th>Xoá</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    if ($classes) {
+                        $index = 0;
+                        while ($class = mysqli_fetch_array($classes)) {
+                            $index++;
+                    ?>
+                            <tr>
+                                <td><?php echo $index ?></td>
+                                <td><?php echo $class['grade'] . $class['name'] ?></td>
+                                <td><?php echo $class['grade'] ?></td>
+                                <td><?php echo $class['qlt'] ?></td>
 
-                            <td>
-                                <a href="./index.php?page=class_students&id=<?php echo $class['classId'] ?>">Xem danh sách lớp học</a>
-                            </td>
-                            <td>
-                                
+                                <td>
+                                    <a href="./index.php?page=class_students&id=<?php echo $class['classId'] ?>">
+                                        <div class="icon-wrapper success">
+                                            <span class="icon">
+                                                <i class="far fa-eye"></i>
+                                            </span>
+                                        </div>
+                                    </a>
+                                </td>
+                                <td>
+
                                     <a href="./index.php?page=class_teaching&id=<?php echo $class['classId'] ?>">
-                                        Thực hiện phân công
+                                        <div class="icon-wrapper success">
+                                            <span class="icon">
+                                                <i class="far fa-eye"></i>
+                                            </span>
+                                        </div>
                                     </a>
-                                
-                            </td>
-                            <td>
-                                <span class="icon">
+
+                                </td>
+                                <td>
                                     <a onclick="return confirm('Xác nhận xoá lớp học')" href="./index.php?page=class_del&id=<?php echo $class['classId'] ?>">
-                                        <i class="far fa-trash"></i>
+                                        <div class="icon-wrapper warning">
+                                            <span class="icon">
+                                                <i class="far fa-trash"></i>
+                                            </span>
+                                        </div>
+
                                     </a>
-                                </span>
-                            </td>
-                        </tr>
-                <?php
+                                </td>
+                            </tr>
+                    <?php
+                        }
                     }
-                }
-                ?>
-            </tbody>
-        </table>
+                    ?>
+                </tbody>
+            </table>
+
+        </div>
 
     </div>
+
 
 </div>

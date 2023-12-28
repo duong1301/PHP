@@ -98,20 +98,21 @@ if (isset($_POST["update"])) {
 
 <div class="page-title">
     <h2>Cập nhật thông tin giáo viên</h2>
-    <h4 class="form-group">
-        <span class="label">Mã giáo viên</span>
+    <h2 class="form-group">
+        <?php if(isset($lastName)) echo $lastName ?>
+        <?php if(isset($firstName)) echo $firstName ?> - 
         <?php if (isset($teacherCode)) echo $teacherCode ?>
-    </h4>
+    </h2>
 </div>
-<div>
-    <div class="message-container">
+<div class="teacher-form">
+    <div class="message-container ">
         <div class="toast <?php echo $state ?>">
             <p>
                 <?php if ($message != "") echo $message ?>
             </p>
         </div>
     </div>
-    <div>
+    <div class="form-wrapper">
         <form action="" method="post">
 
             <div class="form-container">
@@ -173,7 +174,7 @@ if (isset($_POST["update"])) {
                     <div class="form-group">
                         <label>
                             <span class="label">Email</span>
-                            <input value="<?php if (isset($email)) echo $email ?>" name="email" <p class="error">
+                            <input value="<?php if (isset($email)) echo $email ?>" name="email" >
                             <p class="message">
                             <?php if (isset($emailErr)) echo $emailErr ?>
                             </p>
@@ -186,7 +187,7 @@ if (isset($_POST["update"])) {
 
 
             <div class="form-buttons">
-                <button class="btn" name="update">Lưu</button>
+                <button class="btn pri" name="update">Lưu</button>
             </div>
         </form>
     </div>

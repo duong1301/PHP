@@ -7,48 +7,17 @@ define('AVERAGE', 3);
 define('BELOW_AVERAGE', 4);
 
 
-$maxYear = date("Y");
-$minYear = 2020;
-$grades = [10, 11, 12];
-
-if (!isset($_COOKIE["reportYear"])) {
-    setcookie("reportYear", $maxYear, time() + (86400 * 30));
-    $year = $_COOKIE["reportYear"];
-}
-
-if (isset($_POST["year"]) || isset($_POST["semester"])) {
-    if (isset($_POST["year"])) {
-        $year = $_POST["year"];
-        $_COOKIE["reportYear"] = $_POST["year"];
-    }
-    if (isset($_POST["semester"])) {
-        $semester =  $_POST["semester"];
-        $_COOKIE["reportSemester"] = $_POST["semester"];
-    }
-}
-$year = $_COOKIE["reportYear"];
-
+$year = $_SESSION["schoolYear"];
+$semester = 1;
 if (!isset($_COOKIE["reportSemester"])) {
-    setcookie("reportSemester", 1, time() + (86400 * 30));
-    $semester = $_COOKIE["reportSemester"];
+    setcookie("reportSemester", 1, time() + (86400 * 30), "/");
 } else {
     $semester = $_COOKIE["reportSemester"];
 }
 
-if (!isset($_COOKIE["reportGrades"])) {
-    setcookie("reportGrades", "10-11-12", time() + (86400 * 30));
+if (isset($_POST["semester"])) {
+    $_COOKIE["reportSemester"] = $_POST["semester"];
 }
-if (isset($_POST["apply"])) {
-    if (isset($_POST["grade"])) {
-        $grades = $_POST["grade"];
-        $_COOKIE["reportGrades"] = implode("-", $grades);
-    } else {
-        $grades = [];
-        $_COOKIE["reportGrades"] = implode("-", $grades);
-    }
-}
-$grades = explode("-", $_COOKIE["reportGrades"]);
-
 
 
 // start get general infor
@@ -91,6 +60,7 @@ $numsOfBelowAverage = 0;
 
 while ($row = mysqli_fetch_array($studentsAverageScoreResult)) {
     $scores[$row["grade"]][$row["classId"]]["name"] = $row["name"];
+    $scores[$row["grade"]][$row["classId"]]["classId"] = $row["classId"];
     if (!isset($scores[$row["grade"]][$row["classId"]]["excellent"])) {
         $scores[$row["grade"]][$row["classId"]]["excellent"] = 0;
     };
@@ -147,188 +117,164 @@ while ($row = mysqli_fetch_array($studentsAverageScoreResult)) {
 
 <div class="page-content report">
 
-    <div class="toolbar">
+    <div class="report-container">
+        <div class="card success">
+            <div class="type">Tống số</div>
+            <div class="quantity"><?php echo $numsOfStudents ?></div>
+            <div class="percent">Học sinh</div>
+        </div>
+        <div class="card success">
+            <div class="type">Giỏi</div>
+            <div class="quantity"><?php echo $numsOfExcellent ?></div>
+            <div class="percent"><?php echo number_format($numsOfExcellent / $numsOfStudents * 100, 2) ?>%</div>
+        </div>
+        <div class="card infor">
+            <div class="type">Khá</div>
+            <div class="quantity"><?php echo $numsOfGood ?></div>
+            <div class="percent"><?php echo number_format($numsOfGood / $numsOfStudents * 100, 2) ?>%</div>
 
-        <form id="yearAndSemesterForm" action="" method="POST">
-            Năm học
-            <select onchange="handleYearAndSemesterChange();" name="year">
-                <?php
-                for ($y = $maxYear; $y >= $minYear; $y -= 1) {
-                ?>
-                    <option <?php if ($y == $year) echo "selected" ?> value="<?php echo $y ?>"><?php echo $y . " - " . ($y + 1) ?></option>
-                <?php
-                }
-                ?>
-            </select>
-            Kỳ đánh giá
-            <select onchange="handleYearAndSemesterChange();" name="semester">
-                <option <?php if ($semester == 1) echo "selected" ?> value="1">Học kỳ 1</option>
-                <option <?php if ($semester == 2) echo "selected" ?> value="2">Học kỳ 2</option>
-                <option <?php if ($semester == 0) echo "selected" ?> value="0">Cả năm</option>▬
-            </select>
-        </form>
-        <div>
-            Khối
-            <form action="" method="post">
-                <label class="form-group">
-                    <input
-                    checked
-                    onchange="
-                        let isShow = document.getElementById('grade--10');
-                        isShow.checked = event.target.checked;                      
-                    " value="10" type="checkbox" name="grade[]" id="">
-                    <span>Khối lớp 10</span>
-                </label>
-                <label class="form-group">
-                    <input
-                    checked
-                     onchange="
-                        let isShow = document.getElementById('grade--11');
-                        isShow.checked = event.target.checked;                      
-                    " value="11" type="checkbox" name="grade[]" id="">
-                    <span>Khối lớp 11</span>
-                </label>
-                <label class="form-group">
-                    <input
-                    checked
-                    onchange="
-                        let isShow = document.getElementById('grade--12');
-                        isShow.checked = event.target.checked;                      
-                    " value="12" type="checkbox" name="grade[]" id="">
-                    <span>Khối lớp 12</span>
-                </label>
-                
-            </form>
+        </div>
+        <div class="card warning">
+            <div class="type">Trung bình</div>
+            <div class="quantity"><?php echo $numsOfAverage ?></div>
+            <div class="percent"><?php echo number_format($numsOfAverage / $numsOfStudents * 100, 2) ?>%</div>
+        </div>
+        <div class="card error">
+            <div class="type">Yếu</div>
+            <div class="quantity"><?php echo $numsOfBelowAverage ?></div>
+            <div class="percent"><?php echo number_format($numsOfBelowAverage / $numsOfStudents * 100, 2) ?>%</div>
+
         </div>
 
     </div>
-    <div class="content">
-        <h3>Thông tin toàn trường</h3>
-        <div class="general-infor ">
-            <div class="infor flex-container">
-                <div class="card">
-                    <div class="card__icon">
-                        <i class="far fa-users-class"></i>
-                    </div>
-                    <div class="card__content">
-                        <div class="quantity"><?php echo $numsOfStudents ?></div>
-                        <div>Học sinh</div>
-                    </div>
-                </div>
-                <div class="card success">
-                    <div class="card__icon">
-                        <i class="far fa-chalkboard-teacher"></i>
-                    </div>
-                    <div class="card__content">
-                        <div class="quantity"><?php echo $numsOfExcellent ?></div>
-                        <div>Giỏi</div>
-                        <div><?php echo number_format($numsOfExcellent * 100 / $numsOfStudents, 2) ?>%</div>
-                    </div>
-                </div>
+    <div class="report-container class-report">
 
-                <div class="card infor">
-                    <div class="card__icon">
-                        <i class="far fa-chalkboard-teacher"></i>
-                    </div>
-                    <div class="card__content">
-                        <div class="quantity"><?php echo $numsOfGood ?></div>
-                        <div>Khá</div>
-                        <div><?php echo number_format($numsOfGood * 100 / $numsOfStudents, 2) ?>%</div>
-                    </div>
-                </div>
+        <div class="toolbar">
 
-                <div class="card warning">
-                    <div class="card__icon">
-                        <i class="far fa-chalkboard-teacher"></i>
-                    </div>
-                    <div class="card__content">
-                        <div class="quantity"><?php echo $numsOfAverage ?></div>
-                        <div>Trung bình</div>
-                        <div><?php echo number_format($numsOfAverage * 100 / $numsOfStudents, 2) ?>%</div>
-                    </div>
-                </div>
+            <form id="semesterForm" action="" method="POST">
+                Kỳ đánh giá
+                <select onchange="handleSemesterChange();" name="semester">
+                    <option <?php if ($semester == 1) echo "selected" ?> value="1">Học kỳ 1</option>
+                    <option <?php if ($semester == 2) echo "selected" ?> value="2">Học kỳ 2</option>
+                    <option <?php if ($semester == 0) echo "selected" ?> value="0">Cả năm</option>▬
+                </select>
+            </form>
+            <br>
+            <div>
+                Khối
+                <form action="" method="post">
+                    <label class="form-group">
+                        <input checked onchange="
+                            let isShow = document.getElementById('grade--10');
+                            isShow.checked = event.target.checked;                      
+                        " value="10" type="checkbox" name="grade[]" id="">
+                        <span>Khối lớp 10</span>
+                    </label>
+                    <label class="form-group">
+                        <input checked onchange="
+                            let isShow = document.getElementById('grade--11');
+                            isShow.checked = event.target.checked;                      
+                        " value="11" type="checkbox" name="grade[]" id="">
+                        <span>Khối lớp 11</span>
+                    </label>
+                    <label class="form-group">
+                        <input checked onchange="
+                            let isShow = document.getElementById('grade--12');
+                            isShow.checked = event.target.checked;                      
+                        " value="12" type="checkbox" name="grade[]" id="">
+                        <span>Khối lớp 12</span>
+                    </label>
 
-                <div class="card error">
-                    <div class="card__icon">
-                        <i class="far fa-chalkboard-teacher"></i>
-                    </div>
-                    <div class="card__content">
-                        <div class="quantity"><?php echo $numsOfBelowAverage ?></div>
-                        <div>Yếu</div>
-                        <div><?php echo number_format($numsOfBelowAverage * 100 / $numsOfStudents, 2) ?>%</div>
-                    </div>
-                </div>
-
+                </form>
             </div>
 
         </div>
-        <div class="classes-report">
-            <input hidden checked type="checkbox" id="grade--10">
-            <input hidden checked type="checkbox" id="grade--11">
-            <input hidden checked type="checkbox" id="grade--12">
-            <?php
-            if (isset($scores[10]))
-                $classes = $scores[10];
-            if (isset($scores[10]))
-                foreach ($classes as $class) {
-            ?>
-                <div class="class-card grade--10">
-                    <h3 class="name">Lớp <?php echo "10" . " " . $class["name"] ?></h3>
-                    <div>Loại giỏi: <?php echo $class["excellent"] ?></div>
-                    <div>Loại khá: <?php echo $class["good"] ?></div>
-                    <div>Loại trung bình: <?php echo $class["average"] ?></div>
-                    <div>Loại yếu: <?php echo $class["belowAverage"] ?></div>
-                </div>
+        <div class="content">
+            <div class="classes-report">
+                <input hidden checked type="checkbox" id="grade--10">
+                <input hidden checked type="checkbox" id="grade--11">
+                <input hidden checked type="checkbox" id="grade--12">
+                <?php
+                if (isset($scores[10]))
+                    $classes = $scores[10];
+                if (isset($scores[10]))
+                    foreach ($classes as $class) {
+                ?>
+                    <div class="class-card grade--10">
+                        <a href="./index.php?page=score_class&id=<?php echo $class['classId'] ?>">
+                            <div class="card-container">
+                                <div class="name">Lớp <?php echo "10" . " " . $class["name"] ?></div>
+                                <div class="classification">
+                                    <div class="chip success">giỏi: <?php echo $class["excellent"] ?></div>
+                                    <div class="chip infor">khá: <?php echo $class["good"] ?></div>
+                                    <div class="chip warning">trung bình: <?php echo $class["average"] ?></div>
+                                    <div class="chip error">yếu: <?php echo $class["belowAverage"] ?></div>
+                                </div>
+                                <div class="view">
 
-            <?php
-                }
-            ?>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                <?php
+                    }
+                ?>
 
-            <?php
-            if (isset($scores[11]))
-                $classes = $scores[11];
-            if (isset($scores[11]))
-                foreach ($classes as $class) {
-            ?>
-                <div class="class-card grade--11">
-                    <h3 class="name">Lớp <?php echo "11" . " " . $class["name"] ?></h3>
-                    <div>Loại giỏi: <?php echo $class["excellent"] ?></div>
-                    <div>Loại khá: <?php echo $class["good"] ?></div>
-                    <div>Loại trung bình: <?php echo $class["average"] ?></div>
-                    <div>Loại yếu: <?php echo $class["belowAverage"] ?></div>
-                </div>
+                <?php
+                if (isset($scores[11]))
+                    $classes = $scores[11];
+                if (isset($scores[11]))
+                    foreach ($classes as $class) {
+                ?>
+                    <div class="class-card grade--11">
+                        <a href="./index.php?page=score_class&id=<?php echo $class['classId'] ?>">
+                            <div class="card-container">
+                                <div class="name">Lớp <?php echo "11" . " " . $class["name"] ?></div>
+                                <div class="classification">
+                                    <div class="chip success">giỏi: <?php echo $class["excellent"] ?></div>
+                                    <div class="chip infor">khá: <?php echo $class["good"] ?></div>
+                                    <div class="chip warning">trung bình: <?php echo $class["average"] ?></div>
+                                    <div class="chip error">yếu: <?php echo $class["belowAverage"] ?></div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
 
-            <?php
-                }
-            ?>
+                <?php
+                    }
+                ?>
 
-            <?php
-            if (isset($scores[12]))
-                $classes = $scores[12];
-            if (isset($scores[12]))
-                foreach ($classes as $class) {
-            ?>
-                <div class="class-card grade--12">
-                    <h3 class="name">Lớp <?php echo "12" . " " . $class["name"] ?></h3>
-                    <div>Loại giỏi: <?php echo $class["excellent"] ?></div>
-                    <div>Loại khá: <?php echo $class["good"] ?></div>
-                    <div>Loại trung bình: <?php echo $class["average"] ?></div>
-                    <div>Loại yếu: <?php echo $class["belowAverage"] ?></div>
-                </div>
+                <?php
+                if (isset($scores[12]))
+                    $classes = $scores[12];
+                if (isset($scores[12]))
+                    foreach ($classes as $class) {
+                ?>
+                    <div class="class-card grade--12">
+                        <a href="./index.php?page=score_class&id=<?php echo $class['classId'] ?>">
+                            <div class="card-container">
+                                <div class="name">Lớp <?php echo "12" . " " . $class["name"] ?></div>
+                                <div class="classification">
+                                    <div class="chip success">giỏi: <?php echo $class["excellent"] ?></div>
+                                    <div class="chip infor">khá: <?php echo $class["good"] ?></div>
+                                    <div class="chip warning">trung bình: <?php echo $class["average"] ?></div>
+                                    <div class="chip error">yếu: <?php echo $class["belowAverage"] ?></div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
 
-            <?php
-                }
-            ?>
+                <?php
+                    }
+                ?>
+            </div>
         </div>
     </div>
-
-
-
 </div>
 
 <script>
-    function handleYearAndSemesterChange() {
-        let form = document.querySelector("#yearAndSemesterForm");
+    function handleSemesterChange() {
+        let form = document.querySelector("#semesterForm");
         form.submit();
     }
 </script>

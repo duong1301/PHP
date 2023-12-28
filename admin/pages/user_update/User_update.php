@@ -90,7 +90,7 @@ if (isset($_POST["update"])) {
     <h2>Cập nhật thông tin nhân viên</h2>
 </div>
 
-<div class="page-content">
+<div class="page-content user-update-page">
     <div class="message-container">
         <div class="toast <?php echo $state ?>">
             <p>
@@ -155,7 +155,7 @@ if (isset($_POST["update"])) {
                 </div>
             </div>
             <div class="form-buttons">
-                <button type="submit" name="update" class="btn">Lưu</button>
+                <button type="submit" name="update" class="btn pri">Cập nhật</button>
                 <button type="submit" name="clear" class="btn">Xoá</button>
             </div>
         </form>

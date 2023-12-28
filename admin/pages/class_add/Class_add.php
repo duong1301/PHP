@@ -2,7 +2,7 @@
 const success = "success";
 const error = "error";
 $currentYear = getdate()["year"];
-if(!isset($_POST["school"])){
+if (!isset($_POST["school"])) {
     $schoolYear = $currentYear;
 }
 if (isset($_POST["create"])) {
@@ -10,20 +10,20 @@ if (isset($_POST["create"])) {
     $schoolYear = $_POST["schoolYear"];
     if (empty($name)) {
         $classNameErr = "Không để trống tên lớp";
-    } elseif(empty($schoolYear)){
+    } elseif (empty($schoolYear)) {
         $schoolYearErr = "Không để trống niên khoá";
         echo $schoolYear;
-    }else {
+    } else {
         $schoolYear = $_POST["schoolYear"];
         $classAddStmt = "CALL proc_class_add('$name', '$schoolYear')";
         $addResult = mysqli_query($conn, $classAddStmt);
         if ($addResult) {
             $state = success;
-            $message = "Thêm mới thành công lớp ".$name." niên khoá ".$schoolYear."-".($schoolYear + 3);
+            $message = "Thêm mới thành công lớp " . $name . " niên khoá " . $schoolYear . "-" . ($schoolYear + 3);
             // header("location: ./index.php?page=class");
         } else {
             $state = error;
-            $message = "Có lỗi, Lớp ".$name." niên khoá ".$schoolYear."-".($schoolYear + 3)." Đã tồn tại";
+            $message = "Có lỗi, Lớp " . $name . " niên khoá " . $schoolYear . "-" . ($schoolYear + 3) . " Đã tồn tại";
         }
     }
 }
@@ -33,7 +33,7 @@ if (isset($_POST["create"])) {
 <div class="page-title">
     <h2>Thêm lớp học</h2>
 </div>
-<div class="page-content">
+<div class="page-content class-add-page">
     <div class="message-container">
         <div class="toast <?php echo $state ?>">
             <p>
@@ -41,31 +41,39 @@ if (isset($_POST["create"])) {
             </p>
         </div>
     </div>
-    <div>
+    <div class="form-wrapper">
         <form action="" method="post">
             <div class="form-control">
                 <label for="">
-                    Tên lớp học
+                    <span class="label">
+
+                        Tên lớp học
+                    </span>
                     <input value="<?php
                                     if (isset($_POST["name"])) echo $_POST["name"];
                                     ?>" type="text" name="name" />
                     <p class="message">
-                        <?php if(isset($classNameErr)) echo $classNameErr ?>
+                        <?php if (isset($classNameErr)) echo $classNameErr ?>
                     </p>
                 </label>
             </div>
 
             <div class="form-control">
                 <label for="">
-                    Niên khoá (Nhập năm bắt đầu)
-                    <input value="<?php if (isset($schoolYear)) echo $schoolYear ?>" placeholder="VD: 2020" type="number" min=2020 max=<?php echo $currentYear?> name="schoolYear" id="">
+                    <span class="label">
+
+                        Niên khoá (Nhập năm bắt đầu)
+                    </span>
+                    <input value="<?php if (isset($schoolYear)) echo $schoolYear ?>" placeholder="VD: 2020" type="number" min=2020 max=<?php echo $currentYear ?> name="schoolYear" id="">
                     <p class="message">
-                        <?php if(isset($schoolYearErr)) echo $schoolYearErr ?>
+                        <?php if (isset($schoolYearErr)) echo $schoolYearErr ?>
                     </p>
                 </label>
             </div>
+            <div class="form-buttons">
 
-            <button class="btn" name="create">Tạo</button>
+                <button class="btn pri" name="create">Tạo</button>
+            </div>
         </form>
 
     </div>

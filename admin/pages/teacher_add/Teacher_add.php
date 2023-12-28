@@ -80,7 +80,7 @@ while (mysqli_next_result($conn))
 <div class="page-title">
     <h2>Thêm giáo viên</h2>
 </div>
-<div class="page-content">
+<div class="page-content teacher-form">
     <div class="message-container">
         <div class="toast <?php echo $state ?>">
             <p>
@@ -88,7 +88,7 @@ while (mysqli_next_result($conn))
             </p>
         </div>
     </div>
-    <div>
+    <div class="form-wrapper">
         <form action="" method="post">
             <div class="form-container">
                 <div class="group">
@@ -154,7 +154,8 @@ while (mysqli_next_result($conn))
 
 
             <div class="form-buttons">
-                <button class="btn" name="create">Thêm mới</button>
+                <button class="btn pri" name="create">Thêm mới</button>
+                <button class="btn">Làm mới</button>
             </div>
         </form>
     </div>

@@ -113,7 +113,7 @@ if (isset($_POST['create']) || isset($_POST['fakeData'])) {
 <div class="page-title">
     <h2>Thêm học sinh</h2>
 </div>
-<div class="page-content">
+<div class="page-content student-add-page">
     <div class="message-container">
         <div class="toast <?php echo $state ?>">
             <p>
@@ -236,8 +236,8 @@ if (isset($_POST['create']) || isset($_POST['fakeData'])) {
                     </div>
                 </div>
             </div>
-            <div>
-                <button type="submit" class="btn" name="create">Thêm</button>
+            <div class="form-buttons">
+                <button type="submit" class="btn pri" name="create">Thêm</button>
                 <button type="submit" class="btn" name="clear">Xoá</button>
                 <button type="submit" class="btn" name="fakeData">Thêm(fake score)</button>
             </div>
