@@ -35,17 +35,17 @@ if (isset($_POST["updatePassword"])) {
     if (empty($oldPassword)) {
         $oldPasswordErr = "Không được để trống";
     }
-   
+
     //password
     if (empty($password)) {
         $passwordErr = "Không được để trống";
-    }elseif($password == $oldPassword){
+    } elseif ($password == $oldPassword) {
         $passwordErr = "Mật khẩu mới phải khác mật khẩu cũ";
     }
     //passwordConfirm
     if (empty($passwordConfirm)) {
         $passwordConfirmErr = "Không được để trống";
-    }else
+    } else
     if (strcmp($password, $passwordConfirm) != 0) {
         $passwordConfirmErr = "Mật khẩu không trùng khớp";
     }
@@ -53,16 +53,16 @@ if (isset($_POST["updatePassword"])) {
     if (
         empty($passwordErr) &&
         empty($passwordConfirmErr)
-    ){
+    ) {
         $updateUserPasswordStmt = "CALL proc_user_updatePassword('$id','$password','$oldPassword');";
         $updateUserPasswordResult = mysqli_query($conn, $updateUserPasswordStmt);
-        if(mysqli_affected_rows($conn) == 0){
+        if (mysqli_affected_rows($conn) == 0) {
             $state = error;
             $message =  "Cập nhật thất bại, mật khẩu cũ không đúng";
-        }elseif ($updateUserPasswordResult) {
-            $state = success;            
+        } elseif ($updateUserPasswordResult) {
+            $state = success;
             header("Location: ./logout.php");
-        }else{
+        } else {
             echo $conn->error;
         }
     }
@@ -71,22 +71,22 @@ if (isset($_POST["updatePassword"])) {
 ?>
 
 <div class="page-title">
-    <h2>Thay đổi mật khẩu</h2>
+    <h2>Bảo mật</h2>
 </div>
 
-<div class="page-content">
+<div class="page-content security-page">
     <div class="message-container">
         <div class="toast <?php echo $state ?>">
-            <p>                
+            <p>
                 <?php echo $message ?>
             </p>
         </div>
     </div>
-    <div>        
+    <div>
         <div>
             <form action="" method="post">
-
-                <div class="form group">
+                <h2 class="form-title">Thay đổi mật khẩu</h2>
+                <div class="form-group">
                     <label>
                         Nhập khẩu cũ
                         <input value="<?php if (isset($oldPassword)) echo $oldPassword ?>" name="oldPassword" type="password">
@@ -95,7 +95,7 @@ if (isset($_POST["updatePassword"])) {
                         <?php if (isset($oldPasswordErr)) echo $oldPasswordErr ?>
                     </p>
                 </div>
-                <div class="form group">
+                <div class="form-group">
                     <label>
                         Nhập khẩu mới
                         <input value="<?php if (isset($password)) echo $password ?>" name="password" type="password">
@@ -105,7 +105,7 @@ if (isset($_POST["updatePassword"])) {
                     </p>
                 </div>
 
-                <div class="form group">
+                <div class="form-group">
                     <label>
                         Nhập lại mật khẩu
                         <input value="<?php if (isset($passwordConfirm)) echo $passwordConfirm ?>" name="passwordConfirm" type="password">
@@ -115,8 +115,10 @@ if (isset($_POST["updatePassword"])) {
                     </p>
                 </div>
 
-                <button type="submit" name="updatePassword" class="btn">Lưu thay đổi</button>
-                <button type="submit" name="clear" class="btn">Huỷ</button>
+                <div class="form-buttons">
+                    <button type="submit" name="updatePassword" class="btn pri">Lưu thay đổi</button>
+                    <button type="submit" name="clear" class="btn">Huỷ</button>
+                </div>
             </form>
         </div>
     </div>

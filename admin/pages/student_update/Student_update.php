@@ -1,5 +1,8 @@
 <?php
-
+const success = "success";
+const error = "error";
+$state;
+$message = "";
 $classQueryStmt = "CALL proc_class_getAll;";
 $classes = mysqli_query($conn, $classQueryStmt);
 while (mysqli_next_result($conn)) {;
@@ -16,7 +19,7 @@ $lastName  = "";
 $firstName = "";
 $dob = "";
 $ethnic = "";
-echo $classId;
+
 
 $fatherName = "";
 $fatherPhone = "";
@@ -27,7 +30,7 @@ $motherPhone = "";
 $motherJob = "";
 
 if (isset($_GET["id"])) {
-    
+
     $studentId = $_GET['id'];
     $studentQueryStmt = "CALL proc_student_getById('$studentId')";
     $studentQueryResult = mysqli_query($conn, $studentQueryStmt);
@@ -36,7 +39,7 @@ if (isset($_GET["id"])) {
     }
 
     if ($studentQueryResult) {
-        echo 123;
+
         $student = mysqli_fetch_array($studentQueryResult);
         $lastName  = $student['lastName'];
         $firstName = $student['firstName'];
@@ -59,7 +62,7 @@ if (isset($_POST['save'])) {
     $firstName = $_POST['firstName'];
     $dob = $_POST['dob'];
     $ethnic = $_POST['ethnic'];
-    echo $classId;
+
 
     $fatherName = $_POST['fatherName'];
     $fatherPhone = $_POST['fatherPhone'];
@@ -77,7 +80,8 @@ if (isset($_POST['save'])) {
     $studentAddStmt = "CALL proc_student_update('$studentId','$firstName', '$lastName','$dob','$ethnic','$fatherName','$fatherPhone','$fatherJob','$motherName', '$motherPhone', '$motherJob','$classId');";
     $addResult = mysqli_query($conn, $studentAddStmt);
     if ($addResult) {
-        echo "Success";
+        $message = "Cập nhật thành công";
+        $state = success;
     } else {
         echo $conn->error;
     }
@@ -86,15 +90,20 @@ if (isset($_POST['save'])) {
 ?>
 
 <div class="page-title">
-    <h2>Thêm học sinh</h2>
+    <h2>Cập nhật thông tin học sinh <?php echo $student["lastName"] . " " . $student["firstName"] . " - " . $student["studentCode"] ?></h2>
 </div>
-<div class="page-content">
-    <div>
+<div class="page-content student-update-page">
+    <div class="message-container">
+        <div class="toast <?php echo $state ?>">
+            <p>
+                <?php if ($message != "") echo $message ?>
+            </p>
 
+        </div>
     </div>
     <div>
         <form action="" method="post">
-            <div class="form-group">
+            <div hidden class="form-group">
                 <label>
                     Lớp
                     <select>
@@ -119,14 +128,14 @@ if (isset($_POST['save'])) {
                 <div class="group">
                     <div class="form-group">
                         <label>
-                            Họ
+                            <span class="label">Họ</span>
                             <input value="<?php echo $lastName ?>" name="lastName" type="text">
                             <p class="message"></p>
                         </label>
                     </div>
                     <div class="form-group">
                         <label>
-                            Tên
+                            <span class="label">Tên</span>
                             <input value="<?php echo $firstName ?>" name="firstName" type="text">
                             <p class="message"></p>
                         </label>
@@ -134,14 +143,14 @@ if (isset($_POST['save'])) {
                     <div class="form-group">
 
                         <label>
-                            Ngày sinh
+                            <span class="label">Ngày sinh</span>
                             <input value="<?php echo $dob ?>" name="dob" type="date">
                             <p class="message"></p>
                         </label>
                     </div>
                     <div class="form-group">
                         <label>
-                            Dân tộc
+                            <span class="label">Dân tộc</span>
                             <input value="<?php echo $ethnic ?>" name="ethnic" type="text">
                             <p class="message"></p>
                         </label>
@@ -152,21 +161,21 @@ if (isset($_POST['save'])) {
                 <div class="group">
                     <div class="form-group">
                         <label>
-                            Họ tên cha
+                            <span class="label">Họ tên cha</span>
                             <input value="<?php echo $fatherName ?>" name="fatherName" type="text">
                             <p class="message"></p>
                         </label>
                     </div>
                     <div class="form-group">
                         <label>
-                            Số điện thoại
+                            <span class="label">Số điện thoại</span>
                             <input value="<?php echo $fatherPhone ?>" name="fatherPhone" type="text">
                             <p class="message"></p>
                         </label>
                     </div>
                     <div class="form-group">
                         <label>
-                            Nghề nghiệp
+                            <span class="label">Nghề nghiệp</span>
                             <input value="<?php echo $fatherJob ?>" name="fatherJob" type="text">
                             <p class="message"></p>
                         </label>
@@ -177,29 +186,29 @@ if (isset($_POST['save'])) {
                 <div class="group">
                     <div class="form-group">
                         <label>
-                            Họ tên mẹ
+                            <span class="label">Họ tên mẹ</span>
                             <input value="<?php echo $motherName ?>" name="motherName" type="text">
                             <p class="message"></p>
                         </label>
                     </div>
                     <div class="form-group">
                         <label>
-                            Số điện thoại
+                            <span class="label">Số điện thoại</span>
                             <input value="<?php echo $motherPhone ?>" name="motherPhone" type="text">
                             <p class="message"></p>
                         </label>
                     </div>
                     <div class="form-group">
                         <label>
-                            Nghề nghiệp
+                            <span class="label">Nghề nghiệp</span>
                             <input value="<?php echo $motherJob ?>" name="motherJob" type="text">
                             <p class="message"></p>
                         </label>
                     </div>
                 </div>
             </div>
-            <div>
-                <button type="submit" class="btn" name="save">Lưu</button>
+            <div class="form-buttons">
+                <button type="submit" class="btn pri" name="save">Cập nhật</button>
                 <button type="submit" class="btn" name="clear">Xoá</button>
             </div>
         </form>

@@ -1,5 +1,5 @@
 <?php
-
+$schoolYear = $_SESSION["schoolYear"];
 const numsOfSubject = 13;
 $isEdit = false;
 $year = 1;
@@ -11,9 +11,16 @@ if (isset($_GET["classId"]) && isset($_GET["studentId"])) {
     $studentId = $_GET['studentId'];
 }
 
+$classQueryStmt = "CALL proc_class_getById('$classId')";
+$classQueryResult = mysqli_query($conn, $classQueryStmt);
+$class = mysqli_fetch_array($classQueryResult);
+while (mysqli_next_result($conn)) {;
+}
 
-if (isset($_POST["year"]) || isset($_POST["semester"])) {
-    $year = $_POST["year"];
+$year = $schoolYear - $class["schoolYear"] + 1;
+
+if (isset($_POST["semester"])) {
+
     $semester =  $_POST["semester"];
 }
 
@@ -27,97 +34,113 @@ $studentQueryResult  = mysqli_query($conn, $studentQueryStmt);
 $student = mysqli_fetch_array($studentQueryResult);
 while (mysqli_next_result($conn)) {;
 }
-
-$classQueryStmt = "CALL proc_class_getById('$classId')";
-$classQueryResult = mysqli_query($conn, $classQueryStmt);
-$class = mysqli_fetch_array($classQueryResult);
-while (mysqli_next_result($conn)) {;
-}
-
 ?>
 
+
 <div class="page-title">
-    <h2>Bảng điểm chi tiết </h2>
-    <h3>Họ và tên: <?php echo $student["fullName"] ?></h3>
-    <h3>Niên khoá <?php echo $class["schoolYear"] . " - " . $class["schoolYearEnd"] ?></h3>
+    <h2><?php if ($year + 10 - 1 >= 10 && $year + 10 - 1 <= 12) echo $student["fullName"] . " - " . ($year + 10 - 1) . "" . $class["name"];
+        else echo "Không có dữ liệu" ?></h2>
+
 </div>
 
-<div class="page-content page-scoreStudent">
-    <div class="toolbar">
-        <form id="yearAndSemesterForm" action="" method="POST">
-            Năm học
-            <select onchange="handleYearAndSemesterChange();" name="year">
-                <option <?php if ($year == 1) echo "selected" ?> value="1"><?php echo ($class['schoolYear']) . ' - ' . ($class['schoolYear'] + 1) ?></option>
-                <option <?php if ($year == 2) echo "selected" ?> value="2"><?php echo ($class['schoolYear'] + 1) . ' - ' . ($class['schoolYear'] + 2) ?></option>
-                <option <?php if ($year == 3) echo "selected" ?> value="3"><?php echo ($class['schoolYear'] + 2) . ' - ' . ($class['schoolYear'] + 3) ?></option>
-            </select>
-            Học kỳ
-            <select onchange="handleYearAndSemesterChange();" name="semester">
-                <option <?php if ($semester == 1) echo "selected" ?> value="1">Học kỳ 1</option>
-                <option <?php if ($semester == 2) echo "selected" ?> value="2">Học kỳ 2</option>
-            </select>
-        </form>
+<?php
+if ($year + 10 - 1 >= 10 && $year + 10 - 1 <= 12) {
+?>
+    <div class="page-content page-scoreStudent">
+        <div class="main-content">
+
+            <div class="toolbar">
+                <form id="semesterForm" action="" method="POST">
+                    <select onchange="handleSemesterChange();" name="semester">
+                        <option <?php if ($semester == 1) echo "selected" ?> value="1">Học kỳ 1</option>
+                        <option <?php if ($semester == 2) echo "selected" ?> value="2">Học kỳ 2</option>
+                    </select>
+                </form>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên môn</td>
+                            <th colspan="3">Điểm hệ số 1</td>
+                            <th colspan="2">Điểm hệ số 2</td>
+                            <th>Điểm thi </td>
+                            <th>Trung bình</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <?php
+
+                        $scores = mysqli_fetch_all($studentScores, MYSQLI_ASSOC);
+                        function sortBySubject($a, $b)
+                        {
+                            if ($a['subjectId'] > $b['subjectId']) {
+                                return 1;
+                            } elseif ($a['subjectId'] < $b['subjectId']) {
+                                return -1;
+                            }
+                            return 0;
+                        }
+
+                        usort($scores, 'sortBySubject');;
+
+                        $i = 0;
+                        foreach ($scores as $score) {
+                            $i += 1;
+                        ?>
+                            <tr>
+                                <form action="./pages/score_update/Score_update.php" method="post">
+
+                                    <input value="<?php echo $year ?>" type="hidden" name="year">
+                                    <input value="<?php echo $studentId ?>" type="hidden" name="studentId">
+                                    <input value="<?php echo $classId ?>" type="hidden" name="classId">
+                                    <input value="<?php echo $semester ?>" type="hidden" name="semester">
+                                    <input value="<?php echo $score['subjectId'] ?>" type="hidden" name="subjectId">
+
+                                    <td><?php echo $i ?></td>
+                                    <td>
+                                        <?php echo $score['subjectName'] ?>
+                                    </td>
+                                    <td><input class="inp-<?php echo $score['subjectId'] ?>" readonly style="width: 40px; padding:4px;" value="<?php echo $score['oralTest'] ?>" name="oralTest" type="text"></td>
+                                    <td><input class="inp-<?php echo $score['subjectId'] ?>" readonly onkeydown="scoreValidate(event)" style="width: 40px; padding:4px;" value="<?php echo $score['fifTest1'] ?>" name="fifTest1" type="text"></td>
+                                    <td><input class="inp-<?php echo $score['subjectId'] ?>" readonly onkeydown="scoreValidate(event)" style="width: 40px; padding:4px;" value="<?php echo $score['fifTest2'] ?>" name="fifTest2" type="text"></td>
+                                    <td><input class="inp-<?php echo $score['subjectId'] ?>" readonly onkeydown="scoreValidate(event)" style="width: 40px; padding:4px;" value="<?php echo $score['periodTest1'] ?>" name="periodTest1" type="text"></td>
+                                    <td><input class="inp-<?php echo $score['subjectId'] ?>" readonly onkeydown="scoreValidate(event)" style="width: 40px; padding:4px;" value="<?php echo $score['periodTest2'] ?>" name="periodTest2" type="text"></td>
+                                    <td><input class="inp-<?php echo $score['subjectId'] ?>" readonly onkeydown="scoreValidate(event)" style="width: 40px; padding:4px;" value="<?php echo $score['finalTest'] ?>" name="finalTest" type="text"></td>
+                                    <td> <?php echo $score['average'] ?> </td>
+                                    <td id="col-save-<?php echo $score['subjectId'] ?>" class="hide">
+                                        <button name="update" class="btn pri update-btn">Lưu</button>
+                                        <button name="cancel" class="btn">Huỷ</button>
+                                    </td>
+                                </form>
+
+                                <td id="col-update-<?php echo $score['subjectId'] ?>">
+                                    <div onclick="handleHide('<?php echo $score['subjectId'] ?>')" class="icon-wrapper infor">
+                                        <span class="icon">
+                                            <i class="far fa-edit"></i>
+                                        </span>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        <?php
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>Tên môn</td>
-                    <th colspan="3">Điểm hệ số 1</td>
-                    <th colspan="2">Điểm hệ số 2</td>
-                    <th>Điểm thi </td>
-                    <th>Trung bình</th>
-                    <th></th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <?php
-                while ($score = mysqli_fetch_array($studentScores)) {
-                ?>
-                    <tr>
-                        <form action="./pages/score_update/Score_update.php" method="post">
-
-                            <input value="<?php echo $year ?>" type="hidden" name="year">
-                            <input value="<?php echo $studentId ?>" type="hidden" name="studentId">
-                            <input value="<?php echo $classId ?>" type="hidden" name="classId">
-                            <input value="<?php echo $semester ?>" type="hidden" name="semester">
-                            <input value="<?php echo $score['subjectId'] ?>" type="hidden" name="subjectId">
-
-
-                            <td>
-                                <?php echo $score['subjectName'] ?>
-                            </td>
-                            <td><input class="inp-<?php echo $score['subjectId'] ?>" readonly 
- style="width: 40px; padding:4px;" value="<?php echo $score['oralTest'] ?>" name="oralTest" type="text"></td>
-                            <td><input class="inp-<?php echo $score['subjectId'] ?>" readonly onkeydown="scoreValidate(event)" style="width: 40px; padding:4px;" value="<?php echo $score['fifTest1'] ?>" name="fifTest1" type="text"></td>
-                            <td><input class="inp-<?php echo $score['subjectId'] ?>" readonly onkeydown="scoreValidate(event)" style="width: 40px; padding:4px;" value="<?php echo $score['fifTest2'] ?>" name="fifTest2" type="text"></td>
-                            <td><input class="inp-<?php echo $score['subjectId'] ?>" readonly onkeydown="scoreValidate(event)" style="width: 40px; padding:4px;" value="<?php echo $score['periodTest1'] ?>" name="periodTest1" type="text"></td>
-                            <td><input class="inp-<?php echo $score['subjectId'] ?>" readonly onkeydown="scoreValidate(event)" style="width: 40px; padding:4px;" value="<?php echo $score['periodTest2'] ?>" name="periodTest2" type="text"></td>
-                            <td><input class="inp-<?php echo $score['subjectId'] ?>" readonly onkeydown="scoreValidate(event)" style="width: 40px; padding:4px;" value="<?php echo $score['finalTest'] ?>" name="finalTest" type="text"></td>
-                            <td> <?php echo $score['average'] ?> </td>
-                            <td id="col-save-<?php echo $score['subjectId'] ?>" class="hide">
-                                <button name="update" class="btn update-btn">Lưu</button>
-                                <button name="cancel" class="btn">Huỷ</button>
-                            </td>
-                        </form>
-
-                        <td id="col-update-<?php echo $score['subjectId'] ?>">
-                            <button onclick="handleHide('<?php echo $score['subjectId'] ?>')" class="btn">Cập nhật</button>
-                        </td>
-                    </tr>
-
-                <?php
-                }
-                ?>
-            </tbody>
-        </table>
-    </div>
-</div>
+<?php
+}
+?>
 
 <script>
-    function handleYearAndSemesterChange() {
-        let form = document.querySelector("#yearAndSemesterForm");
+    function handleSemesterChange() {
+        let form = document.querySelector("#semesterForm");
         form.submit();
     }
 

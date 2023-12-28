@@ -2,3 +2,12 @@
     max-height: calc(100vh - 250px);
     border: 1px solid #ccc;
 }
+
+.page-scoreClass .table-footer{
+    background-color: white;
+    padding: 8px;
+    border-radius: 8px;
+    margin-top: 8px;
+    display: flex;
+    column-gap: 24px;
+}

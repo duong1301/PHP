@@ -35,28 +35,27 @@ if (isset($_POST["updateInfor"])) {
     $usernameErr = "";
     $email = trim($_POST["email"], " ");
     $emailErr = "";
-    $avataErr = "";    
-    if(isset($_FILES["avata"])){
+    $avataErr = "";
+    if (isset($_FILES["avata"])) {
         $maxSizeFileUpload = 5;
         $file = $_FILES["avata"];
         $fileName = $file["name"];
-        $explodeResult = explode(".",$fileName);
+        $explodeResult = explode(".", $fileName);
         $ext = end($explodeResult);
-        $size = $file["size"]/1024/1024;
-        $allowedFile = ["jpg","jpeg","png"];
-        print_r($file);
-        
-        if($file["error"] == 0)
-        if($size > $maxSizeFileUpload){
-            $avataErr = "Vui lòng chọn file dung lượng < 5MB";
-        }else
-        if(!in_array($ext,$allowedFile)){
-            $avataErr = "Vui lòng chọn định dạng .png hoặc .jpg";
-        }else
-        if($file["error"] == 0){
-            $newName = $id.".".$ext;
-            $avata = $newName;
-        }
+        $size = $file["size"] / 1024 / 1024;
+        $allowedFile = ["jpg", "jpeg", "png"];
+
+        if ($file["error"] == 0)
+            if ($size > $maxSizeFileUpload) {
+                $avataErr = "Vui lòng chọn file dung lượng < 5MB";
+            } else
+        if (!in_array($ext, $allowedFile)) {
+                $avataErr = "Vui lòng chọn định dạng .png hoặc .jpg";
+            } else
+        if ($file["error"] == 0) {
+                $newName = $id . "." . $ext;
+                $avata = $newName;
+            }
     }
 
     //to do: validate
@@ -85,77 +84,26 @@ if (isset($_POST["updateInfor"])) {
         $addUserResult = mysqli_query($conn, $addUserStmt);
         if ($addUserResult) {
             $state = success;
+            $message ="Thay đổi thông tin thành công";
             $avataUpdateQuery = "CALL proc_user_avata('$id','$avata')";
-            move_uploaded_file($file["tmp_name"],"avatas/$avata");
-            mysqli_query($conn,$avataUpdateQuery);
+            move_uploaded_file($file["tmp_name"], "avatas/$avata");
+            mysqli_query($conn, $avataUpdateQuery);
             $_SESSION['user']['avata'] = $avata;
-            $_SESSION['user']['name'] = $name;
-            header("Location: ./index.php?page=account");
-            echo 12;
+            $_SESSION['user']['name'] = $name;           
+            
         } else {
             echo $conn->error;
         }
     }
 }
 
-if (isset($_POST["updatePassword"])) {
-    $oldPassword = trim($_POST["oldPassword"], " ");
-    $oldPasswordErr = "";
-    $password = trim($_POST["password"], " ");
-    $passwordErr = "";
-    $passwordConfirm = trim($_POST["passwordConfirm"], " ");
-    $passwordConfirmErr = "";
-
-    //to do: validate
-    //oldPassword
-    if (empty($oldPassword)) {
-        $oldPasswordErr = "Không được để trống";
-    }
-   
-    //password
-    if (empty($password)) {
-        $passwordErr = "Không được để trống";
-    }elseif($password == $oldPassword){
-        $passwordErr = "Mật khẩu mới phải khác mật khẩu cũ";
-    }
-    //passwordConfirm
-    if (empty($passwordConfirm)) {
-        $passwordConfirmErr = "Không được để trống";
-    }else
-    if (strcmp($password, $passwordConfirm) != 0) {
-        $passwordConfirmErr = "Mật khẩu không trùng khớp";
-    }
-
-    if (
-        empty($nameErr) &&
-        empty($usernameErr) &&
-        empty($emailErr) &&
-        empty($passwordErr) &&
-        empty($passwordConfirmErr)
-    ){
-        $updateUserPasswordStmt = "CALL proc_user_updatePassword('$id','$password','$oldPassword');";
-        $updateUserPasswordResult = mysqli_query($conn, $updateUserPasswordStmt);
-        if(mysqli_affected_rows($conn) == 0){
-            echo "Cập nhật thất bại, mật khẩu cũ không đúng";
-        }elseif ($updateUserPasswordResult) {
-            $state = success;            
-            header("Location: ./logout.php");
-        }else{
-            echo $conn->error;
-        }
-    }
-}
-
-
-
-
 ?>
 
-<div class="page-title">
+<div class="page-title page-account__title">
     <h2>Tài khoản</h2>
 </div>
 
-<div class="page-content">
+<div class="page-content page-account">
     <div class="message-container">
         <div class="toast <?php echo $state ?>">
             <p>
@@ -164,98 +112,74 @@ if (isset($_POST["updatePassword"])) {
 
         </div>
     </div>
-    <style>
-        .flex {
-            display: flex;
-            column-gap: 24px;
-        }
-    </style>
-    <div class="flex">
-        <div>
-            Thông tin tài khoản
-            <form action="" method="post" enctype="multipart/form-data">
-                <div class="form group">
-                    <label>
-                        Họ và tên
-                        <input name="name" value="<?php if (isset($name)) echo $name ?>" type="text">
-                    </label>
-                    <p class="message">
-                        <?php if (isset($nameErr)) echo $nameErr ?>
-                    </p>
-                </div>
 
-                <div class="form group">
-                    <label>
-                        Username
-                        <input name="username" value="<?php if (isset($username)) echo $username ?>" type="text">
-                    </label>
-                    <p class="message">
-                        <?php if (isset($usernameErr)) echo $usernameErr ?>
-                    </p>
-                </div>
+    <div class="content">
+        <form action="" method="post" enctype="multipart/form-data">
+            <div class="wrapper">
 
-                <div class="form group">
-                    <label>
-                        Email
-                        <input name="email" value="<?php if (isset($email)) echo $email ?>" type="text">
+                <div class="user-ava item">
+                    <input hidden id="ava-input" onchange="handleAvataChange(event);" accept="image/png, image/jpeg" type="file" name="avata">
+                    <label for="ava-input">
+                        <div class="ava-preview">
+                            <img class="" height="100%" id="img-ava" src="" alt="">
+                            <div class="add-ava-icon">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                        </div>
                     </label>
-                    <p class="message">
-                        <?php if (isset($emailErr)) echo $emailErr ?>
-                    </p>
                 </div>
-
-                <div class="form group">
-                    <label>
-                        <span class="label">Avata</span>
-                        <input accept="image/png, image/jpeg" type="file" name="avata">
+                <div class="user-infor item">
+                    <div class="form group">
+                        <label>
+                            <span class="label">Họ và tên</span>
+                            <input name="name" value="<?php if (isset($name)) echo $name ?>" type="text">
+                        </label>
                         <p class="message">
-                            <?php if (isset($avataErr)) echo $avataErr ?>
+                            <?php if (isset($nameErr)) echo $nameErr ?>
                         </p>
-                    </label>
+                    </div>
+
+                    <div class="form group">
+                        <label>
+                            <span class="label">Username</span>
+                            <input name="username" value="<?php if (isset($username)) echo $username ?>" type="text">
+                        </label>
+                        <p class="message">
+                            <?php if (isset($usernameErr)) echo $usernameErr ?>
+                        </p>
+                    </div>
+
+                    <div class="form group">
+                        <label>
+                            <span class="label">Email</span>
+
+                            <input name="email" value="<?php if (isset($email)) echo $email ?>" type="text">
+                        </label>
+                        <p class="message">
+                            <?php if (isset($emailErr)) echo $emailErr ?>
+                        </p>
+                    </div>
                 </div>
 
-                <button type="submit" name="updateInfor" class="btn">Lưu thay đổi</button>
+
+            </div>
+            <div class="group-button">
+
+                <button type="submit" name="updateInfor" class="btn pri">Lưu thay đổi</button>
                 <button type="submit" name="clear" class="btn">Huỷ</button>
-            </form>
-        </div>
+            </div>
+        </form>
 
-        <div>
-            Đổi mật khẩu
-            <form action="" method="post">
-
-                <div class="form group">
-                    <label>
-                        Nhập khẩu cũ
-                        <input value="<?php if (isset($oldPassword)) echo $oldPassword ?>" name="oldPassword" type="password">
-                    </label>
-                    <p class="message">
-                        <?php if (isset($oldPasswordErr)) echo $oldPasswordErr ?>
-                    </p>
-                </div>
-                <div class="form group">
-                    <label>
-                        Nhập khẩu mới
-                        <input value="<?php if (isset($password)) echo $password ?>" name="password" type="password">
-                    </label>
-                    <p class="message">
-                        <?php if (isset($passwordErr)) echo $passwordErr ?>
-                    </p>
-                </div>
-
-                <div class="form group">
-                    <label>
-                        Nhập lại mật khẩu
-                        <input value="<?php if (isset($passwordConfirm)) echo $passwordConfirm ?>" name="passwordConfirm" type="password">
-                    </label>
-                    <p class="message">
-                        <?php if (isset($passwordConfirmErr)) echo $passwordConfirmErr ?>
-                    </p>
-                </div>
-
-                <button type="submit" name="updatePassword" class="btn">Lưu thay đổi</button>
-                <button type="submit" name="clear" class="btn">Huỷ</button>
-            </form>
-        </div>
     </div>
-
 </div>
+<img id="img" src="" alt="">
+
+<script>
+    function handleAvataChange(e) {
+        let file = e.target.files[0];
+        tmpImg = URL.createObjectURL(file);
+        let imgElement = document.querySelector("#img-ava");
+        imgElement.src = tmpImg;
+        console.log(imgElement);
+    }
+</script>
