@@ -1,6 +1,9 @@
 <?php
-
-$userQueryStmt = "CALL proc_user_getAll";
+$q = "";
+if(isset($_GET["q"])){
+    $q = $_GET["q"];
+}
+$userQueryStmt = "CALL proc_user_get('$q')";
 $users = mysqli_query($conn, $userQueryStmt);
 while (mysqli_next_result($conn)) {;
 }
@@ -14,9 +17,46 @@ while (mysqli_next_result($conn)) {;
     <div class="main-content">
 
         <div class="toolbar">
-            <a href="index.php?page=user_add">
-                <button class="btn pri">Thêm nhân viên</button>
-            </a>
+            <div class="toolbar--left">
+
+                <a href="index.php?page=user_add">
+                    <button class="btn pri">Thêm nhân viên</button>
+                </a>
+            </div>
+
+            <div class="toolbar--right">
+                <div class="search">
+                    <form action="" method="get">
+                        <div class="container">
+                            <input hidden type="text" name="page" value="user">
+                            <input class="search-inp" placeholder="Tìm kiếm" value="<?php echo $q ?>" type="text" name="q">
+                            <input id="search-submit" type="submit" hidden>
+                        </div>
+
+                        <label for="search-submit">
+                            <span class="icon search-icon">
+                                <i class="fal fa-search"></i>
+                            </span>
+                        </label>
+
+                    </form>
+                </div>
+                <div class="refresh">
+                    <form action="" method="get">
+                        <div class="container">
+                            <input hidden type="text" name="page" value="user">
+                            <label>
+                                <input hidden type="submit">
+                                <div class="icon-wrapper success">
+                                    <span class="icon">
+                                        <i class="far fa-redo-alt"></i>
+                                    </span>
+                                </div>
+                            </label>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
         <div class="table-wrapper">
             <table>

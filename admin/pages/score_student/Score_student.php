@@ -85,7 +85,7 @@ if ($year + 10 - 1 >= 10 && $year + 10 - 1 <= 12) {
                             return 0;
                         }
 
-                        usort($scores, 'sortBySubject');;
+                        usort($scores, 'sortBySubject');
 
                         $i = 0;
                         foreach ($scores as $score) {

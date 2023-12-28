@@ -1,13 +1,10 @@
-.page-class .table-wrapper{
-    max-height: calc(100vh - 200px);
-
-}
-
-.page-class .toolbar{
+.teacher-page .toolbar{
     display: flex;
     justify-content: space-between;
 }
-.page-class .toolbar--right{
+
+
+.teacher-page .toolbar--right{
     display: flex;
     align-items: center;
     column-gap: 8px;

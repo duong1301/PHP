@@ -1,7 +1,10 @@
 <?php
-
-const teacherQueryStmt = "CALL proc_teacher_getAll";
-$teachers = mysqli_query($conn, teacherQueryStmt);
+$q = "";
+if (isset($_GET["q"])) {
+    $q = trim($_GET["q"]);
+}
+$teacherQueryStmt = "CALL proc_teacher_get('$q')";
+$teachers = mysqli_query($conn, $teacherQueryStmt);
 while (mysqli_next_result($conn)) {;
 }
 ?>
@@ -10,12 +13,49 @@ while (mysqli_next_result($conn)) {;
     <h2>Quản lý giáo viên</h2>
 </div>
 
-<div>
+<div class="page-content teacher-page">
     <div class="main-content">
         <div class="toolbar">
-            <a href="./index.php?page=teacher_add">
-                <button class="btn pri">Thêm giáo viên</button>
-            </a>
+            <div class="toolbar--left">
+
+                <a href="./index.php?page=teacher_add">
+                    <button class="btn pri">Thêm giáo viên</button>
+                </a>
+            </div>
+
+            <div class="toolbar--right">
+                <div class="search">
+                    <form action="" method="get">
+                        <div class="container">
+                            <input hidden type="text" name="page" value="teacher">
+                            <input class="search-inp" placeholder="Nhập tên, SĐT, email" value="<?php echo $q ?>" type="text" name="q">
+                            <input id="search-submit" type="submit" hidden>
+                        </div>
+
+                        <label for="search-submit">
+                            <span class="icon search-icon">
+                                <i class="fal fa-search"></i>
+                            </span>
+                        </label>
+
+                    </form>
+                </div>
+                <div class="refresh">
+                    <form action="" method="get">
+                        <div class="container">
+                            <input hidden type="text" name="page" value="teacher">
+                            <label>
+                                <input hidden type="submit">
+                                <div class="icon-wrapper success">
+                                    <span class="icon">
+                                        <i class="far fa-redo-alt"></i>
+                                    </span>
+                                </div>
+                            </label>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
 
         <style>
@@ -48,7 +88,7 @@ while (mysqli_next_result($conn)) {;
                         $i = 0;
                         if ($teachers) {
                             while ($teacher = mysqli_fetch_array($teachers)) {
-                                $i+=1;
+                                $i += 1;
                         ?>
                                 <tr>
                                     <td><?php echo $i ?></td>

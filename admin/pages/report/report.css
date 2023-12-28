@@ -170,8 +170,7 @@ label {
 }
 
 .report .class-report .toolbar {
-    position: sticky;
-    top: 0;
+    flex-direction: column;
     background-color: white;
     height: 100%;
     padding: 24px;

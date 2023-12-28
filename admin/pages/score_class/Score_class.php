@@ -1,10 +1,24 @@
 <?php
 $semester = 1;
+
+$q = "";
+if (isset($_GET["q"])) {
+    $q = $_GET["q"];
+    if (isset($_GET["semester"])) {
+        $semester = $_GET["semester"];
+    }
+}
+
+if (isset($_GET["refresh"])) {
+    if (isset($_GET["semester"])) {
+        $semester = $_GET["semester"];
+    }
+}
 $classId = "";
 $schoolYear = $_SESSION["schoolYear"];
 
-if (isset($_POST["semester"])) {
-    $semester =  $_POST["semester"];
+if (isset($_GET["semester"])) {
+    $semester =  $_GET["semester"];
 }
 
 const numsOfSubject = 13;
@@ -18,7 +32,7 @@ if (isset($_GET["id"])) {
     }
     $year = $schoolYear - $class["schoolYear"] + 1;
     if ($semester != 0) {
-        $studentQueryStmt = "CALL proc_score_getbyClass('$classId','$year','$semester')";
+        $studentQueryStmt = "CALL proc_score_getbyClass('$classId','$year','$semester','$q')";
         $students_scores = mysqli_query($conn, $studentQueryStmt);
         $student_scores =  [];
         while (mysqli_next_result($conn)) {;
@@ -47,7 +61,7 @@ if (isset($_GET["id"])) {
         while (mysqli_next_result($conn)) {;
         }
     } else {
-        $studentQueryStmt = "CALL proc_score_year('$classId','$year')";
+        $studentQueryStmt = "CALL proc_score_year('$classId','$year','$q')";
         $students_scores = mysqli_query($conn, $studentQueryStmt);
         $student_scores =  [];
 
@@ -83,10 +97,12 @@ $excellent = 0;
 $good = 0;
 $average = 0;
 $belowAverage = 0;
+
 ?>
 
 <div class="page-title">
     <h2> <?php
+            $numsOfStudent = $class["qlt"];
             if ($year >= 1 && $year <= 3) {
                 echo "Bảng điểm lớp";
                 echo ($year + 10 - 1);
@@ -107,13 +123,56 @@ if ($year >= 1 && $year <= 3) {
         <div class="main-content">
 
             <div class="toolbar">
-                <form id="semesterForm" action="" method="POST">
-                    <select onchange="handleSemesterChange()" name="semester">
-                        <option <?php if ($semester == 1) echo "selected" ?> value="1">Học kỳ 1</option>
-                        <option <?php if ($semester == 2) echo "selected" ?> value="2">Học kỳ 2</option>
-                        <option <?php if ($semester == 0) echo "selected" ?> value="0">Cả năm</option>
-                    </select>
-                </form>
+                <div class="toolbar--left">
+                    <form id="semesterForm" action="" method="GET">
+                        <input hidden type="text" name="page" value="score_class">
+                        <input hidden type="text" name="id" value="<?php echo $classId ?>">
+                        <input type="hidden" name="q" value="<?php echo $q ?>">
+                        <select onchange="handleSemesterChange()" name="semester">
+                            <option <?php if ($semester == 1) echo "selected" ?> value="1">Học kỳ 1</option>
+                            <option <?php if ($semester == 2) echo "selected" ?> value="2">Học kỳ 2</option>
+                            <option <?php if ($semester == 0) echo "selected" ?> value="0">Cả năm</option>
+                        </select>
+                    </form>
+                </div>
+                <div class="toolbar--right">
+                    <div class="search">
+                        <form action="" method="get">
+                            <div class="container">
+                                <input type="hidden" name="semester" value="<?php echo $semester ?>">
+                                <input hidden type="text" name="page" value="score_class">
+                                <input hidden type="text" name="id" value="<?php echo $classId ?>">
+                                <input class="search-inp" placeholder="Tìm kiếm" value="<?php echo $q ?>" type="text" name="q">
+                                <input id="search-submit" type="submit" hidden>
+                            </div>
+
+                            <label for="search-submit">
+                                <span class="icon search-icon">
+                                    <i class="fal fa-search"></i>
+                                </span>
+                            </label>
+
+                        </form>
+                    </div>
+                    <div class="refresh">
+                        <form action="" method="get">
+                            <div class="container">
+                                <input type="hidden" name="semester" value="<?php echo $semester ?>">
+                                <input hidden type="text" name="id" value="<?php echo $classId ?>">
+                                <input hidden type="text" name="page" value="score_class">
+                                <label>
+                                    <input hidden type="submit" name="refresh">
+                                    <div class="icon-wrapper success">
+                                        <span class="icon">
+                                            <i class="far fa-redo-alt"></i>
+                                        </span>
+                                    </div>
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
             </div>
             <div class="table-wrapper">
 
@@ -153,7 +212,7 @@ if ($year >= 1 && $year <= 3) {
                             define('BELOW_AVERAGE', 4);
                             $i = 0;
                             foreach ($student_scores as $row) {
-                                $numsOfStudent += 1;
+
                                 $classification = 0;
                                 if (
                                     $row["s01"] != NULL ||
@@ -277,7 +336,7 @@ if ($year >= 1 && $year <= 3) {
                             define('AVERAGE', 3);
                             define('BELOW_AVERAGE', 4);
                             while ($row = array_pop($student_scores)) {
-                                $numsOfStudent += 1;
+
                                 $classification = 0;
                                 if (
                                     $row["s01"] != NULL ||
