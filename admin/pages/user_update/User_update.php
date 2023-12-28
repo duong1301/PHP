@@ -136,7 +136,7 @@ if (isset($_POST["update"])) {
                     <div class="form group">
                         <label>
                             <span class="label">Mật khẩu</span>
-                            <input value="<?php if (isset($password)) echo $password ?>" name="password" type="password">
+                            <input id="passInp" value="<?php if (isset($password)) echo $password ?>" name="password" type="text">
                             <p class="message">
                                 <?php if (isset($passwordErr)) echo $passwordErr ?>
                             </p>
@@ -146,7 +146,7 @@ if (isset($_POST["update"])) {
                     <div class="form group">
                         <label>
                             <span class="label">Nhập lại mật khẩu</span>
-                            <input value="<?php if (isset($passwordConfirm)) echo $passwordConfirm ?>" name="passwordConfirm" type="password">
+                            <input id="confirmPassInp" value="<?php if (isset($passwordConfirm)) echo $passwordConfirm ?>" name="passwordConfirm" type="text">
                             <p class="message">
                                 <?php if (isset($passwordConfirmErr)) echo $passwordConfirmErr ?>
                             </p>
@@ -157,6 +157,14 @@ if (isset($_POST["update"])) {
             <div class="form-buttons">
                 <button type="submit" name="update" class="btn pri">Cập nhật</button>
                 <button type="submit" name="clear" class="btn">Xoá</button>
+                <script src="../asset/js/randomPassword.js"></script>
+                <span style="user-select: none;" onclick="
+                        let pass =  autoGeneratePassword(8);
+                        let passInput = document.querySelector('#passInp');
+                        let confirmPassInput = document.querySelector('#confirmPassInp');
+                        passInput.value = pass;
+                        confirmPassInput.value = pass;
+                    " class="btn">Tạo mật khẩu ngẫu nhiên</span>
             </div>
         </form>
     </div>

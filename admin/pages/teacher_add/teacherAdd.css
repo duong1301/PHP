@@ -6,7 +6,8 @@
 }
 
 .teacher-form input,.teacher-form select{
-    height: 56px;
+    height: 52px;
+    border-radius: 8px;
 }
 .teacher-form .form-buttons{
     margin-top: 24px;

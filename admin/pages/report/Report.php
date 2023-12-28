@@ -6,9 +6,9 @@ define('GOOD', 2);
 define('AVERAGE', 3);
 define('BELOW_AVERAGE', 4);
 
-
 $year = $_SESSION["schoolYear"];
 $semester = 1;
+
 if (!isset($_COOKIE["reportSemester"])) {
     setcookie("reportSemester", 1, time() + (86400 * 30), "/");
 } else {
@@ -18,7 +18,7 @@ if (!isset($_COOKIE["reportSemester"])) {
 if (isset($_POST["semester"])) {
     $_COOKIE["reportSemester"] = $_POST["semester"];
 }
-
+$semester =  $_COOKIE["reportSemester"];
 
 // start get general infor
 $numsOfTeacher = 0;
@@ -201,7 +201,7 @@ while ($row = mysqli_fetch_array($studentsAverageScoreResult)) {
                     foreach ($classes as $class) {
                 ?>
                     <div class="class-card grade--10">
-                        <a href="./index.php?page=score_class&id=<?php echo $class['classId'] ?>">
+                        <a href="./index.php?page=score_class&id=<?php echo $class['classId'] . "&semester=" . $semester ?>">
                             <div class="card-container">
                                 <div class="name">Lớp <?php echo "10" . " " . $class["name"] ?></div>
                                 <div class="classification">
@@ -227,7 +227,8 @@ while ($row = mysqli_fetch_array($studentsAverageScoreResult)) {
                     foreach ($classes as $class) {
                 ?>
                     <div class="class-card grade--11">
-                        <a href="./index.php?page=score_class&id=<?php echo $class['classId'] ?>">
+                        <a href="./index.php?page=score_class&id=<?php echo $class['classId'] . "&semester=" . $semester ?>">
+
                             <div class="card-container">
                                 <div class="name">Lớp <?php echo "11" . " " . $class["name"] ?></div>
                                 <div class="classification">
@@ -251,7 +252,8 @@ while ($row = mysqli_fetch_array($studentsAverageScoreResult)) {
                     foreach ($classes as $class) {
                 ?>
                     <div class="class-card grade--12">
-                        <a href="./index.php?page=score_class&id=<?php echo $class['classId'] ?>">
+                        <a href="./index.php?page=score_class&id=<?php echo $class['classId'] . "&semester=" . $semester ?>">
+
                             <div class="card-container">
                                 <div class="name">Lớp <?php echo "12" . " " . $class["name"] ?></div>
                                 <div class="classification">

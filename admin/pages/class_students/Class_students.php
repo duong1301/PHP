@@ -1,11 +1,15 @@
 <?php
-
+$q = "";
+if (isset($_GET["q"])) {
+    $q = $_GET["q"];
+}
+$numsOfStudent = 0;
 if (isset($_GET["id"])) {
     $classId = $_GET['id'];
 
-    $studentQueryStmt = "CALL proc_student_class('$classId')";
-    $students = mysqli_query($conn, $studentQueryStmt);
-    $numsOfStudent = mysqli_num_rows($students);
+    $studentQueryStmt = "CALL proc_student_class('$classId','$q')";
+    $studentsQueryResult = mysqli_query($conn, $studentQueryStmt);
+    $students = mysqli_fetch_all($studentsQueryResult, MYSQLI_ASSOC);
 
     while (mysqli_next_result($conn)) {;
     }
@@ -15,6 +19,7 @@ if (isset($_GET["id"])) {
     $class = mysqli_fetch_array($classQueryResult);
     while (mysqli_next_result($conn)) {;
     }
+    $numsOfStudent = $class["qlt"];
 }
 ?>
 
@@ -25,10 +30,46 @@ if (isset($_GET["id"])) {
 
 <div class="page-content class-students-page">
     <div class="toolbar">
-        <a href="./index.php?page=student_add&classId=<?php echo $classId ?>">
+        <div class="toolbar--left">
+            <a href="./index.php?page=student_add&classId=<?php echo $classId ?>">
+                <button class="btn pri">Thêm</button>
+            </a>
+        </div>
+        <div class="toolbar--right">
+            <div class="search">
+                <form action="" method="get">
+                    <div class="container">
+                        <input hidden type="text" name="page" value="class_students">
+                        <input hidden type="text" name="id" value="<?php echo $classId ?>">
+                        <input class="search-inp" placeholder="Tìm kiếm" value="<?php echo $q ?>" type="text" name="q">
+                        <input id="search-submit" type="submit" hidden>
+                    </div>
 
-            <button class="btn pri">Thêm</button>
-        </a>
+                    <label for="search-submit">
+                        <span class="icon search-icon">
+                            <i class="fal fa-search"></i>
+                        </span>
+                    </label>
+
+                </form>
+            </div>
+            <div class="refresh">
+                <form action="" method="get">
+                    <div class="container">
+                        <input hidden type="text" name="page" value="class_students">
+                        <input hidden type="text" name="id" value="<?php echo $classId ?>">
+                        <label>
+                            <input hidden type="submit">
+                            <div class="icon-wrapper success">
+                                <span class="icon">
+                                    <i class="far fa-redo-alt"></i>
+                                </span>
+                            </div>
+                        </label>
+                    </div>
+                </form>
+            </div>
+        </div>
 
     </div>
 
@@ -53,10 +94,21 @@ if (isset($_GET["id"])) {
             </thead>
             <tbody>
                 <?php
-                if ($studentQueryStmt) {
-                    $i = 0;
-                    while ($student = mysqli_fetch_array($students)) {
-                        $i +=1;
+                function sortStudentName($a, $b)
+                {
+                    if ($a['firstName'] > $b['firstName']) {
+                        return 1;
+                    } elseif ($a['firstName'] < $b['firstName']) {
+                        return -1;
+                    }
+                    return 0;
+                }
+
+                usort($students, 'sortStudentName');
+                $i = 0;
+                if ($students) {
+                    foreach ($students as $student) {
+                        $i += 1;
                 ?>
                         <tr>
                             <td><?php echo $i ?></td>
@@ -96,6 +148,6 @@ if (isset($_GET["id"])) {
         </table>
     </div>
     <div class="table-footer">
-        Tổng số học sinh: <?php echo $numsOfStudent ?>
+        Số lượng: <?php echo $i . "/" . $numsOfStudent ?>
     </div>
 </div>

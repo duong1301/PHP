@@ -1,7 +1,10 @@
 <?php
-
+$q ="";
+if(isset($_GET["q"])){
+    $q = trim($_GET["q"]);
+}
 $year = $_SESSION["schoolYear"];
-$classQueryStmt = "CALL proc_class_getByYear($year)";
+$classQueryStmt = "CALL proc_class_getByYearv2($year,'$q')";
 $classes = mysqli_query($conn, $classQueryStmt);
 while (mysqli_next_result($conn)) {;
 }
@@ -14,6 +17,43 @@ while (mysqli_next_result($conn)) {;
 
 <div class="page-content page-score">
     <div class="main-content">
+        <div class="toolbar">
+            <div class="toolbar--left"></div>
+            <div class="toolbar--right">
+                <div class="search">
+                    <form action="" method="get">
+                        <div class="container">
+                            <input hidden type="text" name="page" value="score">
+                            <input class="search-inp" placeholder="Tìm kiếm" value="<?php echo $q ?>" type="text" name="q">
+                            <input id="search-submit" type="submit" hidden>
+                        </div>
+
+                        <label for="search-submit">
+                            <span class="icon search-icon">
+                                <i class="fal fa-search"></i>
+                            </span>
+                        </label>
+
+                    </form>
+                </div>
+                <div class="refresh">
+                    <form action="" method="get">
+                        <div class="container">
+                            <input hidden type="text" name="page" value="score">
+                            <label>
+                                <input hidden type="submit">
+                                <div class="icon-wrapper success">
+                                    <span class="icon">
+                                        <i class="far fa-redo-alt"></i>
+                                    </span>
+                                </div>
+                            </label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
 
         <div class="table-wrapper">
             <table>

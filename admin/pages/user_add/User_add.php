@@ -55,7 +55,7 @@ if (isset($_POST["create"])) {
         empty($passwordErr) &&
         empty($passwordConfirmErr)
     ) {
-        $addUserStmt = "CALL proc_user_add('$name','$username','$email','$password','$level');";
+        $addUserStmt = "CALL proc_user_add('$name','$username','$email','$password',$level);";
         $addUserResult = mysqli_query($conn, $addUserStmt);
         if ($addUserResult) {
             $state = success;
@@ -74,15 +74,16 @@ if (isset($_POST["create"])) {
 </div>
 
 <div class="page-content page-user-add">
-    <div class="message-container">
-        <div class="toast <?php echo $state ?>">
-            <p>
-                <?php if ($message != "") echo $message ?>
-            </p>
 
-        </div>
-    </div>
     <div class="form-wrapper">
+        <div class="message-container">
+            <div class="toast <?php echo $state ?>">
+                <p>
+                    <?php if ($message != "") echo $message ?>
+                </p>
+
+            </div>
+        </div>
         <form action="" method="post">
 
             <div class="form-container">
@@ -119,8 +120,8 @@ if (isset($_POST["create"])) {
 
                     <div class="form group">
                         <label>
-                            <span class="label">Mật khẩu</span>                            
-                            <input value="<?php if (isset($password)) echo $password ?>" name="password" type="password">
+                            <span class="label">Mật khẩu</span>
+                            <input id="passInp" value="<?php if (isset($password)) echo $password ?>" name="password" type="text">
                             <p class="message">
                                 <?php if (isset($passwordErr)) echo $passwordErr ?>
                             </p>
@@ -129,9 +130,9 @@ if (isset($_POST["create"])) {
 
                     <div class="form group">
                         <label>
-                            <span class="label">Nhập lại mật khẩu</span>                           
-                            
-                            <input value="<?php if (isset($passwordConfirm)) echo $passwordConfirm ?>" name="passwordConfirm" type="password">
+                            <span class="label">Nhập lại mật khẩu</span>
+
+                            <input id="confirmPassInp" value="<?php if (isset($passwordConfirm)) echo $passwordConfirm ?>" name="passwordConfirm" type="text">
                             <p class="message">
                                 <?php if (isset($passwordConfirmErr)) echo $passwordConfirmErr ?>
                             </p>
@@ -143,6 +144,14 @@ if (isset($_POST["create"])) {
             <div class="form-buttons">
                 <button type="submit" name="create" class="btn pri">Tạo</button>
                 <button type="submit" name="clear" class="btn">Làm mới</button>
+                <script src="../asset/js/randomPassword.js"></script>
+                <span style="user-select: none;" onclick="
+                        let pass =  autoGeneratePassword(8);
+                        let passInput = document.querySelector('#passInp');
+                        let confirmPassInput = document.querySelector('#confirmPassInp');
+                        passInput.value = pass;
+                        confirmPassInput.value = pass;
+                    " class="btn">Tạo mật khẩu ngẫu nhiên</span>
             </div>
         </form>
     </div>
