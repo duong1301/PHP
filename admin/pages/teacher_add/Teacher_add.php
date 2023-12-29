@@ -151,8 +151,6 @@ while (mysqli_next_result($conn))
                     </div>
                 </div>
             </div>
-
-
             <div class="form-buttons">
                 <button class="btn pri" name="create">Thêm mới</button>
                 <button class="btn">Làm mới</button>
