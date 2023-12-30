@@ -170,6 +170,14 @@ if (isset($_POST["updatePassword"])) {
 
 
 <div class="page-title">
+    <a href="./index.php">
+        <div class="icon-wrapper success">
+            <span class="icon">
+                <i class="far fa-long-arrow-left"></i>
+            </span>
+        </div>
+    </a>
+
     <h2>Bảo mật</h2>
 </div>
 
