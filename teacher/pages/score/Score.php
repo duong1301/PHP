@@ -85,7 +85,7 @@ if (isset($class)) {
 
             <form action="" method="post">
                 <div class="toolbar">                    
-                    <button class="btn" name="update">Lưu</button>  
+                    <button class="btn pri" name="update">Lưu</button>  
                     <button class="btn">Làm mới</button>                
                 </div>
 
@@ -93,6 +93,7 @@ if (isset($class)) {
                     <table>
                         <thead>
                             <tr>
+                                <th>STT</th>
                                 <th>Họ </th>
                                 <th>Tên</th>
                                 <th colspan="3">Điểm hệ số 1</th>
@@ -103,9 +104,12 @@ if (isset($class)) {
                         </thead>
                         <tbody>
                             <?php
+                            $i = 0;
                             foreach ($students as $score) {
+                                $i+=1;
                             ?>
                                 <tr>
+                                    <td><?php echo $i ?></td>
                                     <td><?php echo $score["lastName"] ?></td>
                                     <td><?php echo $score["firstName"] ?></td>
                                     <td><input onkeydown="scoreValidate(event)" type="text" value="<?php echo $score["oralTest"] ?>" name="<?php echo "oral-" . $score["studentId"] ?>"></td>

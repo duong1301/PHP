@@ -8,7 +8,7 @@
                 Tài khoản
             </div>
         </a>
-        <a href="./index.php?page=account">
+        <a href="./index.php?page=security">
             <div class="dropdown-item">
                 Bảo mật
             </div>
