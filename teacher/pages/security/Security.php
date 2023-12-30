@@ -169,17 +169,10 @@ if (isset($_POST["updatePassword"])) {
 ?>
 
 
-
-<div class="account page-title">
-    <a href="./index.php">
-        <div class="icon-wrapper success">
-            <span class="icon">
-                <i class="far fa-long-arrow-left"></i>
-            </span>
-        </div>
-    </a>
-    <h2>Tài khoản</h2>
+<div class="page-title">
+    <h2>Bảo mật</h2>
 </div>
+
 <div class="page-content page-account">
     <div class="message-container">
         <div class="toast <?php echo $state ?>">
@@ -189,87 +182,52 @@ if (isset($_POST["updatePassword"])) {
 
         </div>
     </div>
+    <style>
+        .flex {
+            display: flex;
+            column-gap: 24px;
+        }
+    </style>
+    <div class="flex">
+        <div>
+            <h4>Thay đổi mật khẩu</h4>
+            <form action="" method="post">
 
-    <form action="" method="post" enctype="multipart/form-data">
-        <div class="form-container">
-            <div class="group">
-                <div class="user-ava item">
-                    <input hidden id="ava-input" onchange="handleAvataChange(event);" accept="image/png, image/jpeg" type="file" name="avata">
-                    <label for="ava-input">
-                        <div class="ava-preview">
-                            <img class="" height="100%" id="img-ava" src="" alt="">
-                            <div class="add-ava-icon">
-                                <i class="fas fa-camera"></i>
-                            </div>
-                        </div>
-                    </label>
-                </div>
-            </div>
-            <div class="group">
                 <div class="form group">
                     <label>
-                        <span class="label">Họ</span>
-                        <input name="lastName" value="<?php if (isset($lastName)) echo $lastName ?>" type="text">
+                        <span class="label">Nhập khẩu cũ</span>
+                        <input value="<?php if (isset($oldPassword)) echo $oldPassword ?>" name="oldPassword" type="password">
                         <p class="message">
-                            <?php if (isset($lastNameErr)) echo $lastNameErr ?>
+                            <?php if (isset($oldPasswordErr)) echo $oldPasswordErr ?>
+                        </p>
+                    </label>
+                </div>
+                <div class="form group">
+                    <label>
+                        <span class="label">Nhập khẩu mới</span>
+                        <input value="<?php if (isset($password)) echo $password ?>" name="password" type="password">
+                        <p class="message">
+                            <?php if (isset($passwordErr)) echo $passwordErr ?>
                         </p>
                     </label>
                 </div>
 
                 <div class="form group">
                     <label>
-                        <span class="label">Tên</span>
-                        <input name="firstName" value="<?php if (isset($firstName)) echo $firstName ?>" type="text">
+                        <span class="label">Nhập lại mật khẩu</span>
+                        <input value="<?php if (isset($passwordConfirm)) echo $passwordConfirm ?>" name="passwordConfirm" type="password">
                         <p class="message">
-                            <?php if (isset($firstNameErr)) echo $firstNameErr ?>
+                            <?php if (isset($passwordConfirmErr)) echo $passwordConfirmErr ?>
                         </p>
                     </label>
                 </div>
 
-            </div>
-
-            <div class="group">
-                <div class="form group">
-                    <label>
-                        <span class="label">Số điện thoại</span>
-                        <input name="phone" value="<?php if (isset($phone)) echo $phone ?>" type="text">
-                        <p class="message">
-                            <?php if (isset($phoneErr)) echo $phoneErr ?>
-                        </p>
-                    </label>
-                </div>
-
-                <div class="form group">
-                    <label>
-                        <span class="label">Email</span>
-                        <input name="email" value="<?php if (isset($email)) echo $email ?>" type="text">
-                        <p class="message">
-                            <?php if (isset($emailErr)) echo $emailErr ?>
-                        </p>
-                    </label>
-                </div>
-
-            </div>
-
-
-
+                <button type="submit" name="updatePassword" class="btn pri">Lưu thay đổi</button>
+                <button type="submit" name="clear" class="btn">Huỷ</button>
+            </form>
         </div>
-        <div class="form-buttons">
-            <button type="submit" name="updateInfor" class="btn pri">Lưu thay đổi</button>
-            <button type="submit" name="clear" class="btn">Huỷ</button>
-        </div>
-    </form>
+    </div>
 
 </div>
 
 <?php ob_end_flush() ?>
-
-<script>
-    function handleAvataChange(e) {
-        let file = e.target.files[0];
-        tmpImg = URL.createObjectURL(file);
-        let imgElement = document.querySelector("#img-ava");
-        imgElement.src = tmpImg;
-        console.log(imgElement);
-    }
-</script>
